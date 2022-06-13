@@ -1,0 +1,37 @@
+package comparison
+import com.example.drools.order.entity.ComparisonOperatorEntity
+
+rule "contains1"
+    when
+        $comparison:ComparisonOperatorEntity(list contains "1")
+    then
+        System.out.println("规则contains1---list包含1");
+end
+
+rule "contains2"
+    when
+        $comparison:ComparisonOperatorEntity(list contains names)
+    then
+        System.out.println("规则contains2---list包含names,name:"+$comparison.getNames());
+end
+
+rule "not_contains"
+    when
+        $comparison:ComparisonOperatorEntity(list not contains names)
+    then
+        System.out.println("规则not_contains---list不包含names,name:"+$comparison.getNames()+" list:"+$comparison.getList());
+end
+
+rule "memberOf"
+    when
+        $comparison:ComparisonOperatorEntity(names memberOf list)
+    then
+        System.out.println("规则memberOf---names存在与list中,name:"+$comparison.getNames());
+end
+
+rule "matches"
+    when
+        $comparison:ComparisonOperatorEntity(names matches "李.*")
+    then
+        System.out.println("规则matches---name中包含李："+$comparison.getNames());
+end

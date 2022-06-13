@@ -1,0 +1,15 @@
+//当前规则文件用于测试date-expires属性
+package testdateexpires
+import com.example.drools.order.entity.DateEntity
+
+rule "rule_dateexpires_1"
+//    date-expires "2020-10-10 10:00"//date-expires属性用于指定当前规则的失效时间
+
+    //一月JAN、二月FEB、三月MAR、四月APR、五月MAY、六月JUN、
+    //七月JUL、八月AUG、九月SEPT、十月OCT、十一月NOV、十二月DEC。
+    date-expires "10-JAN-2012"
+    when
+        DateEntity(open==1)
+    then
+        System.out.println("规则：rule_dateexpires_1触发了...");
+end

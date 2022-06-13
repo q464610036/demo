@@ -1,0 +1,23 @@
+//当前规则文件用于测试activation-group属性
+package testactivationgroup
+import com.example.drools.order.entity.Color
+
+rule "rule_activationgroup_1"
+    activation-group "mygroup"//对于同一个组内的规则，只能有一个触发
+    salience 5
+    when
+        $color:Color(system == 0)
+    then
+        $color.setName("黑色");
+        System.out.println("规则：rule_activationgroup_1触发了..."+$color.getName());
+end
+
+rule "rule_activationgroup_2"
+    activation-group "mygroup"
+    salience 10
+    when
+        $color:Color(system == 0)
+    then
+        $color.setName("白色");
+        System.out.println("规则：rule_activationgroup_2触发了..."+$color.getName());
+end

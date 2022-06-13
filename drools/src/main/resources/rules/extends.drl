@@ -1,0 +1,20 @@
+package testExtends
+import com.example.drools.order.entity.Student4
+
+rule "rule_1"
+    when
+        Student4(age > 10)
+    then
+        System.out.println("规则：rule_1触发");
+end
+
+rule "rule_2" extends "rule_1" //继承上面的规则
+    when
+        /*
+        此处的条件虽然只写了一个，但是从上面的规则继承了一个条件，
+        所以当前规则存在两个条件，即Student(age < 20)和Student(age > 10)
+        */
+        Student4(age < 20)
+    then
+        System.out.println("规则：rule_2触发");
+end

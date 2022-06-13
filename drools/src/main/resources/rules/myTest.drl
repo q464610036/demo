@@ -1,0 +1,11 @@
+package myTest
+
+import com.example.drools.order.entity.MyTestEntity
+
+rule "test1"
+    when
+        $a:MyTestEntity( id == 1)
+    then
+//        update($a)
+        System.out.println("规则：test1");
+end

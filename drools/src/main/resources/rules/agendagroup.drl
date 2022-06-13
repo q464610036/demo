@@ -1,0 +1,45 @@
+//当前规则文件用于测试agenda-group属性
+package testagendagroup
+import com.example.drools.order.entity.Color2
+
+//第一个规则
+rule "rule_agendagroup_1"
+    agenda-group "agenda_group_1"//agenda-group属性为议程分组，只有获得焦点的组中的规则才可以触发
+    when
+        $color:Color2(system == 0)
+    then
+        $color.setName("白色");
+        System.out.println("规则：rule_agendagroup_1触发了..."+$color.getName());
+end
+
+//第二个规则
+rule "rule_agendagroup_2"
+    agenda-group "agenda_group_1"
+    when
+        $color:Color2(system == 1)
+    then
+        $color.setName("红色");
+        System.out.println("规则：rule_agendagroup_2触发了..."+$color.getName());
+end
+
+//第三个规则
+rule "rule_agendagroup_3"
+    agenda-group "agenda_group_2"
+//    auto-focus true //auto-focus属性用于指定当前所属组自动获取焦点
+    when
+        $color:Color2(system == 0)
+    then
+        $color.setName("黑色");
+        System.out.println("规则：rule_agendagroup_3触发了..."+$color.getName());
+end
+
+//第四个规则
+rule "rule_agendagroup_4"
+    agenda-group "agenda_group_2"
+//    auto-focus false //agenda-group 组内只要有一个auto-focus为true，那么这个组就表示激活
+    when
+        $color:Color2(system == 1)
+    then
+        $color.setName("绿色");
+        System.out.println("规则：rule_agendagroup_4触发了..."+$color.getName());
+end

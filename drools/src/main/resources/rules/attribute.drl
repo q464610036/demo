@@ -1,0 +1,66 @@
+package car
+import com.example.drools.order.entity.Car
+
+
+rule "价格大于10W小于20W-mini"
+    salience 11 //优先级，如果遇到条件一样的，会触发优先级高的，如果都没有优先级，怎按书写顺序执行
+    dialect "java"//指定规则使用的语言
+    when
+        $car:Car(price == 200000) and Car(sex==2)
+    then
+        $car.setName("mini");
+        System.out.println("价格大于10W小于20W-mini");
+end
+
+rule "价格大于10W小于20W-比亚迪"
+    salience 8 //优先级，如果遇到条件一样的，会触发优先级高的，如果都没有优先级，怎按书写顺序执行
+    when
+        $car:Car(price == 200000);
+    then
+        $car.setName("比亚迪");
+        System.out.println("价格大于10W小于20W-比亚迪");
+end
+
+rule "价格大于10W小于20W-大众朗逸"
+    salience 10 //优先级，如果遇到条件一样的，会触发优先级高的，如果都没有优先级，怎按书写顺序执行
+    when
+        $car:Car(price == 200000);
+    then
+        $car.setName("大众朗逸");
+        System.out.println("价格大于10W小于20W-大众朗逸");
+end
+
+
+rule "价格大于10W小于20W-宝马X1"
+    salience 5 //优先级，如果遇到条件一样的，会触发优先级高的，如果都没有优先级，怎按书写顺序执行
+    when
+        $car:Car(price == 200000)
+    then
+        $car.setName("宝马X1");
+        System.out.println("价格大于10W小于20W-宝马X1");
+end
+
+rule "价格大于10W小于20W-大众朗逸plus"
+    salience 11 //优先级，如果遇到条件一样的，会触发优先级高的，如果都没有优先级，怎按书写顺序执行
+    enabled false//enabled属性用于指定当前规则是否启用，取值为true或者false，默认值true
+    when
+        $car:Car(price == 200000)
+    then
+        $car.setName("大众朗逸plus");
+        System.out.println("价格大于10W小于20W-大众朗逸plus");
+end
+
+rule "价格等于100W-保时捷"
+    no-loop true //也可以写成no-loop
+    when
+        $car:Car(price == 1000000)
+    then
+//        $car.setName("保时捷"); //不修改对象调用update会造成死循环。
+        update($car);//注意此处执行update会导致当前规则重新被激活
+
+//        Car c = new Car();
+//        c.setPrice(1000000);
+//        insert(c);//insert插入新的对象，新的对象会激活规则，也可能导致死循环
+
+        System.out.println("价格等于100W-保时捷");
+end

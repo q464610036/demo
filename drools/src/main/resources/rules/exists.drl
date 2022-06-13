@@ -1,0 +1,17 @@
+package rules;
+import com.example.drools.order.entity.Student3
+dialect  "java"
+
+rule "使用exists的规则"
+    when
+        exists Student3()
+    then
+        System.out.println("规则：使用exists的规则触发");
+end
+
+rule "没有使用exists的规则"
+    when
+        Student3()
+    then
+        System.out.println("规则：没有使用exists的规则触发");
+end
