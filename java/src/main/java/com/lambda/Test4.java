@@ -1,5 +1,6 @@
 package com.lambda;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,6 +10,8 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
+ * 四大核心内置函数式接口
+ *
  * @author 陈孟飞
  * @date 2021/2/25
  * <p>
@@ -27,12 +30,37 @@ import java.util.function.Supplier;
 public class Test4 {
     //1、Consumer<T>:消费型接口
     public static void consumer() {
-        happy(1000, (a) -> System.out.println("消费：" + a + "元"));
+//        happy(1000, (a) -> System.out.println("消费：" + a + "元"));
+
+        //根据名称code，为不同的pojo name赋值
+        Tiger tiger = new Tiger();
+        setName(1000, tiger::setName);
+        Pig pig = new Pig();
+        setName(2000, pig::setName);
+        System.out.println("code1000："+tiger.getName());
+        System.out.println("code2000："+pig.getName());
     }
 
     public static void happy(Integer money, Consumer<Integer> consumer) {
         consumer.accept(money);
     }
+
+    //为不同对象的name赋值
+    public static void setName(Integer code, Consumer<String> consumer){
+        String name = queryName(code);
+        consumer.accept(name);
+    }
+
+    public static String queryName(Integer code){
+        String name = "";
+        if (code == 1000) {
+            name = "老虎";
+        } else if(code == 2000) {
+            name = "猪";
+        }
+        return name;
+    }
+
 
     //2、Supplier<T>:供给型接口
     //产生num个整数
@@ -98,7 +126,7 @@ public class Test4 {
 
     public static void main(String[] args) {
         //1、Consumer<T>:消费型接口
-//        consumer();
+        consumer();
 
         //2、Supplier<T>:供给型接口
 //        supplier();
@@ -107,6 +135,6 @@ public class Test4 {
 //        function();
 
         //4、Predicate<T>:断言型接口
-        predicate();
+//        predicate();
     }
 }

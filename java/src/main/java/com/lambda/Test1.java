@@ -1,7 +1,12 @@
 package com.lambda;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -109,7 +114,11 @@ public class Test1 {
 //        test1();
 //        test2();
 //        test3();
-        test4();
+//        LocalDate d = new Date(System.currentTimeMillis()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//        System.out.println(d.getMonthValue());
+//        test4();
+
+        System.out.println(LocalTime.now().getLong(ChronoField.SECOND_OF_DAY));
     }
 
 
