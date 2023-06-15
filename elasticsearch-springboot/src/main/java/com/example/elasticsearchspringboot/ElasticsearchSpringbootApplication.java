@@ -1,11 +1,13 @@
-package com.workbench;
+package com.example.elasticsearchspringboot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DroolsWorkBenchApplication {
+public class ElasticsearchSpringbootApplication {
+
     public static void main(String[] args) {
-        SpringApplication.run(DroolsWorkBenchApplication.class,args);
+        SpringApplication.run(ElasticsearchSpringbootApplication.class, args);
     }
+
 }
