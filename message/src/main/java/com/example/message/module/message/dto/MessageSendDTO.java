@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -26,6 +27,8 @@ private static final long serialVersionUID = 1L;
 	private String title;
 
 	private String content;
+
+	private List<String> emailList;
 
 	private String type;
 }

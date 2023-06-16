@@ -16,11 +16,8 @@ public class MessageServiceImpl implements IMessageService {
 
     @Override
     public void send(MessageSendDTO dto) throws Exception {
-        List<String> toEmailList = new ArrayList<>();
-        toEmailList.add("464610036@qq.com");
-        toEmailList.add("38755065@qq.com");
         //发送邮件
-        QQSMSUtils.send(toEmailList, dto.getTitle(), dto.getContent());
+        QQSMSUtils.send(dto.getEmailList(), dto.getTitle(), dto.getContent());
         //TODO 推送微信公众号
     }
 }
