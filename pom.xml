@@ -6,7 +6,6 @@
     <modules>
         <module>drools</module>
         <module>drools-springboot</module>
-        <module>drools-workbench</module>
         <module>drools-calculation</module>
         <module>java</module>
         <module>apm-javassist</module>
@@ -18,6 +17,7 @@
         <module>websocket</module>
         <module>websocket-springboot</module>
         <module>data-structure</module>
+        <module>elastic-seach</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
