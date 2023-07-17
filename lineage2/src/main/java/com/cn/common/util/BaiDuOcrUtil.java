@@ -1,0 +1,75 @@
+package com.cn.common.util;
+
+import java.util.HashMap;
+import org.json.JSONObject;
+import com.baidu.aip.ocr.AipOcr;
+
+public class BaiDuOcrUtil {
+    //设置APPID/AK/SK
+    public String APP_ID;
+    public String API_KEY;
+    public String SECRET_KEY;
+    public AipOcr client;
+    public BaiDuOcrUtil(String APP_ID, String API_KEY, String SECRET_KEY){
+        this.APP_ID = APP_ID;
+        this.API_KEY = API_KEY;
+        this.SECRET_KEY = SECRET_KEY;
+    }
+
+    public void connent(){
+        client = new AipOcr(APP_ID, API_KEY, SECRET_KEY);
+    }
+
+    public String general(String path) {
+        if(client== null){
+            connent();
+        }
+        // 初始化一个AipOcr
+        HashMap<String, String> options = new HashMap<String, String>();
+        /*
+        options.put("recognize_granularity", "big");
+        options.put("language_type", "CHN_ENG");
+        options.put("detect_direction", "true");
+        options.put("detect_language", "true");
+        options.put("vertexes_location", "true");
+        options.put("probability", "true");
+        */
+        options.put("recognize_granularity", "small");
+        options.put("detect_direction", "true");
+        options.put("vertexes_location", "true");
+        options.put("probability", "true");
+        // 可选：设置网络连接参数
+        client.setConnectionTimeoutInMillis(2000);
+        client.setSocketTimeoutInMillis(60000);
+
+        // 可选：设置代理服务器地址, http和socket二选一，或者均不设置
+//        client.setHttpProxy("proxy_host", proxy_port);  // 设置http代理
+//        client.setSocketProxy("proxy_host", proxy_port);  // 设置socket代理
+
+        // 调用接口
+//        String path = "D://11.png";
+        JSONObject jsonObject = client.basicGeneral(path, options);//基础
+//        JSONObject jsonObject = client.general(path, options);//返回坐标
+//        JSONObject jsonObject = client.accurateGeneral(path, options);//返回高精度坐标
+//        System.out.println(jsonObject.toString(2));
+        return jsonObject.toString();
+    }
+
+    /**
+     *  idCardSide front=正面，back=背面
+     * @param path
+     * @return
+     */
+    public String sample(String path, String idCardSide) {
+        // 传入可选参数调用接口
+        HashMap<String, String> options = new HashMap<String, String>();
+        options.put("detect_direction", "true");
+        options.put("detect_risk", "false");
+        // 参数为本地路径
+        JSONObject res = client.idcard(path, idCardSide, options);
+        return res.toString(2);
+    }
+
+
+}
+
