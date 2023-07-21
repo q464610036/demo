@@ -8,7 +8,10 @@ import com.cn.common.vo.R;
 import lombok.SneakyThrows;
 import org.apache.log4j.Logger;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,6 +25,8 @@ public class DiLongMonitor implements Runnable {
     final static String SECRET_KEY = "jwYe8p2D4V8A9fFxA0GjtpOqKR0pIrQE";
     final static String rootFolder = MonitorMain.rootFolder+"/log_dilong";
     final static String timePath = rootFolder +"/time.txt";
+    final static String historyPath = rootFolder + "/temp_bak.jpg";
+    final static String path = rootFolder + "/temp.jpg";
     final static int x1 = 0;
     final static int y1 = 0;
     final static int x2 = 380;
@@ -39,24 +44,35 @@ public class DiLongMonitor implements Runnable {
                 //获取开始时间
                 Date startDate = TimeUtil.readStartTime(timePath);
                 if(System.currentTimeMillis() > startDate.getTime() ){
-                    R<Boolean> result = baiduOCR();
-                    if (R.isNotSuccess(result)) {
+                    //截屏
+                    MonitorManager.createImage(path, historyPath, x1, y1, x2, y2);
+                    //图片相似度对比
+                    Double similarity = MonitorManager.contrast(path, historyPath);
+                    if (similarity == 1D) {
+                        System.out.println(DateUtil.format(new Date())+" 地龙前后图片过于相似，相似度："+similarity);
                         Thread.sleep(10000);
                     } else {
-                        if (result.getData()) {
-                            QQSMSUtils.send(MonitorMain.emailList,"狩猎首领刷新告知", "地龙已出现");
-                            //开始时间延迟5天
-                            startDate = DateUtil.addDate(new Date(), 5, Calendar.DATE);
-                            //写入时间
-                            FileUtil.writerLine(timePath, DateUtil.format(startDate));
+                        System.out.println(DateUtil.format(new Date())+" 地龙前后图片不相似，相似度："+similarity);
+                        //图片识别
+                        R<Boolean> result = baiduOCR();
+                        if (R.isNotSuccess(result)) {
+                            Thread.sleep(10000);
                         } else {
-                            Thread.sleep(1000 * 60 * 10 );
+                            if (result.getData()) {
+                                QQSMSUtils.send(MonitorMain.emailList,"狩猎首领刷新告知", "地龙已出现");
+                                //开始时间延迟5天
+                                startDate = DateUtil.addDate(new Date(), 5, Calendar.DATE);
+                                //写入时间
+                                FileUtil.writerLine(timePath, DateUtil.format(startDate));
+                            } else {
+                                Thread.sleep(1000 * 60 * 10 );
+                            }
                         }
                     }
                 } else {
-                    //开始时间未到，休眠60秒继续
+                    //开始时间未到，休眠10秒继续
                     System.out.println(DateUtil.format(new Date())+" 地龙未开始检测，开始时间:"+DateUtil.format(startDate));
-                    Thread.sleep(60000);
+                    Thread.sleep(10000);
                 }
             } catch(Exception e) {
                 e.printStackTrace();
@@ -68,10 +84,7 @@ public class DiLongMonitor implements Runnable {
      * 地龙监控识别
      * @return
      */
-    public static R<Boolean> baiduOCR() throws IOException, AWTException {
-        String path = rootFolder + "/temp.jpg";
-        //截屏
-        ImageUtil.createScreenCapture(path, x1, y1,x2-x1, y2-y1);
+    public static R<Boolean> baiduOCR() {
         //百度ORC识别
         BaiDuOcrUtil baiDuOcrUtil = new BaiDuOcrUtil(APP_ID, API_KEY, SECRET_KEY);
         String jsonStr = baiDuOcrUtil.general(path);

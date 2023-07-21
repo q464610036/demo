@@ -19,4 +19,47 @@ public class ImageUtil {
         // 将捕获的内容保存到文件
         ImageIO.write(bufferedImage, "jpg", new File(path));
     }
+
+    /**
+     * 转换成灰度图
+     * @param image
+     * @return
+     */
+    public static BufferedImage toGray(BufferedImage image) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+        BufferedImage grayImage = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                int rgb = image.getRGB(i, j);
+                grayImage.setRGB(i, j, rgb);
+            }
+        }
+        return grayImage;
+
+    }
+
+    /**
+     * 计算相似度
+     * @param image1
+     * @param image2
+     * @return
+     */
+    public static double getSimilarity(BufferedImage image1, BufferedImage image2) {
+        int width = image1.getWidth();
+        int height = image1.getHeight();
+        int count = 0;
+        double similarity = 0;
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                int rgb1 = image1.getRGB(i, j);
+                int rgb2 = image2.getRGB(i, j);
+                if (rgb1 == rgb2) {
+                    count++;
+                }
+            }
+        }
+        similarity = (double) count / (width * height);
+        return similarity;
+    }
 }
