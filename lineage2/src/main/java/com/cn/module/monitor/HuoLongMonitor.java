@@ -30,7 +30,10 @@ public class HuoLongMonitor implements Runnable {
     final static int x2 = 560;
     final static int y2 = 776;
     final static String param = "火山";
-
+    final static ArrayList<String> paramList = new ArrayList<>();
+    static{
+        paramList.add("30177");
+    }
     @SneakyThrows
     @Override
     public void run() {
@@ -76,10 +79,35 @@ public class HuoLongMonitor implements Runnable {
     }
 
     /**
-     * 地龙监控识别
+     * 火龙监控识别
      *
      * @return
      */
+    public static R<Boolean> baiduOCR() {
+        //百度ORC识别
+        BaiDuOcrUtil baiDuOcrUtil = new BaiDuOcrUtil(APP_ID, API_KEY, SECRET_KEY);
+        String jsonStr = baiDuOcrUtil.general(path);
+        log.info("火龙识别结果："+jsonStr);
+        if (StringUtil.isEmpty(jsonStr)) {
+            log.info("火龙识图失败");
+            return R.fail(ResultCode.INTERFACE_INNER_INVOKE_ERROR);
+        } else {
+            JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+            JSONArray wordsResultList = JSONObject.parseArray(jsonObject.getString("words_result"));
+            for (int i = 0; i < wordsResultList.size();i++){
+                JSONObject jsonObject1 = wordsResultList.getJSONObject(i);
+                String text = jsonObject1.getString("words");
+                for (String param : paramList) {
+                    if (text.contains(param)) {
+                        log.info("火龙识图命中："+param);
+                        return R.data(true);
+                    }
+                }
+            }
+        }
+        return R.data(false);
+    }
+    /*
     public static R<Boolean> baiduOCR() {
         //百度ORC识别
         BaiDuOcrUtil baiDuOcrUtil = new BaiDuOcrUtil(APP_ID, API_KEY, SECRET_KEY);
@@ -107,4 +135,5 @@ public class HuoLongMonitor implements Runnable {
         }
         return R.data(false);
     }
+     */
 }
