@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class MonitorMain {
     final static ArrayList<String> emailList = new ArrayList<>();
     final static String rootFolder = "C://lineage2Log";
+    final static Double similarity = 0.9D;
 
     static {
         emailList.add("464610036@qq.com");

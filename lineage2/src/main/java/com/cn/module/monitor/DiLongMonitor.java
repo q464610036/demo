@@ -48,7 +48,7 @@ public class DiLongMonitor implements Runnable {
                     MonitorManager.createImage(path, historyPath, x1, y1, x2, y2);
                     //图片相似度对比
                     Double similarity = MonitorManager.contrast(path, historyPath);
-                    if (similarity == 1D) {
+                    if (similarity >= MonitorMain.similarity) {
                         System.out.println(DateUtil.format(new Date())+" 地龙前后图片过于相似，相似度："+similarity);
                         Thread.sleep(10000);
                     } else {
