@@ -1,13 +1,9 @@
 package com.poi;
 
-import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -17,7 +13,7 @@ import java.util.List;
  * @author 陈孟飞
  * @date 2022/7/8
  */
-public class ExcelUtil {
+public class CreateExcel {
     private static String textFile = "D://test/1.txt";
 
     public static void main(String[] args) throws IOException, InvalidFormatException {
