@@ -5,7 +5,9 @@ import com.util.StringUtil;
 import org.apache.poi.xwpf.usermodel.UnderlinePatterns;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,24 +18,26 @@ import java.util.Map;
  * @author 陈孟飞
  * @date 2022/7/8
  */
-public class CreateContractWord {
-    private static String wordTempFile = "D://test/contract/三方合同_code.docx";
-    private static String excelFolder = "D://test/contract/excel/";
-    private static String outFolder = "D://test/contract/out/";
+public class CreateContractWord2 {
+    private static String wordTempFile = "D://test/contract2/校企合同_code.docx";
+    private static String excelFolder = "D://test/contract2/excel/";
+    private static String outFolder = "D://test/contract2/out/";
 
 
     public static void main(String[] args) throws Exception {
-        List<Student> list = CreateContractWord.readExcel();
+        List<Student2> list = CreateContractWord2.readExcel();
         WordUtils wordUtils = new WordUtils();
         FileUtil.delFolder(outFolder);
-        for (Student student : list) {
+        for (Student2 student : list) {
             System.out.println("index:"+student.getIndex()
-                    +",contractNO:"+student.getContractNO()
                     +",company:"+student.getCompany()
+                    +",credit:"+student.getCredit()
                     +",address:"+student.getAddress()
+                    +",contractNO:"+student.getContractNO()
+                    +",amount:"+student.getAmount()
+                    +",capitalAmount:"+student.getCapitalAmount()
                     +",name:"+student.getName()
-                    +",phoneNo:"+student.getPhoneNo()
-                    +",dutyParagraph:"+student.getDutyParagraph());
+                    +",phoneNo:"+student.getPhoneNo());
             //生成word
             FileInputStream inputStream = new FileInputStream(new File(wordTempFile));
             XWPFDocument xwpfDocument = new XWPFDocument(inputStream);
@@ -42,14 +46,13 @@ public class CreateContractWord {
                 continue;
             }
             textMap.put("${company}", Text.builder().text(student.getCompany()).build());
+            textMap.put("${credit}", Text.builder().text(student.getCredit()).build());
             textMap.put("${address}", Text.builder().text(student.getAddress()).build());
+            textMap.put("${contractNO}", Text.builder().text(student.getContractNO()).build());
+            textMap.put("${amount}", Text.builder().text(student.getAmount()).underlinePatterns(UnderlinePatterns.SINGLE).build());
+            textMap.put("${capitalAmount}", Text.builder().text(student.getCapitalAmount()).underlinePatterns(UnderlinePatterns.SINGLE).build());
             textMap.put("${name}", Text.builder().text(student.getName()).build());
             textMap.put("${phoneNO}", Text.builder().text(student.getPhoneNo()).build());
-            if(student.getName().length() == 2){
-                student.setName(student.getName()+"  ");
-            }
-            textMap.put("${name2}", Text.builder().text(student.getName()).underlinePatterns(UnderlinePatterns.SINGLE).build());
-            textMap.put("${phoneNO2}", Text.builder().text(student.getPhoneNo()).underlinePatterns(UnderlinePatterns.SINGLE).build());
             wordUtils.replaceText(xwpfDocument, textMap);
             String outputFile = outFolder +student.getIndex()+"_"+student.getCompany()+".docx";
             FileUtil.createFile(outputFile);
@@ -60,15 +63,15 @@ public class CreateContractWord {
         }
     }
 
-    private static List<Student> readExcel() throws Exception {
+    private static List<Student2> readExcel() throws Exception {
         //读取文件
-        List<Student> list = new ArrayList<>();
+        List<Student2> list = new ArrayList<>();
         File folder = new File(excelFolder);
         if(!folder.exists()){
             System.out.println("文件不存在");
         } else {
             for (File file : folder.listFiles()) {
-                list.addAll(ExcelUtils.readExcel(new FileInputStream(file), Student.class));
+                list.addAll(ExcelUtils.readExcel(new FileInputStream(file), Student2.class));
             }
         }
         return list;
