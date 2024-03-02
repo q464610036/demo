@@ -17,12 +17,15 @@ import java.util.Map;
  * @date 2022/7/8
  */
 public class CreateContractWord {
-    private static String wordTempFile = "D://test/contract/三方合同_code.docx";
+    private static String wordTempFile = "D://test/contract/3.1三方合同空_code.docx";
     private static String excelFolder = "D://test/contract/excel/";
     private static String outFolder = "D://test/contract/out/";
 
 
     public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("是否有重复的幼儿园？Y:N");
+        String notRepeat = br.readLine();
         List<Student> list = CreateContractWord.readExcel();
         WordUtils wordUtils = new WordUtils();
         FileUtil.delFolder(outFolder);
@@ -51,7 +54,12 @@ public class CreateContractWord {
             textMap.put("${name2}", Text.builder().text(student.getName()).underlinePatterns(UnderlinePatterns.SINGLE).build());
             textMap.put("${phoneNO2}", Text.builder().text(student.getPhoneNo()).underlinePatterns(UnderlinePatterns.SINGLE).build());
             wordUtils.replaceText(xwpfDocument, textMap);
-            String outputFile = outFolder +student.getIndex()+"_"+student.getCompany()+".docx";
+            String outputFile = outFolder;
+            if (notRepeat.equalsIgnoreCase("Y")) {
+                outputFile += student.getIndex()+"_"+student.getCompany()+".docx";
+            } else {
+                outputFile += student.getCompany()+".docx";
+            }
             FileUtil.createFile(outputFile);
             FileOutputStream out = new FileOutputStream(outputFile);
             xwpfDocument.write(out);
