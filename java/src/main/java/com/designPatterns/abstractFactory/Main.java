@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import javax.annotation.Resource;
 
 public class Main {
-    @Qualifier
     public static void main(String[] args) {
         SchemeB b = new SchemeB();
         CustomerService customerService = new CustomerService(b);
