@@ -1,5 +1,6 @@
 package com.poi;
 
+import com.util.StringUtil;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.util.Units;
 import org.apache.poi.xwpf.usermodel.*;
@@ -165,24 +166,64 @@ public class WordUtils {
      * @param textMap      需要替换的文本入参
      */
     public void replaceText(XWPFDocument xwpfDocument, Map<String, Text> textMap) {
-        List<XWPFParagraph> paras = xwpfDocument.getParagraphs();
         Set<String> keySet = textMap.keySet();
-        for (XWPFParagraph para : paras) {
-            //当前段落的属性
-            String str = para.getText().trim();
-            List<XWPFRun> list = para.getRuns();
-            for (XWPFRun run : list) {
-                for (String key : keySet) {
-                    if (key.trim().equals(run.text().trim())) {
-                        if (textMap.get(key).getUnderlinePatterns() != null) {
-                            run.setUnderline(textMap.get(key).getUnderlinePatterns());
+        //文本
+        Iterator<XWPFParagraph> itPara = xwpfDocument.getParagraphsIterator();
+        while (itPara.hasNext()) {
+            XWPFParagraph paragraph = itPara.next();
+            List<XWPFRun> runs = paragraph.getRuns();
+            for (int i = 0; i < runs.size(); i++) {
+                String oneparaString = runs.get(i).getText(runs.get(i).getTextPosition());
+                if (oneparaString != null) {
+                    for (String key : textMap.keySet()) {
+                        oneparaString = oneparaString.replace(key, textMap.get(key).getText());
+                    }
+                    runs.get(i).setText(oneparaString, 0);
+                }
+            }
+        }
+        //表格
+        // 替换表格中的指定文字
+        Iterator<XWPFTable> itTable = xwpfDocument.getTablesIterator();
+        while (itTable.hasNext()) {
+            XWPFTable table = (XWPFTable) itTable.next();
+            int rcount = table.getNumberOfRows();
+            for (int i = 0; i < rcount; i++) {
+                XWPFTableRow row = table.getRow(i);
+                List<XWPFTableCell> cells = row.getTableCells();
+                for (XWPFTableCell cell : cells) {
+                    for (String key : textMap.keySet()) {
+                        String text = cell.getText();
+                        if (!StringUtil.isEmpty(text) && text.contains(key)) {
+                            //清楚表格内原来的内容
+                            cell.removeParagraph(0);
+                            text = text.replace(key, textMap.get(key).getText());
+                            cell.setText(text);
                         }
-                        run.setText(textMap.get(key).getText(), 0);
                     }
                 }
             }
         }
     }
+//    public void replaceText(XWPFDocument xwpfDocument, Map<String, Text> textMap) {
+//        List<XWPFParagraph> paras = xwpfDocument.getParagraphs();
+//        Set<String> keySet = textMap.keySet();
+//        for (XWPFParagraph para : paras) {
+//            //当前段落的属性
+//            String str = para.getText().trim();
+//            List<XWPFRun> list = para.getRuns();
+//            for (XWPFRun run : list) {
+//                for (String key : keySet) {
+//                    if (key.trim().equals(run.text().trim())) {
+//                        if (textMap.get(key).getUnderlinePatterns() != null) {
+//                            run.setUnderline(textMap.get(key).getUnderlinePatterns());
+//                        }
+//                        run.setText(textMap.get(key).getText(), 0);
+//                    }
+//                }
+//            }
+//        }
+//    }
 
 //    // 获取word文档中所有的文字
 //    public List<String> getTexts() {

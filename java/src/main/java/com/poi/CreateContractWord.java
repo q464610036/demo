@@ -16,7 +16,7 @@ import java.util.Map;
  * @author 陈孟飞
  * @date 2022/7/8
  */
-public class CreateContractWord2 {
+public class CreateContractWord {
     private static String wordTempFile = "D://test/contract2/3.1校企协议空_code.docx";
     private static String excelFolder = "D://test/contract2/excel/";
     private static String outFolder = "D://test/contract2/out/";
@@ -26,7 +26,7 @@ public class CreateContractWord2 {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("是否有重复的幼儿园？Y:N");
         String notRepeat = br.readLine();
-        List<Student2> list = CreateContractWord2.readExcel();
+        List<Student2> list = CreateContractWord.readExcel();
         WordUtils wordUtils = new WordUtils();
         FileUtil.delFolder(outFolder);
         for (Student2 student : list) {

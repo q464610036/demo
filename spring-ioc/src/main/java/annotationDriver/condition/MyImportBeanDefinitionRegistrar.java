@@ -17,16 +17,10 @@ public class MyImportBeanDefinitionRegistrar implements ImportBeanDefinitionRegi
      */
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
-
-        boolean definition = registry.containsBeanDefinition("annotation.bean.Red");
-        boolean definition2 = registry.containsBeanDefinition("annotation.bean.Blue");
-        if (definition && definition2) {
-            //指定Bean定义信息；（Bean的类型，Bean。。。）
-            RootBeanDefinition beanDefinition = new RootBeanDefinition(RainBow.class);
-            //注册一个Bean，指定bean名
-            registry.registerBeanDefinition("rainBow", beanDefinition);
-        }
+        //指定Bean定义信息；（Bean的类型，Bean。。。）
+        RootBeanDefinition beanDefinition = new RootBeanDefinition(RainBow.class);
+        //注册一个Bean，指定bean名
+        registry.registerBeanDefinition("rainBow", beanDefinition);
     }
-
 }
 

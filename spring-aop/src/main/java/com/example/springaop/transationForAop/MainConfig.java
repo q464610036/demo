@@ -1,6 +1,7 @@
 package com.example.springaop.transationForAop;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

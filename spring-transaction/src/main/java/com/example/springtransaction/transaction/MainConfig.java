@@ -20,7 +20,9 @@ public class MainConfig {
     public DataSource dataSource() throws Exception {
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
         dataSource.setUser("root");
-        dataSource.setPassword("admin");
+        //模拟密码加密，解析后的密码交给beanPostProcessor处理
+        dataSource.setPassword("adfdsdfffdssaa");
+//        dataSource.setPassword("admin");
         //已经过时了
 //        dataSource.setDriverClass("com.mysql.jdbc.Driver");
         dataSource.setDriverClass("com.mysql.cj.jdbc.Driver");

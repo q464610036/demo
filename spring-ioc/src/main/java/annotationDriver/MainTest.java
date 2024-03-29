@@ -5,19 +5,21 @@ import annotationDriver.bean.*;
 import annotationDriver.config.*;
 import annotationDriver.ext.ExtConfig;
 import annotationDriver.service.BookService;
+import annotationDriver.timer.TimerConfig;
 import annotationDriver.tx.TxConfig;
 import annotationDriver.tx.UserService;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationEvent;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class})
 public class MainTest {
     public static ApplicationContext applicationContext = new AnnotationConfigApplicationContext(MainConfig.class);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         /**
          * 如果容器中定义了两个或两个以上的Person:
          * 	使用根据class获取bean时会报错：因为返回值只有一个bean，程序并不知道你需要哪个bean。
@@ -68,7 +70,7 @@ public class MainTest {
         /**
          * @ProFile环境切换
          */
-		test9();
+//		test9();
 
         /**
          * aop
@@ -87,6 +89,10 @@ public class MainTest {
          * ApplicationListener
          */
 //        test12();
+        /**
+         * 定时器
+         */
+        test13();
     }
 
     public static void test1() {
@@ -183,10 +189,19 @@ public class MainTest {
         applicationContext.close();
     }
 
-    public static void test12() {
+    public static void test12() throws InterruptedException {
         //使用AnnotationConfigApplicationContext可以实现基于Java的配置类加载Spring的应用上下文，即注解驱动建议使用AnnotationConfigApplicationContext
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(ExtConfig.class);
-        annotationDriver.ext.UserService userService = applicationContext.getBean(annotationDriver.ext.UserService.class);
+        applicationContext.publishEvent(new ApplicationEvent(new String("我发布的事件")) {
+        });
+//        annotationDriver.ext.UserService userService = applicationContext.getBean(annotationDriver.ext.UserService.class);
+        applicationContext.close();
+    }
+
+    public static void test13() throws InterruptedException {
+        //使用AnnotationConfigApplicationContext可以实现基于Java的配置类加载Spring的应用上下文，即注解驱动建议使用AnnotationConfigApplicationContext
+        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(TimerConfig.class);
+        Thread.sleep(10000);
         applicationContext.close();
     }
 }

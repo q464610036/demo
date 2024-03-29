@@ -14,7 +14,7 @@ public class Woman {
     }
 
     public void init() {
-
+        System.out.println("woman init");
     }
 
     public void destory() {

@@ -12,6 +12,7 @@ public class Main {
                 new AnnotationConfigApplicationContext(MainConfig.class);
         Woman woman = (Woman) applicationContext.getBean("woman");
         Man man = (Man) applicationContext.getBean("man");
-        System.out.println();
+        woman.init();
+        man.init();
     }
 }
