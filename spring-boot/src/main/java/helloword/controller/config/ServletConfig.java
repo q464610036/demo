@@ -10,12 +10,14 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
 import javax.servlet.Filter;
 import java.util.Arrays;
 
 @Configuration
+@PropertySource("test.properties")
 public class ServletConfig {
 
     @Autowired
@@ -27,7 +29,7 @@ public class ServletConfig {
     @Bean
     public ServletRegistrationBean myServlet(){
         String a = environment.getProperty("logging.level.root");
-
+        String b = environment.getProperty("logging.level.root2");
         ServletRegistrationBean registrationBean = new ServletRegistrationBean(new MyServlet(),"/myServlet");
         return registrationBean;
     }

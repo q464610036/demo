@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 模拟调用方
+ */
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -15,8 +18,7 @@ public class UserController {
 
     @GetMapping("/start")
     public String userStart() {
-        String result = articleClient.userStart();
-        return "user ok ~\n" + result;
+        return articleClient.getOne(1L);
     }
 
 }

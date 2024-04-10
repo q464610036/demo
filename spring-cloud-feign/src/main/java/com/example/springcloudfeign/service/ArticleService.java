@@ -1,5 +1,9 @@
 package com.example.springcloudfeign.service;
 
+import java.util.List;
+
 public interface ArticleService {
-    String userStart();
+    String getOne(Long id);
+
+    List<String> getOneBatch(List<Long> ids);
 }

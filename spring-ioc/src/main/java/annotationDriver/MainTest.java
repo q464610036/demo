@@ -65,7 +65,7 @@ public class MainTest {
          * 自动装配
          * 	bookService中注入bookDao
          */
-//		test8();
+		test8();
 
         /**
          * @ProFile环境切换
@@ -92,7 +92,7 @@ public class MainTest {
         /**
          * 定时器
          */
-        test13();
+//        test13();
     }
 
     public static void test1() {
