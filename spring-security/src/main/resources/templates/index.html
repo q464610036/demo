@@ -1,0 +1,11 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Hello Security!</title>
+</head>
+<body>
+<h1>Hello Security</h1>
+<!-- 动态链接方式，spring.servlet.context-path=security，动态链接会自动加入security到path里-->
+<a th:href="@{/logout}">Log Out</a>
+<a href="/logout">非动态Log out</a>
+</body>
+</html>

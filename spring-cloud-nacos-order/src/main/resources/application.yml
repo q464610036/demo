@@ -1,0 +1,42 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /order
+spring:
+  application:
+    name: server-order
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848 # nacos\u5730\u5740
+        username: nacos
+        password: nacos
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: admin
+    hikari:
+      minimum-idle: 10
+      maximum-pool-size: 20
+      idle-timeout: 500000
+      max-lifetime: 540000
+      connection-timeout: 60000
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+#: ============== mybatis-plus ===============
+mybatis-plus:
+  type-aliases-package: com.example.springcloudnacosorder.module.user.entity
+  mapper-locations: mapper/**.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: deletedFlag
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+

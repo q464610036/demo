@@ -2,10 +2,6 @@ package com.example.shardingjdbc.module.dict.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.shardingjdbc.module.dict.entity.Dict;
-import com.example.shardingjdbc.module.order.entity.Order;
-import com.example.shardingjdbc.module.order.vo.OrderVO;
-
-import java.util.List;
 
 /**
  * <p>

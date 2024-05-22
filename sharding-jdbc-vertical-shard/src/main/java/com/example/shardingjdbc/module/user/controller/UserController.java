@@ -1,15 +1,12 @@
 package com.example.shardingjdbc.module.user.controller;
 
 import com.example.shardingjdbc.common.util.ResultUtil;
-import com.example.shardingjdbc.module.order.entity.Order;
 import com.example.shardingjdbc.module.order.service.IOrderService;
-import com.example.shardingjdbc.module.user.entity.User;
 import com.example.shardingjdbc.module.user.mapper.UserMapper;
 import com.example.shardingjdbc.module.user.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;

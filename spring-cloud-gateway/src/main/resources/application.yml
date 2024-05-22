@@ -1,0 +1,72 @@
+server:
+  port: 8099
+spring:
+  application:
+    name: spring-cloud-gateway
+  cloud:
+    sentinel:
+      transport:
+        dashboard: 127.0.0.1:8858
+      scg:
+        fallback:
+          response-body: "{code:1, message:'被限流了'}"
+          mode: response
+
+    gateway:
+      # 默认过滤器
+      default-filters:
+        - AddRequestHeader=origin, gateway # 为请求指定请求来源，告诉微服务请求是网关过来的
+      # 全局
+      globalcors:
+        # 跨域
+        cors-configurations:
+          '[/**]': #允许跨域访问的资源，这里设置为所有资源都可以被跨域访问
+            #允许原地址
+            allowedOrigins: "*"
+            #允许方法
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTION
+      #路由
+      routes:
+        - id: server-user-for-ip # 路由策略 根据ip路由
+          uri: http://localhost:8080 # 路由服务地址
+          predicates:
+            - Path=/server-user2/** # 断言 依据是什么，如果请求路径开头是server-user2，则走次路由
+          filters:
+            - StripPrefix=1 # 过滤 去掉请求路径的第一层
+
+        - id: server-user # 路由策略 根据服务名称
+          uri: lb://server-user
+          predicates:
+            - Path=/server-user/** # 断言 依据是什么，如果请求路径开头是server-user，则走次路由
+            - After=2019-12-31T23:59:59.789+08:00[Asia/Shanghai] #2019年之后的才能访问
+            - My=admin,true #自定义断言 param必须有个参数叫admin,且必须为true, 自定义了MyRoutePredicateFactory，配置文件写My，这就是为什么配置文件要RoutePredicateFactory结尾。
+          filters:
+            - StripPrefix=1 # 过滤 去掉路由路径的第一层
+            - My=state,1 #自定义过滤器 给url增加一个参数state=1
+
+        - id: server-order # 路由策略 根据服务名称
+          uri: lb://server-order
+          predicates:
+            - Path=/server-order/** # 断言 依据是什么，如果请求路径开头是server-user，则走次路由
+          filters:
+            - StripPrefix=1 # 过滤 去掉路由路径的第一层
+            - PrefixPath=/order #server-order服务配置了context-path=order，所以要在path增加前缀
+
+
+      #使用自动发现，自动识别nacos的服务名，无需写路由，用的比较少，不灵活
+    #      discovery:
+#        locator:
+#          enabled: true
+
+    nacos:
+      discovery:
+        server-addr: localhost:8848 # nacos地址
+        username: nacos
+        password: nacos
+
+

@@ -7,6 +7,7 @@ import com.example.shardingjdbc.module.order.mapper.OrderItemMapper;
 import com.example.shardingjdbc.module.order.mapper.OrderMapper;
 import com.example.shardingjdbc.module.order.service.IOrderService;
 import com.example.shardingjdbc.module.order.vo.OrderVO;
+import org.apache.shardingsphere.infra.hint.HintManager;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -49,6 +50,15 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 }
             }
         }
+    }
+
+    @Override
+    public List<Order> getList(){
+        //论证Hint分片算法
+        HintManager hintManager = HintManager.getInstance();
+        //只查询第0个库的t_order表
+        hintManager.addDatabaseShardingValue("t_order", 0);
+        return orderMapper.selectList(null);
     }
 
     @Override

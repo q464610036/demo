@@ -1,7 +1,6 @@
 package com.example.shardingjdbc.module.order.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.shardingjdbc.module.order.entity.Order;
 import com.example.shardingjdbc.module.order.entity.OrderItem;
 
 /**

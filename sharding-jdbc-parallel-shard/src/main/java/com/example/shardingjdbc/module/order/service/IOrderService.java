@@ -2,7 +2,6 @@ package com.example.shardingjdbc.module.order.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.shardingjdbc.module.order.entity.Order;
-import com.example.shardingjdbc.module.order.entity.OrderItem;
 import com.example.shardingjdbc.module.order.vo.OrderVO;
 
 import java.util.List;
@@ -17,5 +16,6 @@ import java.util.List;
  */
 public interface IOrderService extends IService<Order> {
     void addBatchOrder();
+    List<Order> getList();
     List<OrderVO> getOrderAmount();
 }
