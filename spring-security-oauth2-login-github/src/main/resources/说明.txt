@@ -1,0 +1,7 @@
+github:
+ClientId:Ov23liXkpzIAP3zUU35l
+Client Secret:8343f60e94a31c4912d38ea9c749a0758ce53823
+
+微信：
+appid:wxf60e5486be327e4c
+AppSecret:a02dfa2845cd4040a0376edf5085e732
