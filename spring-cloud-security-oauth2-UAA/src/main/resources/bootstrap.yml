@@ -1,0 +1,33 @@
+spring:
+  application:
+    # 自动在nacos找server-user的dataId配置文件
+    name: server-uaa
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848 # nacos\u5730\u5740
+        register-enabled: true
+        username: nacos
+        password: nacos
+      config:
+        server-addr: localhost:8848
+        username: nacos
+        password: nacos
+        #读取指定的配置文件，配置文件优先级：profile>默认配置文件>shared-config
+        shared-configs:
+          - data-id: common.yml
+            refresh: true
+            group: DEFAULT_GROUP
+  #        - data-id: ${spring.application.name}.yml
+  #          refresh: true
+  #          group: DEFAULT_GROUP
+  #        - data-id: ${spring.application.name}-dynamiclog-template-task.yml
+  #          refresh: true
+  #          group: DEFAULT_GROUP
+  #        - data-id: ${spring.application.name}-dynamiclog-template-obj.yml
+  #          refresh: true
+  #          group: DEFAULT_GROUP
+  #        - data-id: ${spring.application.name}-dynamiclog-template-project.yml
+  #          refresh: true
+  #          group: DEFAULT_GROUP
+

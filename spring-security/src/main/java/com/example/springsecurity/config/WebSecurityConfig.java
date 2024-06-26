@@ -35,9 +35,9 @@ public class WebSecurityConfig {
 //                .requestMatchers("/user/account/delete").hasAuthority("USER_DELETE")
 //                //管理员角色可以访问所有order接口
 //                .requestMatchers("/order/*").hasRole("ADMIN")
-                //对所有请求开启授权保护
+                //对所有请求开启授权保护或不保护
                 .anyRequest()
-                //已认证的请求自动授权
+                //对任何请求都需要认证
                 .authenticated()
                 //对所有请求允许，和authenticated时互斥的
                 // .permitAll()
@@ -116,6 +116,11 @@ public class WebSecurityConfig {
     }
      */
 
+    /**
+     * 管理用户名密码，可以基于内存，也可以基于数据库。
+     * 可以采用bean配置，也可以写也给配置类DBUserDetailsManager实现UserDetailsManager, UserDetailsPasswordService接口
+     * @return
+     */
 //    @Bean
 //    public UserDetailsService userDetailsService() {
 //        //创建基于用户内存的信息管理器
