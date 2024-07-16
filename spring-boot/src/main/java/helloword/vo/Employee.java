@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Component
 @Data
-public class User {
+public class Employee {
     private Integer userId;
     private String name;
     private Date date;

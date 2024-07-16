@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 
 /**
- * 动态配置写法1:@RefreshScope+@ConfigurationProperties(
+ * 动态配置写法2:@RefreshScope+@ConfigurationProperties(
  */
 @Data
 @Configuration

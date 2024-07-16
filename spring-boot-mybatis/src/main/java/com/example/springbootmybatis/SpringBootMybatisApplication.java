@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
-@MapperScan("com.example.springbootmybatis.module.user.mapper")
+@MapperScan("com.example.springbootmybatis.module.*.mapper")
 public class SpringBootMybatisApplication {
 
     public static void main(String[] args) {
