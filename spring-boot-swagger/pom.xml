@@ -45,12 +45,38 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
+        <!-- swagger基础上封装，替代swagger 页面地址：http://localhost:port/doc.html -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
             <version>3.0.2</version>
         </dependency>
 
+<!--        &lt;!&ndash; jdbc连接&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-data-jdbc</artifactId>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; 第三方oracle驱动&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.hynnet</groupId>-->
+<!--            <artifactId>oracle-driver-ojdbc6</artifactId>-->
+<!--            <version>12.1.0.1</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; 连接池 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba</groupId>-->
+<!--            <artifactId>druid-spring-boot-starter</artifactId>-->
+<!--            <version>1.2.8</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash;pageHelper坐标&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.github.pagehelper</groupId>-->
+<!--            <artifactId>pagehelper-spring-boot-starter</artifactId>-->
+<!--            <version>1.4.6</version>-->
+<!--        </dependency>-->
+
+<!-- 原生swagger -->
 <!--        <dependency>-->
 <!--            <groupId>io.springfox</groupId>-->
 <!--            <artifactId>springfox-swagger-ui</artifactId>-->

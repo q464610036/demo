@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResultUtil {
+public class Result<T> {
     @ApiModelProperty("代码")
     private Integer Code;
 
@@ -23,15 +23,15 @@ public class ResultUtil {
     @ApiModelProperty("数据")
     private Object data;
 
-    public static Object isSuccess(Object data){
-        return new ResultUtil(10000, "操作成功",  true,  data);
+    public static<T> Result<T> isSuccess(T data){
+        return new Result(10000, "操作成功",  true,  data);
     }
 
-    public static Object isSuccess(String msg, Object data){
-        return new ResultUtil(10000, msg,  true,  data);
+    public static<T> Result<T> isSuccess(String msg, T data){
+        return new Result(10000, msg,  true,  data);
     }
 
-    public static Object isFail(Integer Code, String msg){
-        return new ResultUtil(Code, msg,  false,  null);
+    public static<T> Result<T> isFail(Integer Code, String msg){
+        return new Result(Code, msg,  false,  null);
     }
 }
