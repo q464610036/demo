@@ -255,3 +255,7 @@ UPDATE ct_tmos_equipment_node_config SET node_type = '3' WHERE node_code = 'NOTI
 alter table ct_tmos_equipment_borrow add approve_time date ;
 comment on column ct_tmos_equipment_borrow.approve_time IS '审批时间';
 
+-- modify 2024-7-19
+alter table ct_tmos_equipment_node_config add business_type varchar(20) ;
+comment on column ct_tmos_equipment_node_config.business_type IS '业务类型：borrow=借机，maintain=保养';
+update ct_tmos_equipment_node_config set business_type = 'borrow' where business_type is null;
