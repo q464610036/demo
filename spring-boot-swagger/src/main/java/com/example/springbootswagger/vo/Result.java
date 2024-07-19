@@ -21,17 +21,17 @@ public class Result<T> {
     private Boolean status;
 
     @ApiModelProperty("数据")
-    private Object data;
+    private T data;
 
     public static<T> Result<T> isSuccess(T data){
-        return new Result(10000, "操作成功",  true,  data);
+        return new Result<T>(10000, "操作成功",  true,  data);
     }
 
     public static<T> Result<T> isSuccess(String msg, T data){
-        return new Result(10000, msg,  true,  data);
+        return new Result<T>(10000, msg,  true,  data);
     }
 
     public static<T> Result<T> isFail(Integer Code, String msg){
-        return new Result(Code, msg,  false,  null);
+        return new Result<T>(Code, msg,  false,  null);
     }
 }
