@@ -1,4 +1,4 @@
-package com.example.springbootmybatis.generator;
+package org.jeecg.modules.generator;
 
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.OutputFile;

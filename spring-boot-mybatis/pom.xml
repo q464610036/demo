@@ -55,6 +55,12 @@
             <version>11.2.0.3.0</version>
             <scope>test</scope>
         </dependency>
+        <!-- swagger基础上封装，替代swagger 页面地址：http://localhost:port/doc.html -->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <version>3.0.2</version>
+        </dependency>
     </dependencies>
 
     <build>
