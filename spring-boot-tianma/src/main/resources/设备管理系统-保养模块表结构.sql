@@ -62,6 +62,7 @@ CREATE TABLE ct_tmos_equipment_template(
                                            template_type VARCHAR2(10) DEFAULT  1 NOT NULL,
                                            unit_type VARCHAR2(30),
                                            parent_id VARCHAR2(64),
+                                           create_user_name VARCHAR2(32),
                                            STATUS VARCHAR2(10) DEFAULT  0 NOT NULL,
                                            REMARK VARCHAR2(200),
                                            CREATE_BY VARCHAR2(64),
@@ -77,6 +78,7 @@ COMMENT ON COLUMN ct_tmos_equipment_template.template_name IS '模版名称';
 COMMENT ON COLUMN ct_tmos_equipment_template.template_type IS '模版类型：1=by unit,2=by sub unit';
 COMMENT ON COLUMN ct_tmos_equipment_template.unit_type IS '设备类型';
 COMMENT ON COLUMN ct_tmos_equipment_template.parent_id IS '父节点id';
+COMMENT ON COLUMN ct_tmos_equipment_template.create_user_name IS '创建名称';
 COMMENT ON COLUMN ct_tmos_equipment_template.STATUS IS '状态 0=正常，1=删除';
 COMMENT ON COLUMN ct_tmos_equipment_template.REMARK IS '备注';
 COMMENT ON COLUMN ct_tmos_equipment_template.CREATE_BY IS '创建人';

@@ -30,4 +30,7 @@ public class EquipmentTemplateListVo implements Serializable {
     @ApiModelProperty("绑定关系组名称")
     private String groupName;
 
+    @ApiModelProperty("创建人姓名")
+    private String createUserName;
+
 }
