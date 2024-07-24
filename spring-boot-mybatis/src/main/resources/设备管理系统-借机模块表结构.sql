@@ -259,3 +259,7 @@ comment on column ct_tmos_equipment_borrow.approve_time IS '审批时间';
 alter table ct_tmos_equipment_node_config add business_type varchar(20) ;
 comment on column ct_tmos_equipment_node_config.business_type IS '业务类型：borrow=借机，maintain=保养';
 update ct_tmos_equipment_node_config set business_type = 'borrow' where business_type is null;
+
+-- modify 2024-7-23
+alter table ct_tmos_equipment_borrow add sub_unit_id varchar2(32);
+comment on column ct_tmos_equipment_borrow.sub_unit_id IS '子设备';
