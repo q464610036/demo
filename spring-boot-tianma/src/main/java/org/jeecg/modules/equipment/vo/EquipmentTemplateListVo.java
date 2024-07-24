@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @since 2024-07-24
  */
 @Data
-public class EquipmentTemplateVo implements Serializable {
+public class EquipmentTemplateListVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -27,10 +27,7 @@ public class EquipmentTemplateVo implements Serializable {
     @ApiModelProperty("设备类型")
     private String unitType;
 
-    @ApiModelProperty("模版类型：1=by unit,2=by sub unit")
-    private String templateType;
-
-    @ApiModelProperty("父节点id")
-    private String parentId;
+    @ApiModelProperty("绑定关系组名称")
+    private String groupName;
 
 }

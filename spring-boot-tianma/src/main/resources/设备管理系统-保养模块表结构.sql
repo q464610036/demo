@@ -5,10 +5,10 @@ CREATE TABLE ct_tmos_equipment_group(
                                         unit_type VARCHAR2(30),
                                         STATUS VARCHAR2(10) DEFAULT  0 NOT NULL,
                                         REMARK VARCHAR2(200),
-                                        CREATED_BY VARCHAR2(64),
-                                        CREATED_TIME DATE,
-                                        UPDATED_BY VARCHAR2(64),
-                                        UPDATED_TIME DATE,
+                                        CREATE_BY VARCHAR2(64),
+                                        CREATE_TIME DATE,
+                                        UPDATE_BY VARCHAR2(64),
+                                        UPDATE_TIME DATE,
                                         PRIMARY KEY (id)
 );
 
@@ -19,10 +19,10 @@ COMMENT ON COLUMN ct_tmos_equipment_group.group_name IS '关系组名称';
 COMMENT ON COLUMN ct_tmos_equipment_group.unit_type IS '设备类型';
 COMMENT ON COLUMN ct_tmos_equipment_group.STATUS IS '状态 0=正常，1=删除';
 COMMENT ON COLUMN ct_tmos_equipment_group.REMARK IS '备注';
-COMMENT ON COLUMN ct_tmos_equipment_group.CREATED_BY IS '创建人';
-COMMENT ON COLUMN ct_tmos_equipment_group.CREATED_TIME IS '创建时间';
-COMMENT ON COLUMN ct_tmos_equipment_group.UPDATED_BY IS '更新人';
-COMMENT ON COLUMN ct_tmos_equipment_group.UPDATED_TIME IS '更新时间';
+COMMENT ON COLUMN ct_tmos_equipment_group.CREATE_BY IS '创建人';
+COMMENT ON COLUMN ct_tmos_equipment_group.CREATE_TIME IS '创建时间';
+COMMENT ON COLUMN ct_tmos_equipment_group.UPDATE_BY IS '更新人';
+COMMENT ON COLUMN ct_tmos_equipment_group.UPDATE_TIME IS '更新时间';
 
 CREATE TABLE ct_tmos_equipment_group_unit(
                                              id VARCHAR2(64) NOT NULL,
@@ -34,10 +34,10 @@ CREATE TABLE ct_tmos_equipment_group_unit(
                                              unit_type VARCHAR2(30),
                                              STATUS VARCHAR2(10) DEFAULT  0 NOT NULL,
                                              REMARK VARCHAR2(200),
-                                             CREATED_BY VARCHAR2(64),
-                                             CREATED_TIME DATE,
-                                             UPDATED_BY VARCHAR2(64),
-                                             UPDATED_TIME DATE,
+                                             CREATE_BY VARCHAR2(64),
+                                             CREATE_TIME DATE,
+                                             UPDATE_BY VARCHAR2(64),
+                                             UPDATE_TIME DATE,
                                              PRIMARY KEY (id)
 );
 
@@ -51,23 +51,23 @@ COMMENT ON COLUMN ct_tmos_equipment_group_unit.unit_id IS '设备';
 COMMENT ON COLUMN ct_tmos_equipment_group_unit.unit_type IS '设备类型';
 COMMENT ON COLUMN ct_tmos_equipment_group_unit.STATUS IS '状态 0=正常，1=删除';
 COMMENT ON COLUMN ct_tmos_equipment_group_unit.REMARK IS '备注';
-COMMENT ON COLUMN ct_tmos_equipment_group_unit.CREATED_BY IS '创建人';
-COMMENT ON COLUMN ct_tmos_equipment_group_unit.CREATED_TIME IS '创建时间';
-COMMENT ON COLUMN ct_tmos_equipment_group_unit.UPDATED_BY IS '更新人';
-COMMENT ON COLUMN ct_tmos_equipment_group_unit.UPDATED_TIME IS '更新时间';
+COMMENT ON COLUMN ct_tmos_equipment_group_unit.CREATE_BY IS '创建人';
+COMMENT ON COLUMN ct_tmos_equipment_group_unit.CREATE_TIME IS '创建时间';
+COMMENT ON COLUMN ct_tmos_equipment_group_unit.UPDATE_BY IS '更新人';
+COMMENT ON COLUMN ct_tmos_equipment_group_unit.UPDATE_TIME IS '更新时间';
 
 CREATE TABLE ct_tmos_equipment_template(
                                            id VARCHAR2(64) NOT NULL,
                                            template_name VARCHAR2(100) NOT NULL,
                                            template_type VARCHAR2(10) DEFAULT  1 NOT NULL,
+                                           unit_type VARCHAR2(30),
                                            parent_id VARCHAR2(64),
-                                           group_id VARCHAR2(64),
                                            STATUS VARCHAR2(10) DEFAULT  0 NOT NULL,
                                            REMARK VARCHAR2(200),
-                                           CREATED_BY VARCHAR2(64),
-                                           CREATED_TIME DATE,
-                                           UPDATED_BY VARCHAR2(64),
-                                           UPDATED_TIME DATE,
+                                           CREATE_BY VARCHAR2(64),
+                                           CREATE_TIME DATE,
+                                           UPDATE_BY VARCHAR2(64),
+                                           UPDATE_TIME DATE,
                                            PRIMARY KEY (id)
 );
 
@@ -75,14 +75,14 @@ COMMENT ON TABLE ct_tmos_equipment_template IS '保养模版表';
 COMMENT ON COLUMN ct_tmos_equipment_template.id IS '主键id';
 COMMENT ON COLUMN ct_tmos_equipment_template.template_name IS '模版名称';
 COMMENT ON COLUMN ct_tmos_equipment_template.template_type IS '模版类型：1=by unit,2=by sub unit';
+COMMENT ON COLUMN ct_tmos_equipment_template.unit_type IS '设备类型';
 COMMENT ON COLUMN ct_tmos_equipment_template.parent_id IS '父节点id';
-COMMENT ON COLUMN ct_tmos_equipment_template.group_id IS '关系组id';
 COMMENT ON COLUMN ct_tmos_equipment_template.STATUS IS '状态 0=正常，1=删除';
 COMMENT ON COLUMN ct_tmos_equipment_template.REMARK IS '备注';
-COMMENT ON COLUMN ct_tmos_equipment_template.CREATED_BY IS '创建人';
-COMMENT ON COLUMN ct_tmos_equipment_template.CREATED_TIME IS '创建时间';
-COMMENT ON COLUMN ct_tmos_equipment_template.UPDATED_BY IS '更新人';
-COMMENT ON COLUMN ct_tmos_equipment_template.UPDATED_TIME IS '更新时间';
+COMMENT ON COLUMN ct_tmos_equipment_template.CREATE_BY IS '创建人';
+COMMENT ON COLUMN ct_tmos_equipment_template.CREATE_TIME IS '创建时间';
+COMMENT ON COLUMN ct_tmos_equipment_template.UPDATE_BY IS '更新人';
+COMMENT ON COLUMN ct_tmos_equipment_template.UPDATE_TIME IS '更新时间';
 
 CREATE TABLE ct_tmos_equipment_sub_unit(
                                            id VARCHAR2(64) NOT NULL,
@@ -90,10 +90,10 @@ CREATE TABLE ct_tmos_equipment_sub_unit(
                                            sub_unit_group VARCHAR2(32) NOT NULL,
                                            STATUS VARCHAR2(10) DEFAULT  0 NOT NULL,
                                            REMARK VARCHAR2(200),
-                                           CREATED_BY VARCHAR2(64),
-                                           CREATED_TIME DATE,
-                                           UPDATED_BY VARCHAR2(64),
-                                           UPDATED_TIME DATE,
+                                           CREATE_BY VARCHAR2(64),
+                                           CREATE_TIME DATE,
+                                           UPDATE_BY VARCHAR2(64),
+                                           UPDATE_TIME DATE,
                                            PRIMARY KEY (id)
 );
 
@@ -103,10 +103,10 @@ COMMENT ON COLUMN ct_tmos_equipment_sub_unit.template_id IS '模版id';
 COMMENT ON COLUMN ct_tmos_equipment_sub_unit.sub_unit_group IS '设备unit组别';
 COMMENT ON COLUMN ct_tmos_equipment_sub_unit.STATUS IS '状态 0=正常，1=删除';
 COMMENT ON COLUMN ct_tmos_equipment_sub_unit.REMARK IS '备注';
-COMMENT ON COLUMN ct_tmos_equipment_sub_unit.CREATED_BY IS '创建人';
-COMMENT ON COLUMN ct_tmos_equipment_sub_unit.CREATED_TIME IS '创建时间';
-COMMENT ON COLUMN ct_tmos_equipment_sub_unit.UPDATED_BY IS '更新人';
-COMMENT ON COLUMN ct_tmos_equipment_sub_unit.UPDATED_TIME IS '更新时间';
+COMMENT ON COLUMN ct_tmos_equipment_sub_unit.CREATE_BY IS '创建人';
+COMMENT ON COLUMN ct_tmos_equipment_sub_unit.CREATE_TIME IS '创建时间';
+COMMENT ON COLUMN ct_tmos_equipment_sub_unit.UPDATE_BY IS '更新人';
+COMMENT ON COLUMN ct_tmos_equipment_sub_unit.UPDATE_TIME IS '更新时间';
 
 CREATE TABLE ct_tmos_equipment_stop_line(
                                             id VARCHAR2(64) NOT NULL,
@@ -120,10 +120,10 @@ CREATE TABLE ct_tmos_equipment_stop_line(
                                             expect_hours NUMBER(5,1),
                                             STATUS VARCHAR2(10) DEFAULT  0 NOT NULL,
                                             REMARK VARCHAR2(200),
-                                            CREATED_BY VARCHAR2(64),
-                                            CREATED_TIME DATE,
-                                            UPDATED_BY VARCHAR2(64),
-                                            UPDATED_TIME DATE,
+                                            CREATE_BY VARCHAR2(64),
+                                            CREATE_TIME DATE,
+                                            UPDATE_BY VARCHAR2(64),
+                                            UPDATE_TIME DATE,
                                             PRIMARY KEY (id)
 );
 
@@ -139,10 +139,10 @@ COMMENT ON COLUMN ct_tmos_equipment_stop_line.first_upkeep_time IS '首次保养
 COMMENT ON COLUMN ct_tmos_equipment_stop_line.expect_hours IS '预计时长';
 COMMENT ON COLUMN ct_tmos_equipment_stop_line.STATUS IS '状态 0=正常，1=删除';
 COMMENT ON COLUMN ct_tmos_equipment_stop_line.REMARK IS '备注';
-COMMENT ON COLUMN ct_tmos_equipment_stop_line.CREATED_BY IS '创建人';
-COMMENT ON COLUMN ct_tmos_equipment_stop_line.CREATED_TIME IS '创建时间';
-COMMENT ON COLUMN ct_tmos_equipment_stop_line.UPDATED_BY IS '更新人';
-COMMENT ON COLUMN ct_tmos_equipment_stop_line.UPDATED_TIME IS '更新时间';
+COMMENT ON COLUMN ct_tmos_equipment_stop_line.CREATE_BY IS '创建人';
+COMMENT ON COLUMN ct_tmos_equipment_stop_line.CREATE_TIME IS '创建时间';
+COMMENT ON COLUMN ct_tmos_equipment_stop_line.UPDATE_BY IS '更新人';
+COMMENT ON COLUMN ct_tmos_equipment_stop_line.UPDATE_TIME IS '更新时间';
 
 CREATE TABLE ct_tmos_equipment_item(
                                        id VARCHAR2(64) NOT NULL,
@@ -151,10 +151,10 @@ CREATE TABLE ct_tmos_equipment_item(
                                        min_cycle VARCHAR2(10),
                                        STATUS VARCHAR2(10) DEFAULT  0 NOT NULL,
                                        REMARK VARCHAR2(200),
-                                       CREATED_BY VARCHAR2(64),
-                                       CREATED_TIME DATE,
-                                       UPDATED_BY VARCHAR2(64),
-                                       UPDATED_TIME DATE,
+                                       CREATE_BY VARCHAR2(64),
+                                       CREATE_TIME DATE,
+                                       UPDATE_BY VARCHAR2(64),
+                                       UPDATE_TIME DATE,
                                        PRIMARY KEY (id)
 );
 
@@ -165,10 +165,10 @@ COMMENT ON COLUMN ct_tmos_equipment_item.item_content IS '保养内容';
 COMMENT ON COLUMN ct_tmos_equipment_item.min_cycle IS '最小周期';
 COMMENT ON COLUMN ct_tmos_equipment_item.STATUS IS '状态 0=正常，1=删除';
 COMMENT ON COLUMN ct_tmos_equipment_item.REMARK IS '备注';
-COMMENT ON COLUMN ct_tmos_equipment_item.CREATED_BY IS '创建人';
-COMMENT ON COLUMN ct_tmos_equipment_item.CREATED_TIME IS '创建时间';
-COMMENT ON COLUMN ct_tmos_equipment_item.UPDATED_BY IS '更新人';
-COMMENT ON COLUMN ct_tmos_equipment_item.UPDATED_TIME IS '更新时间';
+COMMENT ON COLUMN ct_tmos_equipment_item.CREATE_BY IS '创建人';
+COMMENT ON COLUMN ct_tmos_equipment_item.CREATE_TIME IS '创建时间';
+COMMENT ON COLUMN ct_tmos_equipment_item.UPDATE_BY IS '更新人';
+COMMENT ON COLUMN ct_tmos_equipment_item.UPDATE_TIME IS '更新时间';
 
 CREATE TABLE ct_tmos_equipment_cycle_config(
                                                id VARCHAR2(64) NOT NULL,
@@ -186,10 +186,10 @@ CREATE TABLE ct_tmos_equipment_cycle_config(
                                                delay_day NUMBER(5),
                                                STATUS VARCHAR2(10) DEFAULT  0 NOT NULL,
                                                REMARK VARCHAR2(200),
-                                               CREATED_BY VARCHAR2(64),
-                                               CREATED_TIME DATE,
-                                               UPDATED_BY VARCHAR2(64),
-                                               UPDATED_TIME DATE,
+                                               CREATE_BY VARCHAR2(64),
+                                               CREATE_TIME DATE,
+                                               UPDATE_BY VARCHAR2(64),
+                                               UPDATE_TIME DATE,
                                                PRIMARY KEY (id)
 );
 
@@ -209,10 +209,10 @@ COMMENT ON COLUMN ct_tmos_equipment_cycle_config.year IS '年';
 COMMENT ON COLUMN ct_tmos_equipment_cycle_config.delay_day IS '延期天数';
 COMMENT ON COLUMN ct_tmos_equipment_cycle_config.STATUS IS '状态 0=正常，1=删除';
 COMMENT ON COLUMN ct_tmos_equipment_cycle_config.REMARK IS '备注';
-COMMENT ON COLUMN ct_tmos_equipment_cycle_config.CREATED_BY IS '创建人';
-COMMENT ON COLUMN ct_tmos_equipment_cycle_config.CREATED_TIME IS '创建时间';
-COMMENT ON COLUMN ct_tmos_equipment_cycle_config.UPDATED_BY IS '更新人';
-COMMENT ON COLUMN ct_tmos_equipment_cycle_config.UPDATED_TIME IS '更新时间';
+COMMENT ON COLUMN ct_tmos_equipment_cycle_config.CREATE_BY IS '创建人';
+COMMENT ON COLUMN ct_tmos_equipment_cycle_config.CREATE_TIME IS '创建时间';
+COMMENT ON COLUMN ct_tmos_equipment_cycle_config.UPDATE_BY IS '更新人';
+COMMENT ON COLUMN ct_tmos_equipment_cycle_config.UPDATE_TIME IS '更新时间';
 
 CREATE TABLE ct_tmos_equipment_time_config(
                                               id VARCHAR2(64) NOT NULL,
@@ -222,10 +222,10 @@ CREATE TABLE ct_tmos_equipment_time_config(
                                               first_upkeep_time DATE,
                                               STATUS VARCHAR2(10) DEFAULT  0 NOT NULL,
                                               REMARK VARCHAR2(200),
-                                              CREATED_BY VARCHAR2(64),
-                                              CREATED_TIME DATE,
-                                              UPDATED_BY VARCHAR2(64),
-                                              UPDATED_TIME DATE,
+                                              CREATE_BY VARCHAR2(64),
+                                              CREATE_TIME DATE,
+                                              UPDATE_BY VARCHAR2(64),
+                                              UPDATE_TIME DATE,
                                               PRIMARY KEY (id)
 );
 
@@ -237,10 +237,10 @@ COMMENT ON COLUMN ct_tmos_equipment_time_config.eqp_id IS '线体';
 COMMENT ON COLUMN ct_tmos_equipment_time_config.first_upkeep_time IS '首次保养时间';
 COMMENT ON COLUMN ct_tmos_equipment_time_config.STATUS IS '状态 0=正常，1=删除';
 COMMENT ON COLUMN ct_tmos_equipment_time_config.REMARK IS '备注';
-COMMENT ON COLUMN ct_tmos_equipment_time_config.CREATED_BY IS '创建人';
-COMMENT ON COLUMN ct_tmos_equipment_time_config.CREATED_TIME IS '创建时间';
-COMMENT ON COLUMN ct_tmos_equipment_time_config.UPDATED_BY IS '更新人';
-COMMENT ON COLUMN ct_tmos_equipment_time_config.UPDATED_TIME IS '更新时间';
+COMMENT ON COLUMN ct_tmos_equipment_time_config.CREATE_BY IS '创建人';
+COMMENT ON COLUMN ct_tmos_equipment_time_config.CREATE_TIME IS '创建时间';
+COMMENT ON COLUMN ct_tmos_equipment_time_config.UPDATE_BY IS '更新人';
+COMMENT ON COLUMN ct_tmos_equipment_time_config.UPDATE_TIME IS '更新时间';
 
 CREATE TABLE ct_tmos_equipment_plan(
                                        id VARCHAR2(64) NOT NULL,
@@ -257,10 +257,10 @@ CREATE TABLE ct_tmos_equipment_plan(
                                        plan_status NUMBER(1) DEFAULT  0 NOT NULL,
                                        STATUS VARCHAR2(10) DEFAULT  0 NOT NULL,
                                        REMARK VARCHAR2(200),
-                                       CREATED_BY VARCHAR2(64),
-                                       CREATED_TIME DATE,
-                                       UPDATED_BY VARCHAR2(64),
-                                       UPDATED_TIME DATE,
+                                       CREATE_BY VARCHAR2(64),
+                                       CREATE_TIME DATE,
+                                       UPDATE_BY VARCHAR2(64),
+                                       UPDATE_TIME DATE,
                                        PRIMARY KEY (id)
 );
 
@@ -279,10 +279,10 @@ COMMENT ON COLUMN ct_tmos_equipment_plan.expect_hours IS '预计时长';
 COMMENT ON COLUMN ct_tmos_equipment_plan.plan_status IS '保养计划状态：0=新建，1=生成工单，2=保养完成，3=取消保养';
 COMMENT ON COLUMN ct_tmos_equipment_plan.STATUS IS '状态 0=正常，1=删除';
 COMMENT ON COLUMN ct_tmos_equipment_plan.REMARK IS '备注';
-COMMENT ON COLUMN ct_tmos_equipment_plan.CREATED_BY IS '创建人';
-COMMENT ON COLUMN ct_tmos_equipment_plan.CREATED_TIME IS '创建时间';
-COMMENT ON COLUMN ct_tmos_equipment_plan.UPDATED_BY IS '更新人';
-COMMENT ON COLUMN ct_tmos_equipment_plan.UPDATED_TIME IS '更新时间';
+COMMENT ON COLUMN ct_tmos_equipment_plan.CREATE_BY IS '创建人';
+COMMENT ON COLUMN ct_tmos_equipment_plan.CREATE_TIME IS '创建时间';
+COMMENT ON COLUMN ct_tmos_equipment_plan.UPDATE_BY IS '更新人';
+COMMENT ON COLUMN ct_tmos_equipment_plan.UPDATE_TIME IS '更新时间';
 
 CREATE TABLE ct_tmos_equipment_plan_item(
                                             id VARCHAR2(64) NOT NULL,
@@ -294,10 +294,10 @@ CREATE TABLE ct_tmos_equipment_plan_item(
                                             sub_unit_id VARCHAR2(32) NOT NULL,
                                             STATUS VARCHAR2(10) DEFAULT  0 NOT NULL,
                                             REMARK VARCHAR2(200),
-                                            CREATED_BY VARCHAR2(64),
-                                            CREATED_TIME DATE,
-                                            UPDATED_BY VARCHAR2(64),
-                                            UPDATED_TIME DATE,
+                                            CREATE_BY VARCHAR2(64),
+                                            CREATE_TIME DATE,
+                                            UPDATE_BY VARCHAR2(64),
+                                            UPDATE_TIME DATE,
                                             PRIMARY KEY (id)
 );
 
@@ -311,10 +311,10 @@ COMMENT ON COLUMN ct_tmos_equipment_plan_item.unit_id IS '设备';
 COMMENT ON COLUMN ct_tmos_equipment_plan_item.sub_unit_id IS '子设备';
 COMMENT ON COLUMN ct_tmos_equipment_plan_item.STATUS IS '状态 0=正常，1=删除';
 COMMENT ON COLUMN ct_tmos_equipment_plan_item.REMARK IS '备注';
-COMMENT ON COLUMN ct_tmos_equipment_plan_item.CREATED_BY IS '创建人';
-COMMENT ON COLUMN ct_tmos_equipment_plan_item.CREATED_TIME IS '创建时间';
-COMMENT ON COLUMN ct_tmos_equipment_plan_item.UPDATED_BY IS '更新人';
-COMMENT ON COLUMN ct_tmos_equipment_plan_item.UPDATED_TIME IS '更新时间';
+COMMENT ON COLUMN ct_tmos_equipment_plan_item.CREATE_BY IS '创建人';
+COMMENT ON COLUMN ct_tmos_equipment_plan_item.CREATE_TIME IS '创建时间';
+COMMENT ON COLUMN ct_tmos_equipment_plan_item.UPDATE_BY IS '更新人';
+COMMENT ON COLUMN ct_tmos_equipment_plan_item.UPDATE_TIME IS '更新时间';
 
 CREATE TABLE ct_tmos_equipment_order(
                                         id VARCHAR2(64) NOT NULL,
@@ -335,10 +335,10 @@ CREATE TABLE ct_tmos_equipment_order(
                                         approve_status VARCHAR2(5) DEFAULT  01,
                                         STATUS VARCHAR2(10) DEFAULT  0 NOT NULL,
                                         REMARK VARCHAR2(200),
-                                        CREATED_BY VARCHAR2(64),
-                                        CREATED_TIME DATE,
-                                        UPDATED_BY VARCHAR2(64),
-                                        UPDATED_TIME DATE,
+                                        CREATE_BY VARCHAR2(64),
+                                        CREATE_TIME DATE,
+                                        UPDATE_BY VARCHAR2(64),
+                                        UPDATE_TIME DATE,
                                         PRIMARY KEY (id)
 );
 
@@ -361,10 +361,10 @@ COMMENT ON COLUMN ct_tmos_equipment_order.real_end_time IS '实际结束时间';
 COMMENT ON COLUMN ct_tmos_equipment_order.approve_status IS '审核状态：01=待生产审核，02=待设备确认，03=待执行，04=执行中，05=待填报，06=保养完成，07=取消保养';
 COMMENT ON COLUMN ct_tmos_equipment_order.STATUS IS '状态 0=正常，1=删除';
 COMMENT ON COLUMN ct_tmos_equipment_order.REMARK IS '备注';
-COMMENT ON COLUMN ct_tmos_equipment_order.CREATED_BY IS '创建人';
-COMMENT ON COLUMN ct_tmos_equipment_order.CREATED_TIME IS '创建时间';
-COMMENT ON COLUMN ct_tmos_equipment_order.UPDATED_BY IS '更新人';
-COMMENT ON COLUMN ct_tmos_equipment_order.UPDATED_TIME IS '更新时间';
+COMMENT ON COLUMN ct_tmos_equipment_order.CREATE_BY IS '创建人';
+COMMENT ON COLUMN ct_tmos_equipment_order.CREATE_TIME IS '创建时间';
+COMMENT ON COLUMN ct_tmos_equipment_order.UPDATE_BY IS '更新人';
+COMMENT ON COLUMN ct_tmos_equipment_order.UPDATE_TIME IS '更新时间';
 
 CREATE TABLE ct_tmos_equipment_order_item(
                                              id VARCHAR2(64) NOT NULL,
@@ -377,10 +377,10 @@ CREATE TABLE ct_tmos_equipment_order_item(
                                              upkeep_result VARCHAR2(5) DEFAULT  0,
                                              STATUS VARCHAR2(10) DEFAULT  0 NOT NULL,
                                              REMARK VARCHAR2(200),
-                                             CREATED_BY VARCHAR2(64),
-                                             CREATED_TIME DATE,
-                                             UPDATED_BY VARCHAR2(64),
-                                             UPDATED_TIME DATE,
+                                             CREATE_BY VARCHAR2(64),
+                                             CREATE_TIME DATE,
+                                             UPDATE_BY VARCHAR2(64),
+                                             UPDATE_TIME DATE,
                                              PRIMARY KEY (id)
 );
 
@@ -395,10 +395,10 @@ COMMENT ON COLUMN ct_tmos_equipment_order_item.sub_unit_id IS '子设备';
 COMMENT ON COLUMN ct_tmos_equipment_order_item.upkeep_result IS '保养结果：0=待保养，1=完成，2=未保养，3=残件，9=保养失败';
 COMMENT ON COLUMN ct_tmos_equipment_order_item.STATUS IS '状态 0=正常，1=删除';
 COMMENT ON COLUMN ct_tmos_equipment_order_item.REMARK IS '备注';
-COMMENT ON COLUMN ct_tmos_equipment_order_item.CREATED_BY IS '创建人';
-COMMENT ON COLUMN ct_tmos_equipment_order_item.CREATED_TIME IS '创建时间';
-COMMENT ON COLUMN ct_tmos_equipment_order_item.UPDATED_BY IS '更新人';
-COMMENT ON COLUMN ct_tmos_equipment_order_item.UPDATED_TIME IS '更新时间';
+COMMENT ON COLUMN ct_tmos_equipment_order_item.CREATE_BY IS '创建人';
+COMMENT ON COLUMN ct_tmos_equipment_order_item.CREATE_TIME IS '创建时间';
+COMMENT ON COLUMN ct_tmos_equipment_order_item.UPDATE_BY IS '更新人';
+COMMENT ON COLUMN ct_tmos_equipment_order_item.UPDATE_TIME IS '更新时间';
 
 CREATE TABLE ct_tmos_equipment_order_node(
                                              id VARCHAR2(64) NOT NULL,
@@ -413,10 +413,10 @@ CREATE TABLE ct_tmos_equipment_order_node(
                                              seq_no NUMBER(3),
                                              STATUS VARCHAR2(10) DEFAULT  0 NOT NULL,
                                              REMARK VARCHAR2(200),
-                                             CREATED_BY VARCHAR2(64),
-                                             CREATED_TIME DATE,
-                                             UPDATED_BY VARCHAR2(64),
-                                             UPDATED_TIME DATE,
+                                             CREATE_BY VARCHAR2(64),
+                                             CREATE_TIME DATE,
+                                             UPDATE_BY VARCHAR2(64),
+                                             UPDATE_TIME DATE,
                                              PRIMARY KEY (id)
 );
 
@@ -433,10 +433,10 @@ COMMENT ON COLUMN ct_tmos_equipment_order_node.operate_stage IS '操作阶段：
 COMMENT ON COLUMN ct_tmos_equipment_order_node.seq_no IS '序号';
 COMMENT ON COLUMN ct_tmos_equipment_order_node.STATUS IS '状态 0=正常，1=删除';
 COMMENT ON COLUMN ct_tmos_equipment_order_node.REMARK IS '备注';
-COMMENT ON COLUMN ct_tmos_equipment_order_node.CREATED_BY IS '创建人';
-COMMENT ON COLUMN ct_tmos_equipment_order_node.CREATED_TIME IS '创建时间';
-COMMENT ON COLUMN ct_tmos_equipment_order_node.UPDATED_BY IS '更新人';
-COMMENT ON COLUMN ct_tmos_equipment_order_node.UPDATED_TIME IS '更新时间';
+COMMENT ON COLUMN ct_tmos_equipment_order_node.CREATE_BY IS '创建人';
+COMMENT ON COLUMN ct_tmos_equipment_order_node.CREATE_TIME IS '创建时间';
+COMMENT ON COLUMN ct_tmos_equipment_order_node.UPDATE_BY IS '更新人';
+COMMENT ON COLUMN ct_tmos_equipment_order_node.UPDATE_TIME IS '更新时间';
 
 CREATE TABLE ct_tmos_equipment_incomplete(
                                              id VARCHAR2(64) NOT NULL,
@@ -455,10 +455,10 @@ CREATE TABLE ct_tmos_equipment_incomplete(
                                              lock_status VARCHAR2(10) DEFAULT  0 NOT NULL,
                                              STATUS VARCHAR2(10) DEFAULT  0 NOT NULL,
                                              REMARK VARCHAR2(200),
-                                             CREATED_BY VARCHAR2(64),
-                                             CREATED_TIME DATE,
-                                             UPDATED_BY VARCHAR2(64),
-                                             UPDATED_TIME DATE,
+                                             CREATE_BY VARCHAR2(64),
+                                             CREATE_TIME DATE,
+                                             UPDATE_BY VARCHAR2(64),
+                                             UPDATE_TIME DATE,
                                              PRIMARY KEY (id)
 );
 
@@ -479,10 +479,10 @@ COMMENT ON COLUMN ct_tmos_equipment_incomplete.real_time IS '实际日期';
 COMMENT ON COLUMN ct_tmos_equipment_incomplete.lock_status IS '锁定状态：0=待记录，1=审批中，2=执行中';
 COMMENT ON COLUMN ct_tmos_equipment_incomplete.STATUS IS '状态 0=正常，1=删除';
 COMMENT ON COLUMN ct_tmos_equipment_incomplete.REMARK IS '备注';
-COMMENT ON COLUMN ct_tmos_equipment_incomplete.CREATED_BY IS '创建人';
-COMMENT ON COLUMN ct_tmos_equipment_incomplete.CREATED_TIME IS '创建时间';
-COMMENT ON COLUMN ct_tmos_equipment_incomplete.UPDATED_BY IS '更新人';
-COMMENT ON COLUMN ct_tmos_equipment_incomplete.UPDATED_TIME IS '更新时间';
+COMMENT ON COLUMN ct_tmos_equipment_incomplete.CREATE_BY IS '创建人';
+COMMENT ON COLUMN ct_tmos_equipment_incomplete.CREATE_TIME IS '创建时间';
+COMMENT ON COLUMN ct_tmos_equipment_incomplete.UPDATE_BY IS '更新人';
+COMMENT ON COLUMN ct_tmos_equipment_incomplete.UPDATE_TIME IS '更新时间';
 
 CREATE TABLE ct_tmos_equipment_temp_upkeep(
                                               id VARCHAR2(64) NOT NULL,
@@ -497,10 +497,10 @@ CREATE TABLE ct_tmos_equipment_temp_upkeep(
                                               cycle VARCHAR2(10),
                                               STATUS VARCHAR2(10) DEFAULT  0 NOT NULL,
                                               REMARK VARCHAR2(200),
-                                              CREATED_BY VARCHAR2(64),
-                                              CREATED_TIME DATE,
-                                              UPDATED_BY VARCHAR2(64),
-                                              UPDATED_TIME DATE,
+                                              CREATE_BY VARCHAR2(64),
+                                              CREATE_TIME DATE,
+                                              UPDATE_BY VARCHAR2(64),
+                                              UPDATE_TIME DATE,
                                               PRIMARY KEY (id)
 );
 
@@ -517,10 +517,10 @@ COMMENT ON COLUMN ct_tmos_equipment_temp_upkeep.stop_line_type IS '停线类型�
 COMMENT ON COLUMN ct_tmos_equipment_temp_upkeep.cycle IS '周期';
 COMMENT ON COLUMN ct_tmos_equipment_temp_upkeep.STATUS IS '状态 0=正常，1=删除';
 COMMENT ON COLUMN ct_tmos_equipment_temp_upkeep.REMARK IS '备注';
-COMMENT ON COLUMN ct_tmos_equipment_temp_upkeep.CREATED_BY IS '创建人';
-COMMENT ON COLUMN ct_tmos_equipment_temp_upkeep.CREATED_TIME IS '创建时间';
-COMMENT ON COLUMN ct_tmos_equipment_temp_upkeep.UPDATED_BY IS '更新人';
-COMMENT ON COLUMN ct_tmos_equipment_temp_upkeep.UPDATED_TIME IS '更新时间';
+COMMENT ON COLUMN ct_tmos_equipment_temp_upkeep.CREATE_BY IS '创建人';
+COMMENT ON COLUMN ct_tmos_equipment_temp_upkeep.CREATE_TIME IS '创建时间';
+COMMENT ON COLUMN ct_tmos_equipment_temp_upkeep.UPDATE_BY IS '更新人';
+COMMENT ON COLUMN ct_tmos_equipment_temp_upkeep.UPDATE_TIME IS '更新时间';
 
 CREATE TABLE ct_tmos_equipment_upkeep_in(
                                             id VARCHAR2(64) NOT NULL,
@@ -538,10 +538,10 @@ CREATE TABLE ct_tmos_equipment_upkeep_in(
                                             real_time DATE,
                                             STATUS VARCHAR2(10) DEFAULT  0 NOT NULL,
                                             REMARK VARCHAR2(200),
-                                            CREATED_BY VARCHAR2(64),
-                                            CREATED_TIME DATE,
-                                            UPDATED_BY VARCHAR2(64),
-                                            UPDATED_TIME DATE,
+                                            CREATE_BY VARCHAR2(64),
+                                            CREATE_TIME DATE,
+                                            UPDATE_BY VARCHAR2(64),
+                                            UPDATE_TIME DATE,
                                             PRIMARY KEY (id)
 );
 
@@ -561,8 +561,8 @@ COMMENT ON COLUMN ct_tmos_equipment_upkeep_in.plan_time IS '原计划日期';
 COMMENT ON COLUMN ct_tmos_equipment_upkeep_in.real_time IS '实际日期';
 COMMENT ON COLUMN ct_tmos_equipment_upkeep_in.STATUS IS '状态 0=正常，1=删除';
 COMMENT ON COLUMN ct_tmos_equipment_upkeep_in.REMARK IS '备注';
-COMMENT ON COLUMN ct_tmos_equipment_upkeep_in.CREATED_BY IS '创建人';
-COMMENT ON COLUMN ct_tmos_equipment_upkeep_in.CREATED_TIME IS '创建时间';
-COMMENT ON COLUMN ct_tmos_equipment_upkeep_in.UPDATED_BY IS '更新人';
-COMMENT ON COLUMN ct_tmos_equipment_upkeep_in.UPDATED_TIME IS '更新时间';
+COMMENT ON COLUMN ct_tmos_equipment_upkeep_in.CREATE_BY IS '创建人';
+COMMENT ON COLUMN ct_tmos_equipment_upkeep_in.CREATE_TIME IS '创建时间';
+COMMENT ON COLUMN ct_tmos_equipment_upkeep_in.UPDATE_BY IS '更新人';
+COMMENT ON COLUMN ct_tmos_equipment_upkeep_in.UPDATE_TIME IS '更新时间';
 
