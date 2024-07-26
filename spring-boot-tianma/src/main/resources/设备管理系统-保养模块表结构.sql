@@ -59,7 +59,7 @@ COMMENT ON COLUMN ct_tmos_equipment_group_unit.UPDATE_TIME IS '更新时间';
 CREATE TABLE ct_tmos_equipment_template(
                                            id VARCHAR2(64) NOT NULL,
                                            template_name VARCHAR2(100) NOT NULL,
-                                           template_type VARCHAR2(10) DEFAULT  1 NOT NULL,
+                                           template_type VARCHAR2(10) DEFAULT  1,
                                            unit_type VARCHAR2(30),
                                            parent_id VARCHAR2(64),
                                            create_user_name VARCHAR2(32),
@@ -568,3 +568,9 @@ COMMENT ON COLUMN ct_tmos_equipment_upkeep_in.CREATE_TIME IS '创建时间';
 COMMENT ON COLUMN ct_tmos_equipment_upkeep_in.UPDATE_BY IS '更新人';
 COMMENT ON COLUMN ct_tmos_equipment_upkeep_in.UPDATE_TIME IS '更新时间';
 
+
+
+-- modify 2024-7-25
+ALTER TABLE CT_TMOS_EQUIPMENT_TEMPLATE MODIFY TEMPLATE_NAME VARCHAR2(200) NULL;
+alter table CT_TMOS_EQUIPMENT_TEMPLATE add unit_id VARCHAR2(32);
+comment on column CT_TMOS_EQUIPMENT_TEMPLATE.unit_id IS '设备';

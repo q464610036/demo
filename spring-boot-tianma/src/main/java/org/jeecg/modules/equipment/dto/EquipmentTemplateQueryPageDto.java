@@ -27,4 +27,7 @@ public class EquipmentTemplateQueryPageDto extends BaseDto implements Serializab
 
     @ApiModelProperty(value = "父节点id", hidden = true)
     private String parentId;
+
+    @ApiModelProperty("设备")
+    private String unitId;
 }

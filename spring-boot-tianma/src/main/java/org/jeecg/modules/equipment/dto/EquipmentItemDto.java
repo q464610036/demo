@@ -1,4 +1,4 @@
-package org.jeecg.modules.equipment.vo;
+package org.jeecg.modules.equipment.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @since 2024-07-24
  */
 @Data
-public class EquipmentItemVo implements Serializable {
+public class EquipmentItemDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -29,4 +29,5 @@ public class EquipmentItemVo implements Serializable {
 
     @ApiModelProperty("最小周期")
     private String minCycle;
+
 }

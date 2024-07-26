@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -27,15 +28,26 @@ public class EquipmentTemplateSaveDto implements Serializable {
     @NotEmpty
     private String templateName;
 
+    @ApiModelProperty("模版类型：1=by unit,2=by sub unit")
+    @NotEmpty
+    private String templateType;
+
     @ApiModelProperty("设备类型")
     @NotEmpty
     private String unitType;
 
-    @ApiModelProperty(value = "模版类型：1=by unit,2=by sub unit", hidden = true)
-    private String templateType;
+    @ApiModelProperty(value = "保养项目列表")
+    private List<EquipmentItemDto> itemList;
 
-    @ApiModelProperty(value = "父节点id", hidden = true)
-    private String parentId;
+    @ApiModelProperty(value = "旧的保养项目列表")
+    private List<EquipmentItemDto> oldItemList;
+
+    @ApiModelProperty("子模版")
+    private List<EquipmentTemplateChildDto> childTemplate;
+
+    @ApiModelProperty("旧的子模版")
+    private List<EquipmentTemplateChildDto> oldChildTemplate;
+
 
     public interface ICreate{
 

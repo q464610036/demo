@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -33,10 +34,12 @@ public class EquipmentTemplateDetailVo implements Serializable {
     @ApiModelProperty("父节点id")
     private String parentId;
 
-    @ApiModelProperty("绑定关系组名称")
-    private String groupName;
-
     @ApiModelProperty("创建人姓名")
     private String createUserName;
 
+    @ApiModelProperty(value = "保养项目列表")
+    private List<EquipmentItemVo> itemList;
+
+    @ApiModelProperty("子模版")
+    private List<EquipmentTemplateChildVo> childTemplate;
 }

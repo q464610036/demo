@@ -46,4 +46,6 @@ public class EquipmentTemplate extends BaseEntity implements Serializable {
      */
     private String createUserName;
 
+    private String unitId;
+
 }

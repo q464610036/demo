@@ -4,11 +4,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.jeecg.modules.common.entity.Result;
 import org.jeecg.modules.common.page.PageInfo;
+import org.jeecg.modules.equipment.dto.EquipmentTemplateDeleteDto;
 import org.jeecg.modules.equipment.dto.EquipmentTemplateQueryPageDto;
 import org.jeecg.modules.equipment.dto.EquipmentTemplateSaveDto;
 import org.jeecg.modules.equipment.vo.EquipmentTemplateDetailVo;
 import org.jeecg.modules.equipment.vo.EquipmentTemplateListVo;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +22,7 @@ import java.util.List;
  * @author baomidou
  * @since 2024-07-24
  */
-@Controller
+@RestController
 @Api(tags = "设备保养-模版管理")
 @RequestMapping("/equipment/equipmentTemplate")
 public class EquipmentTemplateController {
@@ -54,6 +54,12 @@ public class EquipmentTemplateController {
     @ApiOperation("修改模版")
     @PostMapping("/update")
     public Result<String> update(@RequestBody @Validated({EquipmentTemplateSaveDto.IUpdate.class}) EquipmentTemplateSaveDto dto){
+        return null;
+    }
+
+    @ApiOperation("删除模版")
+    @PostMapping("/delete")
+    public Result<Boolean> delete(@RequestBody @Validated EquipmentTemplateDeleteDto dto){
         return null;
     }
 }
