@@ -34,7 +34,7 @@ public class EquipmentItem  extends BaseEntity implements Serializable {
     private String itemContent;
 
     /**
-     * 最小周期
+     * 最小周期(W:周,M:月,2M:双月,Q:季度,H:半年,Y:年,T:临时)
      */
     private String minCycle;
 

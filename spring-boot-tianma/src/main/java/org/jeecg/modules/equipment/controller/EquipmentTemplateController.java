@@ -2,8 +2,10 @@ package org.jeecg.modules.equipment.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.jeecg.modules.common.entity.Result;
 import org.jeecg.modules.common.page.PageInfo;
+import org.jeecg.modules.equipment.dto.EquipmentItemExportExcelDto;
 import org.jeecg.modules.equipment.dto.EquipmentTemplateDeleteDto;
 import org.jeecg.modules.equipment.dto.EquipmentTemplateQueryPageDto;
 import org.jeecg.modules.equipment.dto.EquipmentTemplateSaveDto;
@@ -11,7 +13,9 @@ import org.jeecg.modules.equipment.vo.EquipmentTemplateDetailVo;
 import org.jeecg.modules.equipment.vo.EquipmentTemplateListVo;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -62,4 +66,24 @@ public class EquipmentTemplateController {
     public Result<Boolean> delete(@RequestBody @Validated EquipmentTemplateDeleteDto dto){
         return null;
     }
+
+    @ApiOperation("引用模版")
+    @GetMapping ("/reference/{id}")
+    public Result<EquipmentTemplateDetailVo> reference(@PathVariable String id){
+        return null;
+    }
+
+    @ApiOperation("导入模版项目")
+    @PostMapping("/importExcel")
+    public Result<Boolean> importExcel(@RequestParam("file") MultipartFile file,
+                                       @ApiParam(value = "模板id", required = true) @RequestParam(value = "templateId") String templateId){
+        return null;
+    }
+
+    @ApiOperation("导出模版项目")
+    @PostMapping("/exportExcel")
+    public void exportExcel(@RequestBody @Validated EquipmentItemExportExcelDto dto, HttpServletResponse response){
+
+    }
+
 }
