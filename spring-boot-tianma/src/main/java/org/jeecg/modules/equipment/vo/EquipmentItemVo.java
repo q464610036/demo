@@ -29,4 +29,7 @@ public class EquipmentItemVo implements Serializable {
 
     @ApiModelProperty("最小周期(W:周,M:月,2M:双月,Q:季度,H:半年,Y:年,T:临时)")
     private String minCycle;
+
+    @ApiModelProperty("最小周期文案")
+    private String minCycleText;
 }

@@ -55,15 +55,18 @@ public class MyGenerator {
                 .strategyConfig(builder -> {
                     // 设置需要生成的表名
                     builder
-                            .addInclude("ct_tmos_equipment_template")
-                            .addInclude("ct_tmos_equipment_sub_unit")
-                            .addInclude("ct_tmos_equipment_item")
-                            .addInclude("ct_tmos_equipment_order")
-                            .addInclude("ct_tmos_equipment_order_item")
-                            .addInclude("ct_tmos_equipment_order_node")
-                            .addInclude("ct_tmos_equipment_incomplete")
-                            .addInclude("ct_tmos_equipment_temp_upkeep")
-                            .addInclude("ct_tmos_equipment_upkeep_in")
+//                            .addInclude("ct_tmos_equipment_template")
+//                            .addInclude("ct_tmos_equipment_sub_unit")
+//                            .addInclude("ct_tmos_equipment_item")
+//                            .addInclude("ct_tmos_equipment_order")
+//                            .addInclude("ct_tmos_equipment_order_item")
+//                            .addInclude("ct_tmos_equipment_order_node")
+//                            .addInclude("ct_tmos_equipment_incomplete")
+//                            .addInclude("ct_tmos_equipment_temp_upkeep")
+//                            .addInclude("ct_tmos_equipment_upkeep_in")
+
+                            .addInclude("ct_tmos_equipment_plan")
+
                             // 设置过滤表前缀
                             .addTablePrefix("CT_TMOS_");
                 })

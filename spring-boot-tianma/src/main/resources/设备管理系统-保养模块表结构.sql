@@ -574,3 +574,12 @@ COMMENT ON COLUMN ct_tmos_equipment_upkeep_in.UPDATE_TIME IS '更新时间';
 ALTER TABLE CT_TMOS_EQUIPMENT_TEMPLATE MODIFY TEMPLATE_NAME VARCHAR2(200) NULL;
 alter table CT_TMOS_EQUIPMENT_TEMPLATE add unit_id VARCHAR2(32);
 comment on column CT_TMOS_EQUIPMENT_TEMPLATE.unit_id IS '设备';
+
+-- modify 2024-7-29（未执行）
+alter table ct_tmos_equipment_item add standard VARCHAR2(300);
+comment on column ct_tmos_equipment_item.standard IS '保养标准';
+alter table ct_tmos_equipment_plan_item add standard VARCHAR2(300);
+comment on column ct_tmos_equipment_plan_item.standard IS '保养标准';
+alter table ct_tmos_equipment_order_item add standard VARCHAR2(300);
+comment on column ct_tmos_equipment_order_item.standard IS '保养标准';
+ALTER TABLE CT_TMOS_EQUIPMENT_TEMPLATE MODIFY TEMPLATE_TYPE VARCHAR2(10);
