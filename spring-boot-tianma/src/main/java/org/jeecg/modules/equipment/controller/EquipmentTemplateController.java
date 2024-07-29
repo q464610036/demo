@@ -5,10 +5,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.jeecg.modules.common.entity.Result;
 import org.jeecg.modules.common.page.PageInfo;
-import org.jeecg.modules.equipment.dto.EquipmentItemExportExcelDto;
-import org.jeecg.modules.equipment.dto.EquipmentTemplateDeleteDto;
-import org.jeecg.modules.equipment.dto.EquipmentTemplateQueryPageDto;
-import org.jeecg.modules.equipment.dto.EquipmentTemplateSaveDto;
+import org.jeecg.modules.equipment.dto.*;
+import org.jeecg.modules.equipment.vo.EquipmentPreviewUnitVo;
 import org.jeecg.modules.equipment.vo.EquipmentTemplateDetailVo;
 import org.jeecg.modules.equipment.vo.EquipmentTemplateListVo;
 import org.springframework.validation.annotation.Validated;
@@ -84,6 +82,12 @@ public class EquipmentTemplateController {
     @PostMapping("/exportExcel")
     public void exportExcel(@RequestBody @Validated EquipmentItemExportExcelDto dto, HttpServletResponse response){
 
+    }
+
+    @ApiOperation("查询保养项目")
+    @PostMapping("/getUnitItemList")
+    public Result<PageInfo<EquipmentPreviewUnitVo>> getPage(@RequestBody @Validated EquipmentPreviewUnitQueryDto dto){
+        return null;
     }
 
 }
