@@ -32,6 +32,9 @@ public class EquipmentOrderListVo implements Serializable {
     @ApiModelProperty("厂别")
     private String factoryName;
 
+    @ApiModelProperty("厂别文案")
+    private String factoryNameText;
+
     @ApiModelProperty("设备群组")
     private String area;
 
@@ -49,6 +52,9 @@ public class EquipmentOrderListVo implements Serializable {
 
     @ApiModelProperty("周期(W:周,M:月,2M:双月,Q:季度,H:半年,Y:年,T:临时)")
     private String cycle;
+
+    @ApiModelProperty("最小周期文案")
+    private String minCycleText;
 
     @ApiModelProperty("系统计划日期")
     private LocalDateTime sysPlanTime;

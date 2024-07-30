@@ -32,6 +32,9 @@ public class EquipmentOrderDetailVo implements Serializable {
     @ApiModelProperty("厂别")
     private String factoryName;
 
+    @ApiModelProperty("厂别文案")
+    private String factoryNameText;
+
     @ApiModelProperty("设备群组")
     private String area;
 
