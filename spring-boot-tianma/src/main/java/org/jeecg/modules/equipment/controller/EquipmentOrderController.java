@@ -29,7 +29,7 @@ public class EquipmentOrderController {
         return null;
     }
 
-    @ApiOperation("查询模版详情")
+    @ApiOperation("查询详情")
     @GetMapping("/detail/{id}")
     public Result<EquipmentOrderDetailVo> detail(@PathVariable String id){
         return null;
