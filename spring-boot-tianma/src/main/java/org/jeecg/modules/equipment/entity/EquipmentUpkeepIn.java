@@ -65,6 +65,11 @@ public class EquipmentUpkeepIn  extends BaseEntity implements Serializable {
     private String cycle;
 
     /**
+     * 项目id
+     */
+    private String itemId;
+
+    /**
      * 保养项目内容
      */
     private String itemContent;

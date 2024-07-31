@@ -6,6 +6,7 @@ import org.jeecg.modules.common.entity.BaseEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <p>
@@ -96,8 +97,23 @@ public class EquipmentOrder extends BaseEntity implements Serializable {
     private LocalDateTime realEndTime;
 
     /**
-     * 审核状态：01=待生产审核，02=待设备确认，03=待执行，04=执行中，05=待填报，06=保养完成，07=取消保养
+     * 审核状态：01=待生产审核，02=待设备确认，03=待执行，04=执行中，05=待填报，06=保养完成，07=取消保养，08=保养动作完成
      */
     private String approveStatus;
+
+    /**
+     * 节点code
+     */
+    private String nodeCode;
+
+    /**
+     * 审批时间
+     */
+    private Date approveTime;
+
+    /**
+     * 工单类型：1=保养单，2=取消保养单
+     */
+    private String orderType;
 
 }

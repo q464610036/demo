@@ -34,6 +34,11 @@ public class EquipmentOrderItem extends BaseEntity implements Serializable {
     private String orderUnitPkId;
 
     /**
+     * 项目id
+     */
+    private String itemId;
+
+    /**
      * 项目内容
      */
     private String itemContent;
@@ -58,4 +63,13 @@ public class EquipmentOrderItem extends BaseEntity implements Serializable {
      */
     private String upkeepResult;
 
+    /**
+     * 保养人Code
+     */
+    private String upkeepUserCode;
+
+    /**
+     * 保养人
+     */
+    private String upkeepUserName;
 }

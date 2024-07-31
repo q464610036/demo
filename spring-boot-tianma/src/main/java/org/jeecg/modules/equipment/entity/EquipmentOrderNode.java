@@ -1,6 +1,7 @@
 package org.jeecg.modules.equipment.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 import org.jeecg.modules.common.entity.BaseEntity;
 
 import java.io.Serializable;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
  * @author baomidou
  * @since 2024-07-24
  */
+@Data
 @TableName("CT_TMOS_EQUIPMENT_ORDER_NODE")
 public class EquipmentOrderNode extends BaseEntity implements Serializable {
 
