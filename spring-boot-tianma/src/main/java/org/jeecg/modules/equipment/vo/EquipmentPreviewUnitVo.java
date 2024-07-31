@@ -15,6 +15,9 @@ public class EquipmentPreviewUnitVo implements Serializable {
     @ApiModelProperty("设备")
     private String unitId;
 
+    @ApiModelProperty("关系组id")
+    private String groupId;
+
     @ApiModelProperty("保养项目")
-    private List<EquipmentUnitItemVo> itemList;
+    private List<EquipmentPreviewItemVo> itemList;
 }

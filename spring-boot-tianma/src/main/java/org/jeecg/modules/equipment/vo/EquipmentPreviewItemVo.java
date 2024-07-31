@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @since 2024-07-24
  */
 @Data
-public class EquipmentUnitItemVo implements Serializable {
+public class EquipmentPreviewItemVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
