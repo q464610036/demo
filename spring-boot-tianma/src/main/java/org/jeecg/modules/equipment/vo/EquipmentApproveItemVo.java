@@ -14,12 +14,9 @@ import java.io.Serializable;
  * @since 2024-07-24
  */
 @Data
-public class EquipmentPreviewItemVo implements Serializable {
+public class EquipmentApproveItemVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @ApiModelProperty("主键id")
-    private String id;
 
     @ApiModelProperty("模板id")
     private String templateId;
@@ -32,6 +29,9 @@ public class EquipmentPreviewItemVo implements Serializable {
 
     @ApiModelProperty("最小周期文案")
     private String minCycleText;
+
+    @ApiModelProperty("设备")
+    private String unitId;
 
     @ApiModelProperty("子设备")
     private String subUnitIds;
