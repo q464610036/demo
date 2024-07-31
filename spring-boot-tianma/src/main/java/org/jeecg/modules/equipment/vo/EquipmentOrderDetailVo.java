@@ -6,6 +6,8 @@ import lombok.Data;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -68,8 +70,33 @@ public class EquipmentOrderDetailVo implements Serializable {
     @ApiModelProperty("实际结束时间")
     private LocalDateTime realEndTime;
 
-    @ApiModelProperty("审核状态：01=待生产审核，02=待设备确认，03=待执行，04=执行中，05=待填报，06=保养完成，07=取消保养")
+    @ApiModelProperty("审核状态：01=待生产审核，02=待设备确认，03=待执行，04=执行中，05=待填报，06=保养完成，07=取消保养，08=保养动作完成")
     private String approveStatus;
 
+    @ApiModelProperty("审核状态文案")
+    private String approveStatusText;
 
+    @ApiModelProperty("停线类型文案")
+    private String stopLineTypeText;
+
+    @ApiModelProperty("周期文案")
+    private String cycleText;
+
+    @ApiModelProperty("节点code")
+    private String nodeCode;
+
+    @ApiModelProperty("审批时间")
+    private Date approveTime;
+
+    @ApiModelProperty("工单类型：1=保养单，2=取消保养单")
+    private String orderType;
+
+    @ApiModelProperty("保养项目（待填报）")
+    private List<EquipmentOrderItemVo> itemList;
+
+    @ApiModelProperty("保养项目（待审核）")
+    private List<EquipmentPreviewUnitVo> unitList;
+
+    @ApiModelProperty("节点列表")
+    private List<EquipmentOrderNodeVo> nodeList;
 }

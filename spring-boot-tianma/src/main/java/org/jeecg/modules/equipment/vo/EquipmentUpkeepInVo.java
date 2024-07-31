@@ -58,4 +58,16 @@ public class EquipmentUpkeepInVo implements Serializable {
     @ApiModelProperty("实际日期")
     private LocalDateTime realTime;
 
+    @ApiModelProperty("保养结果文案")
+    private String upkeepResultText;
+
+    @ApiModelProperty("停线类型文案")
+    private String stopLineTypeText;
+
+    @ApiModelProperty("周期文案")
+    private String cycleText;
+
+    @ApiModelProperty("保养项目id")
+    private String itemId;
+
 }

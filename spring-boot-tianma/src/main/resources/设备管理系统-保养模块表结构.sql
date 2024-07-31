@@ -605,3 +605,6 @@ alter table ct_tmos_equipment_order_item add upkeep_user_code VARCHAR2(64);
 comment on column ct_tmos_equipment_order_item.upkeep_user_code IS '保养人code';
 alter table ct_tmos_equipment_order_item add upkeep_user_name VARCHAR2(32);
 comment on column ct_tmos_equipment_order_item.upkeep_user_name IS '保养人名称';
+
+-- modify 2024-8-1
+ALTER TABLE ct_tmos_equipment_order_item DROP COLUMN order_unit_pk_id;

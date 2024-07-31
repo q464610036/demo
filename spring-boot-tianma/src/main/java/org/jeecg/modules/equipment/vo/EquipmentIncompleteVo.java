@@ -61,22 +61,17 @@ public class EquipmentIncompleteVo implements Serializable {
     @ApiModelProperty("锁定状态：0=待记录，1=审批中，2=执行中")
     private String lockStatus;
 
-    @ApiModelProperty("状态 0=正常，1=删除")
-    private String status;
+    @ApiModelProperty("停线类型文案")
+    private String stopLineTypeText;
 
-    @ApiModelProperty("备注")
-    private String remark;
+    @ApiModelProperty("周期文案")
+    private String cycleText;
 
-    @ApiModelProperty("创建人")
-    private String createdBy;
+    @ApiModelProperty("保养项目id")
+    private String itemId;
 
-    @ApiModelProperty("创建时间")
-    private LocalDateTime createdTime;
+    @ApiModelProperty("保养结果文案")
+    private String upkeepResultText;
 
-    @ApiModelProperty("更新人")
-    private String updatedBy;
-
-    @ApiModelProperty("更新时间")
-    private LocalDateTime updatedTime;
 
 }

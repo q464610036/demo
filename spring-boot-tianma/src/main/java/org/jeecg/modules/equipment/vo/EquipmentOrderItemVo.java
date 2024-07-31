@@ -24,9 +24,6 @@ public class EquipmentOrderItemVo implements Serializable {
     @ApiModelProperty("工单号")
     private String orderNo;
 
-    @ApiModelProperty("保养工单设备主键")
-    private String orderUnitPkId;
-
     @ApiModelProperty("项目内容")
     private String itemContent;
 
@@ -42,5 +39,19 @@ public class EquipmentOrderItemVo implements Serializable {
     @ApiModelProperty("保养结果：0=待保养，1=完成，2=未保养，3=残件，9=保养失败")
     private String upkeepResult;
 
+    @ApiModelProperty("保养项目id")
+    private String itemId;
+
+    @ApiModelProperty("最小周期文案")
+    private String minCycleText;
+
+    @ApiModelProperty("保养结果文案")
+    private String upkeepResultText;
+
+    @ApiModelProperty("保养人code")
+    private String upkeepUserCode;
+
+    @ApiModelProperty("保养人名称")
+    private String upkeepUserName;
 
 }

@@ -29,11 +29,6 @@ public class EquipmentOrderItem extends BaseEntity implements Serializable {
     private String orderNo;
 
     /**
-     * 保养工单设备主键
-     */
-    private String orderUnitPkId;
-
-    /**
      * 项目id
      */
     private String itemId;
