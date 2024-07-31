@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IEquipmentOrderNodeService extends IService<EquipmentOrderNode> {
 
+    boolean updateById(EquipmentOrderNode entity);
 }
