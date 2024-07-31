@@ -19,9 +19,11 @@ public class EquipmentOrderApproveDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("主键id")
-    @NotEmpty
+    @ApiModelProperty("工单id")
     private String id;
+
+    @ApiModelProperty("工单号")
+    private String orderNo;
 
     @ApiModelProperty("操作状态：1=取消保养，2=通过，9=不通过")
     @NotEmpty

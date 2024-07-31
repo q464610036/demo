@@ -37,17 +37,24 @@ public class EquipmentOrderNodeVo implements Serializable {
     @ApiModelProperty("操作时间")
     private LocalDateTime operateTime;
 
-    @ApiModelProperty("操作状态：1=取消保养，2=通过，9=不通过")
+    @ApiModelProperty("操作状态：1=取消保养，2=通过，3=确定保养，8=驳回，9=不通过")
     private String operateStatus;
 
     @ApiModelProperty("意见")
     private String advice;
 
     @ApiModelProperty("操作阶段：0=未操作，1=待操作，2=已操作")
-    private Short operateStage;
+    private Integer operateStage;
 
     @ApiModelProperty("序号")
-    private Short seqNo;
+    private Integer seqNo;
 
+    @ApiModelProperty("操作状态文案")
+    private String operateStatusText;
 
+    @ApiModelProperty("节点文案")
+    private String nodeCodeText;
+
+    @ApiModelProperty("节点类型:0=非审批节点，1=审批节点")
+    private String nodeType;
 }

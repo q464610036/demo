@@ -19,6 +19,12 @@ public class EquipmentSaveUpkeepResultDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty("工单id")
+    private String id;
+
+    @ApiModelProperty("工单号")
+    private String orderNo;
+
     @ApiModelProperty("保养结果列表")
     private List<EquipmentItemUpkeepResultDto> itemList;
 
