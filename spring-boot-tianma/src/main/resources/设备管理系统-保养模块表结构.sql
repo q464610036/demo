@@ -575,7 +575,7 @@ ALTER TABLE CT_TMOS_EQUIPMENT_TEMPLATE MODIFY TEMPLATE_NAME VARCHAR2(200) NULL;
 alter table CT_TMOS_EQUIPMENT_TEMPLATE add unit_id VARCHAR2(32);
 comment on column CT_TMOS_EQUIPMENT_TEMPLATE.unit_id IS '设备';
 
--- modify 2024-7-29（未执行）
+-- modify 2024-7-29
 alter table ct_tmos_equipment_item add standard VARCHAR2(300);
 comment on column ct_tmos_equipment_item.standard IS '保养标准';
 alter table ct_tmos_equipment_plan_item add standard VARCHAR2(300);
@@ -583,3 +583,25 @@ comment on column ct_tmos_equipment_plan_item.standard IS '保养标准';
 alter table ct_tmos_equipment_order_item add standard VARCHAR2(300);
 comment on column ct_tmos_equipment_order_item.standard IS '保养标准';
 ALTER TABLE CT_TMOS_EQUIPMENT_TEMPLATE MODIFY TEMPLATE_TYPE VARCHAR2(10);
+
+-- modify 2024-7-31
+alter table ct_tmos_equipment_incomplete add standard VARCHAR2(300);
+comment on column ct_tmos_equipment_incomplete.standard IS '保养标准';
+alter table ct_tmos_equipment_upkeep_in add standard VARCHAR2(300);
+comment on column ct_tmos_equipment_upkeep_in.standard IS '保养标准';
+alter table ct_tmos_equipment_incomplete add item_id VARCHAR2(64);
+comment on column ct_tmos_equipment_incomplete.item_id IS '项目id';
+alter table ct_tmos_equipment_order_item add item_id VARCHAR2(64);
+comment on column ct_tmos_equipment_order_item.item_id IS '项目id';
+alter table ct_tmos_equipment_upkeep_in add item_id VARCHAR2(64);
+comment on column ct_tmos_equipment_upkeep_in.item_id IS '项目id';
+alter table ct_tmos_equipment_order add node_code VARCHAR2(32);
+comment on column ct_tmos_equipment_order.node_code IS '节点code';
+alter table ct_tmos_equipment_order add approve_time date ;
+comment on column ct_tmos_equipment_order.approve_time IS '审批时间';
+alter table ct_tmos_equipment_order add order_type VARCHAR2(10);
+comment on column ct_tmos_equipment_order.order_type IS '工单类型：1=保养单，2=取消保养单';
+alter table ct_tmos_equipment_order_item add upkeep_user_code VARCHAR2(64);
+comment on column ct_tmos_equipment_order_item.upkeep_user_code IS '保养人code';
+alter table ct_tmos_equipment_order_item add upkeep_user_name VARCHAR2(32);
+comment on column ct_tmos_equipment_order_item.upkeep_user_name IS '保养人名称';

@@ -263,3 +263,6 @@ update ct_tmos_equipment_node_config set business_type = 'borrow' where business
 -- modify 2024-7-23
 alter table ct_tmos_equipment_borrow add sub_unit_id varchar2(32);
 comment on column ct_tmos_equipment_borrow.sub_unit_id IS '子设备';
+
+-- modify 2024-7-31
+alter table ct_tmos_equipment_borrow MODIFY borrow_plan_hours number(5, 1);
