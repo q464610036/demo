@@ -99,4 +99,7 @@ public class EquipmentOrderDetailVo implements Serializable {
 
     @ApiModelProperty("节点列表")
     private List<EquipmentOrderNodeVo> nodeList;
+
+    @ApiModelProperty("流程节点列表")
+    private List<FlowVo> flowList;
 }
