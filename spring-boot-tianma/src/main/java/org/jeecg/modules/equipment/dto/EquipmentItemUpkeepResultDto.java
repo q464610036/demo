@@ -18,7 +18,10 @@ public class EquipmentItemUpkeepResultDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("包养项目id")
+    @ApiModelProperty("工单保养项目id")
+    private String id;
+
+    @ApiModelProperty("模板保养项目id")
     private String itemId;
 
     @ApiModelProperty("保养结果：0=待保养，1=完成，2=未保养，3=残件，9=保养失败")

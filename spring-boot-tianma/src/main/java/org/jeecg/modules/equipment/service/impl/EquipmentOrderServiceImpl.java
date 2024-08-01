@@ -3,9 +3,9 @@ package org.jeecg.modules.equipment.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.jeecg.modules.common.entity.ServiceException;
 import org.jeecg.modules.common.entity.LoginUser;
-import org.jeecg.modules.common.enums.OrderApproveStatusEnum;
-import org.jeecg.modules.common.enums.OrderOperateStatusEnum;
-import org.jeecg.modules.common.enums.OrderTypeEnum;
+import org.jeecg.modules.common.enums.UpkeepOrderApproveStatusEnum;
+import org.jeecg.modules.common.enums.UpkeepOrderOperateStatusEnum;
+import org.jeecg.modules.common.enums.UpkeepOrderTypeEnum;
 import org.jeecg.modules.equipment.dto.EquipmentOrderApproveDto;
 import org.jeecg.modules.equipment.dto.EquipmentSaveUpkeepResultDto;
 import org.jeecg.modules.equipment.entity.EquipmentOrder;
@@ -62,26 +62,26 @@ public class EquipmentOrderServiceImpl extends ServiceImpl<EquipmentOrderMapper,
         String orderType = null;
         //审核完成标志位
         boolean approveFlag = false;
-        if (dto.getOperateStatus().equals(OrderOperateStatusEnum.CANCEL.getCode())) {
+        if (dto.getOperateStatus().equals(UpkeepOrderOperateStatusEnum.CANCEL.getCode())) {
             //取消保养
             //TODO chenmengfei 生成设备担当审批节点，查询每一个设备的设备担当，需要去重
 
 
 
             //设置主表审批状态，包含工单类型（保养单，取消保养单）
-            approveStatus = OrderApproveStatusEnum.UNIT.getCode();
-            orderType = OrderTypeEnum.CANCEL_UPKEEP.getCode();
-        } else if (dto.getOperateStatus().equals(OrderOperateStatusEnum.APPROVE.getCode())){
+            approveStatus = UpkeepOrderApproveStatusEnum.UNIT.getCode();
+            orderType = UpkeepOrderTypeEnum.CANCEL_UPKEEP.getCode();
+        } else if (dto.getOperateStatus().equals(UpkeepOrderOperateStatusEnum.APPROVE.getCode())){
             //通过
             //TODO chenmengfei 设置主表审批状态，包含工单类型（保养单，取消保养单）
 
             //TODO chenmengfei 发送MES保养工单
-        } else if (dto.getOperateStatus().equals(OrderOperateStatusEnum.CONFIRM_CANCEL.getCode())){
+        } else if (dto.getOperateStatus().equals(UpkeepOrderOperateStatusEnum.CONFIRM_CANCEL.getCode())){
             //确定取消
             //TODO chenmengfei 如果没有下一节点，工单结束
 
             //TODO chenmengfei 设置主表审批状态
-        } else if (dto.getOperateStatus().equals(OrderOperateStatusEnum.DENY_CANCEL.getCode())){
+        } else if (dto.getOperateStatus().equals(UpkeepOrderOperateStatusEnum.DENY_CANCEL.getCode())){
             //不同意取消
             //TODO chenmengfei 生成生产计划节点
 

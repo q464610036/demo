@@ -3,21 +3,18 @@ package org.jeecg.modules.common.enums;
 import lombok.Getter;
 
 /**
- * 保养结果枚举
+ * 保养工单类型枚举
  */
 @Getter
-public enum UpkeepResultEnum {
+public enum UpkeepOrderTypeEnum {
     /**
-     * 保养结果：0=待保养，1=完成，2=未保养，3=残件，9=保养失败
+     * 工单类型：1=保养单，2=取消保养单
      */
-    WAIT("0", "待保养"),
-    FINISH("1", "完成"),
-    NOT_DONE("2", "未保养"),
-    INCOMPLETE("3", "残件"),
-    FAIL("9", "保养失败"),
+    UPKEEP("1", "保养单"),
+    CANCEL_UPKEEP("2", "取消保养单"),
     ;
 
-    UpkeepResultEnum(String code, String message) {
+    UpkeepOrderTypeEnum(String code, String message) {
         this.code = code;
         this.message = message;
     }
@@ -33,8 +30,8 @@ public enum UpkeepResultEnum {
      * @param code 枚举code
      * @return 枚举
      */
-    public static UpkeepResultEnum getByCode(String code) {
-        for (UpkeepResultEnum e : UpkeepResultEnum.values()) {
+    public static UpkeepOrderTypeEnum getByCode(String code) {
+        for (UpkeepOrderTypeEnum e : UpkeepOrderTypeEnum.values()) {
             if (e.getCode().equals(code)) {
                 return e;
             }

@@ -42,6 +42,12 @@ public class EquipmentOrderController {
         return null;
     }
 
+    @ApiOperation("查询审批详情")
+    @GetMapping("/approveDetail/{id}")
+    public Result<EquipmentOrderDetailVo> approveDetail(@PathVariable String id){
+        return null;
+    }
+
     @ApiOperation("审批")
     @PostMapping("/approve")
     public Result<Boolean> approve(@RequestBody @Validated EquipmentOrderApproveDto dto){
@@ -56,7 +62,7 @@ public class EquipmentOrderController {
         return Result.ok(true);
     }
 
-    @ApiOperation("包养结果提交")
+    @ApiOperation("保养结果提交")
     @PostMapping("/submitResult")
     public Result<Boolean> submitResult(@RequestBody @Validated EquipmentSaveUpkeepResultDto dto){
         equipmentOrderService.submitResult(dto);
