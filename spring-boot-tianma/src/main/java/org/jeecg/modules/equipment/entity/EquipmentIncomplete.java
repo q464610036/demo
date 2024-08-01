@@ -74,6 +74,8 @@ public class EquipmentIncomplete extends BaseEntity implements Serializable {
      */
     private String itemContent;
 
+    private String standard;
+
     /**
      * 保养结果：0=待保养，1=完成，2=未保养，3=残件，9=保养失败
      */

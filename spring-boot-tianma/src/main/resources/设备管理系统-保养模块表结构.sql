@@ -606,5 +606,9 @@ comment on column ct_tmos_equipment_order_item.upkeep_user_code IS '保养人cod
 alter table ct_tmos_equipment_order_item add upkeep_user_name VARCHAR2(32);
 comment on column ct_tmos_equipment_order_item.upkeep_user_name IS '保养人名称';
 
--- modify 2024-8-1（未执行）
+-- modify 2024-8-1
 ALTER TABLE ct_tmos_equipment_order_item DROP COLUMN order_unit_pk_id;
+ALTER TABLE CT_TMOS_EQUIPMENT_PLAN_ITEM MODIFY SUB_UNIT_ID VARCHAR2(32) NULL;
+ALTER TABLE CT_TMOS_EQUIPMENT_PLAN ADD CYCLE_DAYS NUMBER(6,0) NOT NULL;
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PLAN.CYCLE_DAYS IS '周期设定天数';
+ALTER TABLE CT_TMOS_EQUIPMENT_PLAN MODIFY "CYCLE" VARCHAR2(10) NOT NULL;

@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiParam;
 import org.jeecg.modules.common.entity.Result;
 import org.jeecg.modules.common.page.PageInfo;
 import org.jeecg.modules.equipment.dto.*;
+import org.jeecg.modules.equipment.vo.EquipmentItemVo;
 import org.jeecg.modules.equipment.vo.EquipmentPreviewUnitVo;
 import org.jeecg.modules.equipment.vo.EquipmentTemplateDetailVo;
 import org.jeecg.modules.equipment.vo.EquipmentTemplateListVo;
@@ -84,10 +85,21 @@ public class EquipmentTemplateController {
 
     }
 
-    @ApiOperation("查询保养项目")
+    @ApiOperation(value = "查询保养项目(按设备分组)", notes = "保养项目查询菜单用")
     @PostMapping("/getUnitItemList")
-    public Result<PageInfo<EquipmentPreviewUnitVo>> getPage(@RequestBody @Validated EquipmentPreviewUnitQueryDto dto){
+    public Result<List<EquipmentPreviewUnitVo>> getUnitItemList(@RequestBody @Validated EquipmentPreviewUnitQueryDto dto){
         return null;
     }
 
+    @ApiOperation(value = "查询保养项目(根据设备查询)", notes = "补录保养项目查询时用")
+    @PostMapping("/getItemListByUnit")
+    public Result<List<EquipmentItemVo>> getItemListByUnit(@RequestBody @Validated EquipmentItemQueryDto dto){
+        return null;
+    }
+
+    @ApiOperation(value = "查询保养项目(根据模版查询)", notes = "添加计划外保养项目")
+    @PostMapping("/getItemListByTemplateId")
+    public Result<List<EquipmentItemVo>> getItemListByTemplateId(@RequestBody @Validated EquipmentItemQueryDto dto){
+        return null;
+    }
 }
