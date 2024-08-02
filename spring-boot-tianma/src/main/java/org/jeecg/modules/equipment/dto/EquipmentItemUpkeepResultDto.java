@@ -32,4 +32,7 @@ public class EquipmentItemUpkeepResultDto implements Serializable {
 
     @ApiModelProperty("保养人名称")
     private String upkeepUserName;
+
+    @ApiModelProperty("备注")
+    private String remark;
 }
