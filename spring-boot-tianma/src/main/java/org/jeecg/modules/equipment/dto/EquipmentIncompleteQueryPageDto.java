@@ -30,4 +30,7 @@ public class EquipmentIncompleteQueryPageDto extends BaseDto implements Serializ
 
     @ApiModelProperty("设备")
     private String unitId;
+
+    @ApiModelProperty("子设备")
+    private String subUnitId;
 }
