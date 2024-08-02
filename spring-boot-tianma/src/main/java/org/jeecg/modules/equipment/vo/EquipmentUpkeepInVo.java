@@ -73,4 +73,7 @@ public class EquipmentUpkeepInVo implements Serializable {
     @ApiModelProperty("保养项目id")
     private String itemId;
 
+    @ApiModelProperty("厂别文案")
+    private String factoryNameText;
+
 }

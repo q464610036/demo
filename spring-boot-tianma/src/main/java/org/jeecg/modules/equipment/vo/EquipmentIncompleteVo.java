@@ -79,5 +79,7 @@ public class EquipmentIncompleteVo implements Serializable {
     @ApiModelProperty("保养结果文案")
     private String upkeepResultText;
 
+    @ApiModelProperty("厂别文案")
+    private String factoryNameText;
 
 }

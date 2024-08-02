@@ -16,7 +16,7 @@ import java.util.Date;
  * @since 2024-07-24
  */
 @Data
-public class EquipmentTempUpkeepVo implements Serializable {
+public class EquipmentTempUpkeepListVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -70,4 +70,5 @@ public class EquipmentTempUpkeepVo implements Serializable {
 
     @ApiModelProperty("实际时长")
     private BigDecimal realHours;
+
 }

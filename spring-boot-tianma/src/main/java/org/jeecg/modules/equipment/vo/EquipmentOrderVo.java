@@ -87,4 +87,6 @@ public class EquipmentOrderVo implements Serializable {
     @ApiModelProperty("工单类型：1=保养单，2=取消保养单")
     private String orderType;
 
+    @ApiModelProperty("厂别文案")
+    private String factoryNameText;
 }
