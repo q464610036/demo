@@ -62,7 +62,7 @@ public class EquipmentTemplateController {
 
     @ApiOperation("删除模版")
     @PostMapping("/delete")
-    public Result<Boolean> delete(@RequestBody @Validated EquipmentTemplateDeleteDto dto){
+    public Result<Boolean> delete(@RequestBody @Validated DeleteDto dto){
         return null;
     }
 
