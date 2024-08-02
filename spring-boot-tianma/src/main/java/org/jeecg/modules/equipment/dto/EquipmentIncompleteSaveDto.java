@@ -61,6 +61,9 @@ public class EquipmentIncompleteSaveDto implements Serializable {
     @NotEmpty
     private String itemId;
 
+    @ApiModelProperty("备注")
+    private String remark;
+
 
     public interface ICreate{
 

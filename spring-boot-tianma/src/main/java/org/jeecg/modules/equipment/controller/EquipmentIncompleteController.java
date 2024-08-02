@@ -4,9 +4,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.jeecg.modules.common.entity.Result;
 import org.jeecg.modules.common.page.PageInfo;
-import org.jeecg.modules.equipment.dto.EquipmentIncompleteQueryPageDto;
-import org.jeecg.modules.equipment.dto.EquipmentIncompleteSaveDto;
 import org.jeecg.modules.equipment.dto.DeleteDto;
+import org.jeecg.modules.equipment.dto.EquipmentIncompleteQueryPageDto;
+import org.jeecg.modules.equipment.dto.EquipmentIncompleteSaveListDto;
 import org.jeecg.modules.equipment.vo.EquipmentIncompleteListVo;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,7 +43,7 @@ public class EquipmentIncompleteController {
 
     @ApiOperation("添加")
     @PostMapping("/add")
-    public Result<String> add(@RequestBody @Validated({EquipmentIncompleteSaveDto.ICreate.class}) EquipmentIncompleteSaveDto dto){
+    public Result<String> add(@RequestBody @Validated EquipmentIncompleteSaveListDto dto){
         return null;
     }
 

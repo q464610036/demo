@@ -61,8 +61,11 @@ public class EquipmentIncompleteVo implements Serializable {
     @ApiModelProperty("实际日期")
     private LocalDateTime realTime;
 
-    @ApiModelProperty("锁定状态：0=待记录，1=审批中，2=执行中")
+    @ApiModelProperty("状态：0=待记录，1=审批中，2=执行中，9=未锁定")
     private String lockStatus;
+
+    @ApiModelProperty("状态文案")
+    private String lockStatusText;
 
     @ApiModelProperty("停线类型文案")
     private String stopLineTypeText;

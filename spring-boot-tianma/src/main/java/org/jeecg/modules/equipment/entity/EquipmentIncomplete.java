@@ -92,7 +92,7 @@ public class EquipmentIncomplete extends BaseEntity implements Serializable {
     private LocalDateTime realTime;
 
     /**
-     * 锁定状态：0=待记录，1=审批中，2=执行中
+     * 状态：0=待记录，1=审批中，2=执行中，9=未锁定
      */
     private String lockStatus;
 
