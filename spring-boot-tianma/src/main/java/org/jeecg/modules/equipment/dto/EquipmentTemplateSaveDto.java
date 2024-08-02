@@ -24,6 +24,9 @@ public class EquipmentTemplateSaveDto implements Serializable {
     @NotEmpty(groups = {IUpdate.class})
     private String id;
 
+    @ApiModelProperty("关系组id")
+    private String groupId;
+
     @ApiModelProperty("模版名称")
     @NotEmpty
     private String templateName;
