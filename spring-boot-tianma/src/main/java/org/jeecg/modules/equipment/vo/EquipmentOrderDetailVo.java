@@ -91,10 +91,10 @@ public class EquipmentOrderDetailVo implements Serializable {
     @ApiModelProperty("工单类型：1=保养单，2=取消保养单")
     private String orderType;
 
-    @ApiModelProperty("保养项目（待填报）")
+    @ApiModelProperty("保养项目列表")
     private List<EquipmentOrderItemVo> itemList;
 
-    @ApiModelProperty("保养项目（待审核）")
+    @ApiModelProperty("保养设备项目列表")
     private List<EquipmentApproveUnitVo> unitList;
 
     @ApiModelProperty("节点列表")
