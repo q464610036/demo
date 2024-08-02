@@ -36,13 +36,13 @@ public class EquipmentOrderController {
         return null;
     }
 
-    @ApiOperation("查询详情")
+    @ApiOperation(value = "查询详情", notes = "非待审批单详情入口")
     @GetMapping("/detail/{id}")
     public Result<EquipmentOrderDetailVo> detail(@PathVariable String id){
         return null;
     }
 
-    @ApiOperation("查询审批详情")
+    @ApiOperation(value = "查询审批详情", notes = "待审批单详情入口")
     @GetMapping("/approveDetail/{id}")
     public Result<EquipmentOrderDetailVo> approveDetail(@PathVariable String id){
         return null;
