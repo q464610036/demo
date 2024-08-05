@@ -4,8 +4,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.jeecg.modules.common.entity.Result;
 import org.jeecg.modules.common.page.PageInfo;
+import org.jeecg.modules.equipment.dto.EquipmentTempUpkeepAndBorrowSaveDto;
 import org.jeecg.modules.equipment.dto.EquipmentTempUpkeepQueryPageDto;
-import org.jeecg.modules.equipment.dto.EquipmentTempUpkeepSaveDto;
 import org.jeecg.modules.equipment.vo.EquipmentTempUpkeepListVo;
 import org.jeecg.modules.equipment.vo.EquipmentTempUpkeepSaveResultVo;
 import org.springframework.validation.annotation.Validated;
@@ -34,7 +34,7 @@ public class EquipmentTempUpkeepController {
 
     @ApiOperation("添加")
     @PostMapping("/add")
-    public Result<EquipmentTempUpkeepSaveResultVo> add(@RequestBody @Validated EquipmentTempUpkeepSaveDto dto){
+    public Result<EquipmentTempUpkeepSaveResultVo> add(@RequestBody @Validated EquipmentTempUpkeepAndBorrowSaveDto dto){
         return null;
     }
 }
