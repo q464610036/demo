@@ -40,12 +40,6 @@ public class EquipmentUpkeepInSaveDto implements Serializable {
     @ApiModelProperty("子设备")
     private String subUnitId;
 
-    @ApiModelProperty("停线类型：1=整线停线，2=不停线Unit")
-    private String stopLineType;
-
-    @ApiModelProperty("周期(W:周,M:月,2M:双月,Q:季度,H:半年,Y:年,T:临时)")
-    private String cycle;
-
     @ApiModelProperty("保养项目内容")
     private String itemContent;
 
