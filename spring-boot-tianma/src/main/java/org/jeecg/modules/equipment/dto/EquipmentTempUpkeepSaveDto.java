@@ -4,8 +4,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,17 +49,17 @@ public class EquipmentTempUpkeepSaveDto implements Serializable {
     @ApiModelProperty("周期(W:周,M:月,2M:双月,Q:季度,H:半年,Y:年,T:临时)")
     private String cycle;
 
-    @ApiModelProperty("计划日期")
-    private Date planTime;
-
-    @ApiModelProperty("实际日期")
-    private Date realTime;
-
-    @ApiModelProperty("预计时长")
-    private BigDecimal expectHours;
-
-    @ApiModelProperty("实际时长")
-    private BigDecimal realHours;
+//    @ApiModelProperty("计划日期")
+//    private Date planTime;
+//
+//    @ApiModelProperty("实际日期")
+//    private Date realTime;
+//
+//    @ApiModelProperty("预计时长")
+//    private BigDecimal expectHours;
+//
+//    @ApiModelProperty("实际时长")
+//    private BigDecimal realHours;
 
     @ApiModelProperty("临时保养项目列表")
     List<EquipmentUpkeepInSaveDto> itemList;
