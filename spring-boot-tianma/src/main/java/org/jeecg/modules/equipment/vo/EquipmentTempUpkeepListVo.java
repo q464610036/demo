@@ -59,17 +59,11 @@ public class EquipmentTempUpkeepListVo implements Serializable {
     @ApiModelProperty("厂别文案")
     private String factoryNameText;
 
-    @ApiModelProperty("计划日期")
-    private Date planTime;
+    @ApiModelProperty("计划借机日期")
+    private Date borrowTime;
 
-    @ApiModelProperty("实际日期")
-    private Date realTime;
-
-    @ApiModelProperty("预计时长")
-    private BigDecimal expectHours;
-
-    @ApiModelProperty("实际时长")
-    private BigDecimal realHours;
+    @ApiModelProperty("计划借机时长")
+    private BigDecimal borrowPlanHours;
 
     @ApiModelProperty("借机工单状态")
     private String approveStatus;

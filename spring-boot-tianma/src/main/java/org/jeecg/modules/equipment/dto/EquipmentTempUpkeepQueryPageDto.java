@@ -28,10 +28,10 @@ public class EquipmentTempUpkeepQueryPageDto extends BaseDto implements Serializ
     @ApiModelProperty("子设备")
     private String subUnitId;
 
-    @ApiModelProperty("计划时间开始")
-    private Date startPlanTime;
+    @ApiModelProperty("计划开始借机时间")
+    private Date startBorrowTime;
 
-    @ApiModelProperty("计划时间结束")
-    private Date endPlanTime;
+    @ApiModelProperty("计划结束借机时间")
+    private Date endBorrowTime;
 
 }
