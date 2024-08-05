@@ -36,6 +36,9 @@ public class EquipmentPreviewItemVo implements Serializable {
     @ApiModelProperty("最小周期文案")
     private String minCycleText;
 
+    @ApiModelProperty("设备")
+    private String unitId;
+
     @ApiModelProperty("子设备")
     private String subUnitIds;
 }

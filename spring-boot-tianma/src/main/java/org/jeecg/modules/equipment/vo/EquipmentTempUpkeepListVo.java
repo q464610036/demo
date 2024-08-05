@@ -71,4 +71,10 @@ public class EquipmentTempUpkeepListVo implements Serializable {
     @ApiModelProperty("实际时长")
     private BigDecimal realHours;
 
+    @ApiModelProperty("借机工单状态")
+    private String approveStatus;
+
+    @ApiModelProperty("借机工单状态文案")
+    private String approveStatusText;
+
 }
