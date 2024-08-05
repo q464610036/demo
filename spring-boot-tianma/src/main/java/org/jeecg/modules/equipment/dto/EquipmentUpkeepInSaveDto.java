@@ -4,31 +4,26 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDateTime;
 
 /**
  * <p>
- * 设备临时保养表
+ * 设备临时保养残件记录表
  * </p>
  *
  * @author baomidou
  * @since 2024-07-24
  */
 @Data
-public class EquipmentTempUpkeepSaveDto implements Serializable {
+public class EquipmentUpkeepInSaveDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("主键id")
     private String id;
 
-    @ApiModelProperty("保养工单号")
-    private String orderNo;
-
-    @ApiModelProperty("借机单号")
-    private String borrowNo;
+    @ApiModelProperty("临时保养id")
+    private String tempUpkeepId;
 
     @ApiModelProperty("厂别")
     private String factoryName;
@@ -51,18 +46,22 @@ public class EquipmentTempUpkeepSaveDto implements Serializable {
     @ApiModelProperty("周期(W:周,M:月,2M:双月,Q:季度,H:半年,Y:年,T:临时)")
     private String cycle;
 
-    @ApiModelProperty("计划日期")
-    private Date planTime;
+    @ApiModelProperty("保养项目内容")
+    private String itemContent;
+
+    @ApiModelProperty("保养标准")
+    private String standard;
+
+    @ApiModelProperty("保养结果：0=待保养，1=完成，2=未保养，3=残件，9=保养失败")
+    private String upkeepResult;
+
+    @ApiModelProperty("原计划日期")
+    private LocalDateTime planTime;
 
     @ApiModelProperty("实际日期")
-    private Date realTime;
+    private LocalDateTime realTime;
 
-    @ApiModelProperty("预计时长")
-    private BigDecimal expectHours;
+    @ApiModelProperty("保养项目id")
+    private String itemId;
 
-    @ApiModelProperty("实际时长")
-    private BigDecimal realHours;
-
-    @ApiModelProperty("临时保养项目列表")
-    List<EquipmentUpkeepInSaveDto> itemList;
 }
