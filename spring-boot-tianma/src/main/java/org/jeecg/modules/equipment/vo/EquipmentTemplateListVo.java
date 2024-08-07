@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -32,5 +33,8 @@ public class EquipmentTemplateListVo implements Serializable {
 
     @ApiModelProperty("创建人姓名")
     private String createUserName;
+
+    @ApiModelProperty("创建时间")
+    private Date createTime;
 
 }
