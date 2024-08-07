@@ -90,4 +90,6 @@ public class EquipmentOrderListVo implements Serializable {
     @ApiModelProperty("工单类型：1=保养单，2=取消保养单")
     private String orderType;
 
+    @ApiModelProperty("倒计时文案")
+    private String countDownText;
 }

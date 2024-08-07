@@ -25,7 +25,7 @@ public class EquipmentOrderApproveDto implements Serializable {
     @ApiModelProperty("工单号")
     private String orderNo;
 
-    @ApiModelProperty("操作状态：1=取消保养，2=通过，9=不通过")
+    @ApiModelProperty("操作状态：1=取消保养，2=通过，3=确定取消，8=驳回")
     @NotEmpty
     private String operateStatus;
 
