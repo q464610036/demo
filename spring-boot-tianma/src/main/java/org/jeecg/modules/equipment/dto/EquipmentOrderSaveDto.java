@@ -21,7 +21,7 @@ public class EquipmentOrderSaveDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("计划id")
+    @ApiModelProperty(value = "计划id", hidden = true)
     private String planId;
 
     @ApiModelProperty("工单号")
@@ -45,16 +45,16 @@ public class EquipmentOrderSaveDto implements Serializable {
     @ApiModelProperty("停线类型：1=整线停线，2=不停线Unit")
     private String stopLineType;
 
-    @ApiModelProperty("周期(W:周,M:月,2M:双月,Q:季度,H:半年,Y:年,T:临时)")
+    @ApiModelProperty(value = "周期(W:周,M:月,D:双月,Q:季度,H:半年,Y:年,T:临时,N:宕机)",hidden = true)
     private String cycle;
 
-    @ApiModelProperty("系统计划日期")
+    @ApiModelProperty(value = "系统计划日期", hidden = true)
     private Date sysPlanTime;
 
-    @ApiModelProperty("调整日期")
+    @ApiModelProperty(value = "调整日期", hidden = true)
     private Date adjustTime;
 
-    @ApiModelProperty("预计时长")
+    @ApiModelProperty(value = "预计时长", hidden = true)
     private BigDecimal expectHours;
 
     @ApiModelProperty("实际开始时间")
@@ -63,7 +63,7 @@ public class EquipmentOrderSaveDto implements Serializable {
     @ApiModelProperty("实际结束时间")
     private Date realEndTime;
 
-    @ApiModelProperty("工单类型：1=保养单，2=取消保养单")
+    @ApiModelProperty(value = "工单类型：1=保养单，2=取消保养单", hidden = true)
     private String orderType;
 
     @ApiModelProperty("项目列表")

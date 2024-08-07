@@ -6,6 +6,7 @@ import org.jeecg.modules.common.entity.Result;
 import org.jeecg.modules.common.page.PageInfo;
 import org.jeecg.modules.equipment.dto.EquipmentOrderApproveDto;
 import org.jeecg.modules.equipment.dto.EquipmentOrderQueryPageDto;
+import org.jeecg.modules.equipment.dto.EquipmentOrderSaveDto;
 import org.jeecg.modules.equipment.dto.EquipmentSaveUpkeepResultDto;
 import org.jeecg.modules.equipment.service.IEquipmentOrderService;
 import org.jeecg.modules.equipment.vo.EquipmentOrderDetailVo;
@@ -67,5 +68,11 @@ public class EquipmentOrderController {
     public Result<Boolean> submitResult(@RequestBody @Validated EquipmentSaveUpkeepResultDto dto){
         equipmentOrderService.submitResult(dto);
         return Result.ok(true);
+    }
+
+    @ApiOperation(value = "创建补录保养工单")
+    @PostMapping("/addSupplement")
+    public Result<String> addSupplement(@RequestBody @Validated EquipmentOrderSaveDto dto){
+        return null;
     }
 }

@@ -48,7 +48,7 @@ public class EquipmentOrderVo implements Serializable {
     @ApiModelProperty("停线类型：1=整线停线，2=不停线Unit")
     private String stopLineType;
 
-    @ApiModelProperty("周期(W:周,M:月,2M:双月,Q:季度,H:半年,Y:年,T:临时)")
+    @ApiModelProperty("周期(W:周,M:月,D:双月,Q:季度,H:半年,Y:年,T:临时,N:宕机)")
     private String cycle;
 
     @ApiModelProperty("系统计划日期")
@@ -89,4 +89,7 @@ public class EquipmentOrderVo implements Serializable {
 
     @ApiModelProperty("厂别文案")
     private String factoryNameText;
+
+    @ApiModelProperty("是否可补录：0=否，1=是")
+    private String supplementFlag;
 }

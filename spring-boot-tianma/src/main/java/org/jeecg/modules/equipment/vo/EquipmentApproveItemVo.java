@@ -27,7 +27,7 @@ public class EquipmentApproveItemVo implements Serializable {
     @ApiModelProperty("保养标准")
     private String standard;
 
-    @ApiModelProperty("最小周期(W:周,M:月,2M:双月,Q:季度,H:半年,Y:年,T:临时)")
+    @ApiModelProperty("最小周期(W:周,M:月,D:双月,Q:季度,H:半年,Y:年,T:临时,N:宕机)")
     private String minCycle;
 
     @ApiModelProperty("最小周期文案")
