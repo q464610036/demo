@@ -48,6 +48,12 @@ public class EquipmentTemplateController {
         return null;
     }
 
+    @ApiOperation("查询subUnit Type")
+    @GetMapping ("/getSubUnitType/{unitType}")
+    public Result<List<String>> getSubUnitType(@PathVariable String unitType){
+        return null;
+    }
+
     @ApiOperation("保存模版")
     @PostMapping("/add")
     public Result<String> add(@RequestBody @Validated({EquipmentTemplateSaveDto.ICreate.class}) EquipmentTemplateSaveDto dto){

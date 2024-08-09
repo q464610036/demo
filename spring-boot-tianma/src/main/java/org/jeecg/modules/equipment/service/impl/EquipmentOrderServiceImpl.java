@@ -113,7 +113,7 @@ public class EquipmentOrderServiceImpl extends ServiceImpl<EquipmentOrderMapper,
 
     @Override
     public void submitResult(EquipmentSaveUpkeepResultDto dto){
-        //TODO chenmengfei 修改保养项目的保养结果
+        //修改保养项目的保养结果
         this.saveResult(dto);
         //TODO chenmengfei 修改生产计划的计划状态，实际结束时间
 

@@ -34,6 +34,9 @@ public class EquipmentTemplateDetailVo implements Serializable {
     @ApiModelProperty("父节点id")
     private String parentId;
 
+    @ApiModelProperty("关系组id")
+    private String groupId;
+
     @ApiModelProperty("创建人姓名")
     private String createUserName;
 

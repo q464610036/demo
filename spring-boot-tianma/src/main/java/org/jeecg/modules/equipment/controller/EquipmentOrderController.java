@@ -4,11 +4,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.jeecg.modules.common.entity.Result;
 import org.jeecg.modules.common.page.PageInfo;
-import org.jeecg.modules.equipment.dto.EquipmentOrderApproveDto;
-import org.jeecg.modules.equipment.dto.EquipmentOrderQueryPageDto;
-import org.jeecg.modules.equipment.dto.EquipmentOrderSaveDto;
-import org.jeecg.modules.equipment.dto.EquipmentSaveUpkeepResultDto;
+import org.jeecg.modules.equipment.dto.*;
 import org.jeecg.modules.equipment.service.IEquipmentOrderService;
+import org.jeecg.modules.equipment.vo.EquipmentOrderBaseDataVo;
 import org.jeecg.modules.equipment.vo.EquipmentOrderDetailVo;
 import org.jeecg.modules.equipment.vo.EquipmentOrderListVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +47,12 @@ public class EquipmentOrderController {
         return null;
     }
 
+    @ApiOperation("修改")
+    @PostMapping("/update")
+    public Result<Boolean> update(@RequestBody @Validated EquipmentOrderUpdateDto dto){
+        return Result.ok(true);
+    }
+
     @ApiOperation("审批")
     @PostMapping("/approve")
     public Result<Boolean> approve(@RequestBody @Validated EquipmentOrderApproveDto dto){
@@ -73,6 +77,12 @@ public class EquipmentOrderController {
     @ApiOperation(value = "创建补录保养工单")
     @PostMapping("/addSupplement")
     public Result<String> addSupplement(@RequestBody @Validated EquipmentOrderSaveDto dto){
+        return null;
+    }
+
+    @ApiOperation(value = "查询基础数据列表")
+    @GetMapping("/getBaseData")
+    public Result<EquipmentOrderBaseDataVo> getBaseData(){
         return null;
     }
 }
