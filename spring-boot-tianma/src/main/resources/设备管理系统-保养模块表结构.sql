@@ -686,3 +686,51 @@ ALTER TABLE CT_TMOS_EQUIPMENT_ORDER MODIFY PLAN_ID VARCHAR2(64) NULL;
 -- modify 2024-8-7
 alter table CT_TMOS_EQUIPMENT_ORDER add supplement_flag VARCHAR2(5) DEFAULT '0';
 COMMENT ON COLUMN CT_TMOS_EQUIPMENT_ORDER.supplement_flag IS '是否可补录：0=否，1=是';
+
+-- modify 2024-8-9
+ALTER TABLE CT_TMOS_EQUIPMENT_ORDER DROP COLUMN PLAN_ID;
+CREATE TABLE CT_TMOS_EQUIPMENT_PLAN_ORDER(
+                                             ID VARCHAR2(64) NOT NULL,
+                                             PLAN_ID VARCHAR2(64) NOT NULL,
+                                             ORDER_NO VARCHAR2(32) NOT NULL,
+                                             FACTORY_NAME VARCHAR2(32) NOT NULL,
+                                             AREA VARCHAR2(32) NOT NULL,
+                                             EQP_ID VARCHAR2(32) NOT NULL,
+                                             UNIT_ID VARCHAR2(32),
+                                             SUB_UNIT_ID VARCHAR2(32),
+                                             SYS_PLAN_TIME DATE,
+                                             ADJUST_TIME DATE,
+                                             REAL_START_TIME DATE,
+                                             REAL_END_TIME DATE,
+                                             APPROVE_STATUS VARCHAR2(5) DEFAULT  '01',
+                                             STATUS VARCHAR2(10) DEFAULT  '0 ' NOT NULL,
+                                             REMARK VARCHAR2(200),
+                                             CREATED_BY VARCHAR2(64),
+                                             CREATED_TIME DATE,
+                                             UPDATED_BY VARCHAR2(64),
+                                             UPDATED_TIME DATE,
+                                             PRIMARY KEY (ID)
+);
+
+COMMENT ON TABLE CT_TMOS_EQUIPMENT_PLAN_ORDER IS '保养计划与工单关系表';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PLAN_ORDER.ID IS '主键id';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PLAN_ORDER.PLAN_ID IS '计划id';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PLAN_ORDER.ORDER_NO IS '工单号';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PLAN_ORDER.FACTORY_NAME IS '厂别';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PLAN_ORDER.AREA IS '设备群组';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PLAN_ORDER.EQP_ID IS '线体';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PLAN_ORDER.UNIT_ID IS '设备';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PLAN_ORDER.SUB_UNIT_ID IS '子设备';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PLAN_ORDER.SYS_PLAN_TIME IS '系统计划日期';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PLAN_ORDER.ADJUST_TIME IS '调整日期';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PLAN_ORDER.REAL_START_TIME IS '实际开始时间';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PLAN_ORDER.REAL_END_TIME IS '实际结束时间';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PLAN_ORDER.APPROVE_STATUS IS '审核状态：01=待生产审核，02=待设备确认，03=待执行，04=执行中，05=待填报，06=保养完成，07=取消保养';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PLAN_ORDER.STATUS IS '状态 0=正常，1=删除';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PLAN_ORDER.REMARK IS '备注';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PLAN_ORDER.CREATED_BY IS '创建人';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PLAN_ORDER.CREATED_TIME IS '创建时间';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PLAN_ORDER.UPDATED_BY IS '更新人';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PLAN_ORDER.UPDATED_TIME IS '更新时间';
+
+

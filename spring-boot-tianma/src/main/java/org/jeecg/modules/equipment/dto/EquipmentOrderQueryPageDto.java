@@ -6,6 +6,7 @@ import org.jeecg.modules.common.entity.BaseDto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class EquipmentOrderQueryPageDto extends BaseDto implements Serializable {
@@ -23,6 +24,9 @@ public class EquipmentOrderQueryPageDto extends BaseDto implements Serializable 
 
     @ApiModelProperty("工单状态：01=待生产审核，02=待设备确认，03=待执行，04=执行中，05=待填报，06=保养完成，07=取消保养")
     private String approveStatus;
+
+    @ApiModelProperty("工单状态列表：01=待生产审核，02=待设备确认，03=待执行，04=执行中，05=待填报，06=保养完成，07=取消保养")
+    private List<String> approveStatusList;
 
     @ApiModelProperty("开始计划日期")
     private LocalDateTime startSysPlanTime;
