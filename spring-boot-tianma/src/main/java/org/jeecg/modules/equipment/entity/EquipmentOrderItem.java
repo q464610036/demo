@@ -56,7 +56,7 @@ public class EquipmentOrderItem extends BaseEntity implements Serializable {
     private String subUnitId;
 
     /**
-     * 保养结果：0=待保养，1=完成，2=未保养，3=残件，9=保养失败
+     * 保养结果：0=待保养，1=完成，2=未保养，3=残件，9=保养异常
      */
     private String upkeepResult;
 

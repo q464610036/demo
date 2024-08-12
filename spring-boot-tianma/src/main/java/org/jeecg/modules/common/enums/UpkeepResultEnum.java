@@ -8,13 +8,13 @@ import lombok.Getter;
 @Getter
 public enum UpkeepResultEnum {
     /**
-     * 保养结果：0=待保养，1=完成，2=未保养，3=残件，9=保养失败
+     * 保养结果：0=待保养，1=完成，2=未保养，3=残件，9=保养异常
      */
     WAIT("0", "待保养"),
     FINISH("1", "完成"),
     NOT_DONE("2", "未保养"),
     INCOMPLETE("3", "残件"),
-    FAIL("9", "保养失败"),
+    FAIL("9", "保养异常"),
     ;
 
     UpkeepResultEnum(String code, String message) {

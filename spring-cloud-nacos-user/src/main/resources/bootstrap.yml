@@ -31,3 +31,5 @@ spring:
   #          refresh: true
   #          group: DEFAULT_GROUP
 
+server-user:
+  url: http://127.0.0.1:8080
