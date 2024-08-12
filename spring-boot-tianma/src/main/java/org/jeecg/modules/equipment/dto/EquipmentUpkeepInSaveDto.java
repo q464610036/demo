@@ -3,6 +3,7 @@ package org.jeecg.modules.equipment.dto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
@@ -33,4 +34,10 @@ public class EquipmentUpkeepInSaveDto implements Serializable {
     @ApiModelProperty("保养项目id")
     private String itemId;
 
+    @ApiModelProperty("设备")
+    @NotEmpty
+    private String unitId;
+
+    @ApiModelProperty("子设备")
+    private String subUnitId;
 }
