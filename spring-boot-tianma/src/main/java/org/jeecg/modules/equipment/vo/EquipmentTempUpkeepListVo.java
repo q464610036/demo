@@ -71,4 +71,9 @@ public class EquipmentTempUpkeepListVo implements Serializable {
     @ApiModelProperty("借机工单状态文案")
     private String approveStatusText;
 
+    @ApiModelProperty("借机人/创建人")
+    private String borrowUserName;
+
+    @ApiModelProperty("创建日期")
+    private Date createTime;
 }

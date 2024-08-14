@@ -65,8 +65,8 @@ public class MyGenerator {
 //                            .addInclude("ct_tmos_equipment_temp_upkeep")
 //                            .addInclude("ct_tmos_equipment_upkeep_in")
 //                            .addInclude("ct_tmos_equipment_plan")
-
-                            .addInclude("ct_tmos_equipment_borrow")
+//                            .addInclude("ct_tmos_equipment_borrow")
+                            .addInclude("CT_TMOS_EQUIPMENT_FILE")
                             // 设置过滤表前缀
                             .addTablePrefix("CT_TMOS_");
                 })

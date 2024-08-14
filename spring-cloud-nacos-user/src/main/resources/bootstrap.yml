@@ -30,6 +30,17 @@ spring:
   #        - data-id: ${spring.application.name}-dynamiclog-template-project.yml
   #          refresh: true
   #          group: DEFAULT_GROUP
+#可配可不配
+feign:
+  okhttp:
+    enabled: false
+  httpclient:
+    enabled: true
+    maxConnections: 20480
+    maxConnectionsPerRoute: 512
+    timeToLive: 60
+    connectionTimeout: 10000
 
+#就是FeignClient中的url，用于调试
 server-user:
   url: http://127.0.0.1:8080

@@ -5,6 +5,7 @@ import lombok.Data;
 import org.jeecg.modules.common.entity.BaseDto;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -33,4 +34,10 @@ public class EquipmentIncompleteQueryPageDto extends BaseDto implements Serializ
 
     @ApiModelProperty("子设备")
     private String subUnitId;
+
+    @ApiModelProperty("设备列表")
+    private List<String> unitIdList;
+
+    @ApiModelProperty("子设备列表")
+    private List<String> subUnitIdList;
 }

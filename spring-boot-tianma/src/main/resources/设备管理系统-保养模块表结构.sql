@@ -632,7 +632,7 @@ CREATE TABLE CT_TMOS_EQUIPMENT_SVC_CONFIG(
                                              QUARTER NUMBER(5),
                                              HALF_YEAR NUMBER(5),
                                              YEAR NUMBER(5),
-                                             STATUS VARCHAR2(10) DEFAULT  '0 ' NOT NULL,
+                                             STATUS VARCHAR2(10) DEFAULT  '0' NOT NULL,
                                              REMARK VARCHAR2(200),
                                              CREATE_BY VARCHAR2(64),
                                              CREATE_TIME DATE,
@@ -700,7 +700,7 @@ CREATE TABLE CT_TMOS_EQUIPMENT_PLAN_ORDER(
                                              UNIT_ID VARCHAR2(32),
                                              SUB_UNIT_ID VARCHAR2(32),
                                              SYS_PLAN_TIME DATE,
-                                             STATUS VARCHAR2(10) DEFAULT  '0 ' NOT NULL,
+                                             STATUS VARCHAR2(10) DEFAULT  '0' NOT NULL,
                                              REMARK VARCHAR2(200),
                                              CREATE_BY VARCHAR2(64),
                                              CREATE_TIME DATE,
@@ -735,3 +735,50 @@ ALTER TABLE CT_TMOS_EQUIPMENT_PLAN_ITEM ADD MERGE_TO_PLAN_ID VARCHAR2(64) NULL;
 COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PLAN_ITEM.MERGE_TO_PLAN_ID IS '合并到的计划id主键';
 
 COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PLAN.PLAN_STATUS IS '保养计划状态：0=新建，1=生成工单，2=保养完成，3=取消保养， 4=被合并';
+
+-- modify 2024-8-13
+CREATE TABLE CT_TMOS_EQUIPMENT_FILE(
+                                       ID VARCHAR2(64) NOT NULL,
+                                       source_id VARCHAR2(64) NOT NULL,
+                                       source_type VARCHAR2(32) NOT NULL,
+                                       file_type VARCHAR2(30) NOT NULL,
+                                       file_name VARCHAR2(300) NOT NULL,
+                                       url VARCHAR2(300) NOT NULL,
+                                       STATUS VARCHAR2(10) DEFAULT  '0' NOT NULL,
+                                       REMARK VARCHAR2(200),
+                                       CREATE_BY VARCHAR2(64),
+                                       CREATE_TIME DATE,
+                                       UPDATE_BY VARCHAR2(64),
+                                       UPDATE_TIME DATE,
+                                       PRIMARY KEY (ID)
+);
+
+COMMENT ON TABLE CT_TMOS_EQUIPMENT_FILE IS '文件表';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_FILE.ID IS '主键id';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_FILE.source_id IS '数据来源id';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_FILE.source_type IS '来源类型：ORDER_ITEM=保养工单项目';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_FILE.file_type IS '文件类型';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_FILE.file_name IS '文件名';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_FILE.url IS '文件路径';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_FILE.STATUS IS '状态 0=正常，1=删除';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_FILE.REMARK IS '备注';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_FILE.CREATE_BY IS '创建人';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_FILE.CREATE_TIME IS '创建时间';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_FILE.UPDATE_BY IS '更新人';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_FILE.UPDATE_TIME IS '更新时间';
+alter table CT_TMOS_EQUIPMENT_PLAN_ORDER MODIFY status VARCHAR2(10) DEFAULT '0';
+alter table CT_TMOS_EQUIPMENT_SVC_CONFIG MODIFY status VARCHAR2(10) DEFAULT '0';
+alter table CT_TMOS_EQUIPMENT_FILE MODIFY status VARCHAR2(10) DEFAULT '0';
+alter table ct_tmos_equipment_item add note VARCHAR2(300);
+comment on column ct_tmos_equipment_item.note IS '注意事项';
+alter table ct_tmos_equipment_plan_item add note VARCHAR2(300);
+comment on column ct_tmos_equipment_plan_item.note IS '注意事项';
+alter table ct_tmos_equipment_order_item add note VARCHAR2(300);
+comment on column ct_tmos_equipment_order_item.note IS '注意事项';
+alter table ct_tmos_equipment_incomplete add note VARCHAR2(300);
+comment on column ct_tmos_equipment_incomplete.note IS '注意事项';
+alter table ct_tmos_equipment_upkeep_in add note VARCHAR2(300);
+comment on column ct_tmos_equipment_upkeep_in.note IS '注意事项';
+
+-- modify 2024-8-14
+ALTER TABLE CT_TMOS_EQUIPMENT_INCOMPLETE DROP COLUMN STOP_LINE_TYPE;

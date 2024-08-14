@@ -6,10 +6,7 @@ import io.swagger.annotations.ApiParam;
 import org.jeecg.modules.common.entity.Result;
 import org.jeecg.modules.common.page.PageInfo;
 import org.jeecg.modules.equipment.dto.*;
-import org.jeecg.modules.equipment.vo.EquipmentItemVo;
-import org.jeecg.modules.equipment.vo.EquipmentPreviewUnitVo;
-import org.jeecg.modules.equipment.vo.EquipmentTemplateDetailVo;
-import org.jeecg.modules.equipment.vo.EquipmentTemplateListVo;
+import org.jeecg.modules.equipment.vo.*;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -106,6 +103,21 @@ public class EquipmentTemplateController {
     @ApiOperation(value = "查询保养项目(根据模版查询)", notes = "添加计划外保养项目")
     @PostMapping("/getItemListByTemplateId")
     public Result<List<EquipmentItemVo>> getItemListByTemplateId(@RequestBody @Validated EquipmentItemQueryDto dto){
+        return null;
+    }
+
+    @ApiOperation(value = "附件上传")
+    @PostMapping("/uploadFile")
+    public EquipmentFileVo uploadFile(@RequestParam("file") MultipartFile file,
+                                      @ApiParam(value = "项目id", required = true) @RequestParam(value = "itemId") String itemId){
+        return null;
+    }
+
+
+
+    @ApiOperation("模版名称重复性校验")
+    @PostMapping("/validateTemplateName")
+    public Result<Boolean> validateTemplateName(@RequestBody @Validated EquipmentTemplateValidateTemplateNameDto dto){
         return null;
     }
 }
