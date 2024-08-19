@@ -23,7 +23,7 @@ import java.util.List;
  * @since 2024-07-24
  */
 @RestController
-@Api(tags = "设备保养-模版管理")
+@Api(tags = "设备保养-项目模版管理")
 @RequestMapping("/equipment/equipmentTemplate")
 public class EquipmentTemplateController {
 
