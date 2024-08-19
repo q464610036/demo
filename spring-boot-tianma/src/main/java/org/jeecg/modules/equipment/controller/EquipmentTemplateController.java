@@ -120,4 +120,10 @@ public class EquipmentTemplateController {
     public Result<Boolean> validateTemplateName(@RequestBody @Validated EquipmentTemplateValidateTemplateNameDto dto){
         return null;
     }
+
+    @ApiOperation("解绑关系组")
+    @PostMapping("/unBindingGroup")
+    public Result<Boolean> unBindingGroup(@RequestBody @Validated EquipmentTemplateBindingGroupDto dto){
+        return null;
+    }
 }
