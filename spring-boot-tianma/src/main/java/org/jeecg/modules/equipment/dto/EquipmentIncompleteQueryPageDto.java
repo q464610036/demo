@@ -35,6 +35,9 @@ public class EquipmentIncompleteQueryPageDto extends BaseDto implements Serializ
     @ApiModelProperty("子设备")
     private String subUnitId;
 
+    @ApiModelProperty("锁定状态：0=待记录，1=审批中，2=执行中，9=未锁定")
+    private String lockStatus;
+
     @ApiModelProperty("设备列表")
     private List<String> unitIdList;
 
