@@ -18,17 +18,20 @@ public class EquipmentOrderItemSaveDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("主键id")
-    private String id;
+    @ApiModelProperty("残件id")
+    private String incompleteId;
 
-    @ApiModelProperty("工单号")
-    private String orderNo;
+    @ApiModelProperty("保养项目id")
+    private String itemId;
 
     @ApiModelProperty("项目内容")
     private String itemContent;
 
     @ApiModelProperty("保养标准")
     private String standard;
+
+    @ApiModelProperty("注意事项")
+    private String note;
 
     @ApiModelProperty("最小周期(W:周,M:月,D:双月,Q:季度,H:半年,Y:年,T:临时,N:宕机)")
     private String minCycle;
@@ -41,9 +44,6 @@ public class EquipmentOrderItemSaveDto implements Serializable {
 
     @ApiModelProperty("保养结果：0=待保养，1=完成，2=未保养，3=残件，9=保养异常")
     private String upkeepResult;
-
-    @ApiModelProperty("保养项目id")
-    private String itemId;
 
     @ApiModelProperty("保养人code")
     private String upkeepUserCode;
