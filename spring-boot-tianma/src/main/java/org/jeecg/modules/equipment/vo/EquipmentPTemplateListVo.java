@@ -33,11 +33,11 @@ public class EquipmentPTemplateListVo implements Serializable {
     @ApiModelProperty("父节点id")
     private String parentId;
 
-    @ApiModelProperty("子设备关系组文案")
-    private String subUnitGroupText;
+    @ApiModelProperty("关系组名称")
+    private String groupName;
 
-    @ApiModelProperty("点位文案")
-    private String pointNameText;
+    @ApiModelProperty("点位")
+    private String pointName;
 
     @ApiModelProperty("创建人名称")
     private String createUserName;
