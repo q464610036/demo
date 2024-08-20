@@ -38,4 +38,11 @@ public class EquipmentPTemplateSVo implements Serializable {
 
     @ApiModelProperty("预警设定/天")
     private Integer warning;
+
+    @ApiModelProperty("物料类别")
+    private String stuffType;
+
+    @ApiModelProperty("物料描述")
+    private String stuffDesc;
+
 }
