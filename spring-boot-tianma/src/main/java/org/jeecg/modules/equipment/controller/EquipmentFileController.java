@@ -2,10 +2,10 @@ package org.jeecg.modules.equipment.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.jeecg.modules.common.entity.Result;
+import org.jeecg.modules.common.vo.FileVo;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,5 +31,11 @@ public class EquipmentFileController {
     @GetMapping("/delete/{id}")
     public void delete(@PathVariable String id){
 
+    }
+
+    @ApiOperation(value = "附件上传")
+    @PostMapping("/uploadFile")
+    public Result<FileVo> uploadFile(@RequestParam("file") MultipartFile file){
+        return null;
     }
 }
