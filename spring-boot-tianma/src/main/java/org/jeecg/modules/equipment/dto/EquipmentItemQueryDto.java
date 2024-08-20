@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -37,4 +38,6 @@ public class EquipmentItemQueryDto implements Serializable {
     @ApiModelProperty("子设备")
     private String subUnitId;
 
+    @ApiModelProperty("排除的保养点位id")
+    private List<String> ignorePointIds;
 }
