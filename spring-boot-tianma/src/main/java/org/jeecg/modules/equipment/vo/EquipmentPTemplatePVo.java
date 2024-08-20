@@ -36,4 +36,7 @@ public class EquipmentPTemplatePVo implements Serializable {
     @ApiModelProperty("作业标准")
     private String standard;
 
+    @ApiModelProperty("最小周期文案")
+    private String cycleText;
+
 }
