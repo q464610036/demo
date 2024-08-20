@@ -52,6 +52,9 @@ public class EquipmentIncompleteVo implements Serializable {
     @ApiModelProperty("保养标准")
     private String standard;
 
+    @ApiModelProperty("注意事项")
+    private String note;
+
     @ApiModelProperty("保养结果：0=待保养，1=完成，2=未保养，3=残件，9=保养异常")
     private String upkeepResult;
 

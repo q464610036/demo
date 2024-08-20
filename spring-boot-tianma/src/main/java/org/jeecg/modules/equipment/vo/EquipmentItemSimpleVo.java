@@ -26,4 +26,7 @@ public class EquipmentItemSimpleVo implements Serializable {
 
     @ApiModelProperty("保养标准")
     private String standard;
+
+    @ApiModelProperty("注意事项")
+    private String note;
 }
