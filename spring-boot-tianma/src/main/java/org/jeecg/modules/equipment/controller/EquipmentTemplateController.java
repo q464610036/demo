@@ -106,15 +106,6 @@ public class EquipmentTemplateController {
         return null;
     }
 
-    @ApiOperation(value = "附件上传")
-    @PostMapping("/uploadFile")
-    public EquipmentFileVo uploadFile(@RequestParam("file") MultipartFile file,
-                                      @ApiParam(value = "项目id", required = true) @RequestParam(value = "itemId") String itemId){
-        return null;
-    }
-
-
-
     @ApiOperation("模版名称重复性校验")
     @PostMapping("/validateTemplateName")
     public Result<Boolean> validateTemplateName(@RequestBody @Validated EquipmentTemplateValidateTemplateNameDto dto){
