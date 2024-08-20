@@ -42,6 +42,9 @@ public class EquipmentPTemplateListVo implements Serializable {
     @ApiModelProperty("创建人名称")
     private String createUserName;
 
+    @ApiModelProperty("创建时间")
+    private String createTime;
+
     @ApiModelProperty("设备")
     private String unitId;
 
