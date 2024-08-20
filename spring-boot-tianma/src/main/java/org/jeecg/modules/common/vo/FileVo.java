@@ -25,5 +25,5 @@ public class FileVo implements Serializable {
     private String fileName;
 
     @ApiModelProperty("文件唯一key")
-    private String key;
+    private String url;
 }
