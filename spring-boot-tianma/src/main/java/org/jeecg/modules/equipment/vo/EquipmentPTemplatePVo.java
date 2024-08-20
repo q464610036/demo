@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -39,4 +40,6 @@ public class EquipmentPTemplatePVo implements Serializable {
     @ApiModelProperty("最小周期文案")
     private String cycleText;
 
+    @ApiModelProperty("物料列表")
+    private List<EquipmentPTemplateSVo> stuffList;
 }

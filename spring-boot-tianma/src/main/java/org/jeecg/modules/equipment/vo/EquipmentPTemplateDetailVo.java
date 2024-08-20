@@ -28,6 +28,9 @@ public class EquipmentPTemplateDetailVo implements Serializable {
     @ApiModelProperty("模版类型：1=by unit,2=by sub unit")
     private String templateType;
 
+    @ApiModelProperty("关系组id列表")
+    private List<String> groupIdList;
+
     @ApiModelProperty("设备类型")
     private String unitType;
 
