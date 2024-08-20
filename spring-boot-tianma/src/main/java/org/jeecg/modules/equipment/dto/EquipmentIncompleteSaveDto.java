@@ -44,8 +44,10 @@ public class EquipmentIncompleteSaveDto implements Serializable {
     private String itemContent;
 
     @ApiModelProperty("保养标准")
-    @NotEmpty
     private String standard;
+
+    @ApiModelProperty("注意事项")
+    private String note;
 
     @ApiModelProperty("保养结果：0=待保养，1=完成，2=未保养，3=残件，9=保养异常")
     @NotEmpty
@@ -63,7 +65,6 @@ public class EquipmentIncompleteSaveDto implements Serializable {
 
     @ApiModelProperty("备注")
     private String remark;
-
 
     public interface ICreate{
 

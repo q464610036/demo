@@ -37,6 +37,9 @@ public class EquipmentPTemplatePDto implements Serializable {
     @ApiModelProperty("作业标准")
     private String standard;
 
+    @ApiModelProperty("注意事项")
+    private String note;
+
     @ApiModelProperty(value = "物料列表")
     private List<EquipmentPTemplateSDto> stuffList;
 }
