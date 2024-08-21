@@ -21,9 +21,6 @@ public class EquipmentPTemplateSVo implements Serializable {
     @ApiModelProperty("主键id")
     private String id;
 
-    @ApiModelProperty("模板id")
-    private String templateId;
-
     @ApiModelProperty("点位id")
     private String pointId;
 
