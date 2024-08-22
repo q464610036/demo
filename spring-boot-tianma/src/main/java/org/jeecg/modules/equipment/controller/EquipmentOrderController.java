@@ -80,6 +80,12 @@ public class EquipmentOrderController {
         return null;
     }
 
+    @ApiOperation(value = "保养结果补录")
+    @PostMapping("/supplementResult")
+    public Result<Boolean> supplementResult(@RequestBody @Validated EquipmentSaveUpkeepResultDto dto){
+        return null;
+    }
+
     @ApiOperation(value = "查询基础数据列表")
     @GetMapping("/getBaseData")
     public Result<EquipmentOrderBaseDataVo> getBaseData(){
