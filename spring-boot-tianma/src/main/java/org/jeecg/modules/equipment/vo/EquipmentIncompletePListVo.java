@@ -75,4 +75,10 @@ public class EquipmentIncompletePListVo implements Serializable {
 
     @ApiModelProperty("厂别文案")
     private String factoryNameText;
+
+    @ApiModelProperty("停线类型：1=整线停线，2=不停线Unit")
+    private String stopLineType;
+
+    @ApiModelProperty("停线类型文案")
+    private String stopLineTypeText;
 }
