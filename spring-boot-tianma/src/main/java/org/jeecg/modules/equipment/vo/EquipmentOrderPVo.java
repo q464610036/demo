@@ -70,4 +70,22 @@ public class EquipmentOrderPVo implements Serializable {
     @ApiModelProperty("保养结果文案")
     private String upkeepResultText;
 
+    @ApiModelProperty("物料类别")
+    private String stuffType;
+
+    @ApiModelProperty("物料描述")
+    private String stuffDesc;
+
+    @ApiModelProperty("在机数量")
+    private Integer onlineNum;
+
+    @ApiModelProperty("在机料号")
+    private String onlineStuffNo;
+
+    @ApiModelProperty("在机单品id")
+    private String onlineSingleGoodsId;
+
+    @ApiModelProperty("在机时长")
+    private Integer onlineHours;
+
 }
