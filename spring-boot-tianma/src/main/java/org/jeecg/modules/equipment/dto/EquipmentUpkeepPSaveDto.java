@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -41,5 +42,6 @@ public class EquipmentUpkeepPSaveDto implements Serializable {
     private String pointName;
 
     @ApiModelProperty("数量")
+    @NotNull(message = "数量不能为空")
     private Integer num;
 }

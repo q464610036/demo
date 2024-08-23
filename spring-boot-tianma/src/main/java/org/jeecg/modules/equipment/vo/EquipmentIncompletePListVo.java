@@ -81,4 +81,7 @@ public class EquipmentIncompletePListVo implements Serializable {
 
     @ApiModelProperty("停线类型文案")
     private String stopLineTypeText;
+
+    @ApiModelProperty("数量")
+    private Integer num;
 }

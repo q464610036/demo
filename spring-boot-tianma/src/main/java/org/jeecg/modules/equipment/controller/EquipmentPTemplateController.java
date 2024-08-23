@@ -50,7 +50,7 @@ public class EquipmentPTemplateController {
     }
 
     @ApiOperation(value = "查询点位(根据模板查询)")
-    @PostMapping("/getPointListByUnitById")
+    @GetMapping("/getPointListByUnitById/{id}")
     public Result<List<EquipmentPTemplatePVo>> getPointListByUnitById(@PathVariable String id){
         return null;
     }
