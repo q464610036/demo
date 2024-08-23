@@ -43,5 +43,8 @@ public class EquipmentTempUpkeepSaveDto implements Serializable {
     private String stopLineType;
 
     @ApiModelProperty("临时保养项目列表")
-    List<EquipmentUpkeepInSaveDto> itemList;
+    private List<EquipmentUpkeepInSaveDto> itemList;
+
+    @ApiModelProperty("临时保养点位列表")
+    private List<EquipmentUpkeepPSaveDto> pointList;
 }
