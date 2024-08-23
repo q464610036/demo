@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -31,5 +32,8 @@ public class EquipmentOrderApproveDto implements Serializable {
 
     @ApiModelProperty("意见")
     private String advice;
+
+    @ApiModelProperty(value = "调整日期")
+    private Date adjustTime;
 
 }
