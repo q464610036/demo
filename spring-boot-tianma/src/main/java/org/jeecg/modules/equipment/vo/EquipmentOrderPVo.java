@@ -64,4 +64,10 @@ public class EquipmentOrderPVo implements Serializable {
     @ApiModelProperty("预计更换时间")
     private Date expectReplaceTime;
 
+    @ApiModelProperty("最小周期文案")
+    private String minCycleText;
+
+    @ApiModelProperty("保养结果文案")
+    private String upkeepResultText;
+
 }
