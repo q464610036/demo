@@ -81,7 +81,9 @@ public class EquipmentBorrowDetailVo implements Serializable {
     @ApiModelProperty("子设备")
     private String subUnitId;
 
-    @ApiModelProperty("项目列表")
-    private List<EquipmentItemSimpleVo> itemList;
+    @ApiModelProperty("临时保养项目列表")
+    private List<EquipmentUpkeepInVo> itemList;
 
+    @ApiModelProperty("临时保养点位列表")
+    private List<EquipmentUpkeepPVo> pointList;
 }
