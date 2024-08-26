@@ -7,6 +7,7 @@ import org.jeecg.modules.common.page.PageInfo;
 import org.jeecg.modules.equipment.dto.*;
 import org.jeecg.modules.equipment.vo.EquipmentPTemplateDetailVo;
 import org.jeecg.modules.equipment.vo.EquipmentPTemplateListVo;
+import org.jeecg.modules.equipment.vo.EquipmentPTemplatePByUnitVo;
 import org.jeecg.modules.equipment.vo.EquipmentPTemplatePVo;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +46,7 @@ public class EquipmentPTemplateController {
 
     @ApiOperation(value = "查询点位(根据设备查询)")
     @PostMapping("/getPointListByUnit")
-    public Result<List<EquipmentPTemplatePVo>> getPointListByUnit(@RequestBody @Validated EquipmentPointQueryDto dto){
+    public Result<List<EquipmentPTemplatePByUnitVo>> getPointListByUnit(@RequestBody @Validated EquipmentPointQueryDto dto){
         return null;
     }
 

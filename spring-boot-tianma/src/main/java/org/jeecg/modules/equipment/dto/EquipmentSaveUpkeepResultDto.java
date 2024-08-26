@@ -39,9 +39,12 @@ public class EquipmentSaveUpkeepResultDto implements Serializable {
     @NotEmpty
     private String eqpId;
 
-    @ApiModelProperty("保养结果列表")
+    @ApiModelProperty("保养结果项目列表")
     @Valid
     private List<EquipmentItemUpkeepResultDto> itemList;
 
+    @ApiModelProperty("保养结果点位列表")
+    @Valid
+    private List<EquipmentPointUpkeepResultDto> pointList;
 
 }
