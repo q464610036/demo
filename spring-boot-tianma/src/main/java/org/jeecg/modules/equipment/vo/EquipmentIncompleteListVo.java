@@ -87,4 +87,10 @@ public class EquipmentIncompleteListVo implements Serializable {
 
     @ApiModelProperty("厂别文案")
     private String factoryNameText;
+
+    @ApiModelProperty("借机单id")
+    private String borrowId;
+
+    @ApiModelProperty("保养工单id")
+    private String orderId;
 }

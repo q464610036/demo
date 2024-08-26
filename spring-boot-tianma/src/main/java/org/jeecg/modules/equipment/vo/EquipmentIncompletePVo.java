@@ -60,4 +60,7 @@ public class EquipmentIncompletePVo implements Serializable {
 
     @ApiModelProperty("锁定状态：0=待记录，1=审批中，2=执行中")
     private String lockStatus;
+
+    @ApiModelProperty("借机单号")
+    private String borrowNo;
 }

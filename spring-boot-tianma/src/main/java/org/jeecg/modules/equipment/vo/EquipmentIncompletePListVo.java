@@ -84,4 +84,13 @@ public class EquipmentIncompletePListVo implements Serializable {
 
     @ApiModelProperty("数量")
     private Integer num;
+
+    @ApiModelProperty("借机单号")
+    private String borrowNo;
+
+    @ApiModelProperty("借机单id")
+    private String borrowId;
+
+    @ApiModelProperty("保养工单id")
+    private String orderId;
 }

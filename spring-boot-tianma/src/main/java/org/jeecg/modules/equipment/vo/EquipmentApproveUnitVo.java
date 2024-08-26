@@ -17,4 +17,7 @@ public class EquipmentApproveUnitVo implements Serializable {
 
     @ApiModelProperty("保养项目")
     private List<EquipmentApproveItemVo> itemList;
+
+    @ApiModelProperty("保养点位")
+    private List<EquipmentApprovePointVo> pointList;
 }
