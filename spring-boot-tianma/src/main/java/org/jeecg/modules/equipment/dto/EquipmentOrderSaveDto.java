@@ -68,4 +68,7 @@ public class EquipmentOrderSaveDto implements Serializable {
 
     @ApiModelProperty("项目列表")
     List<EquipmentOrderItemSaveDto> itemList;
+
+    @ApiModelProperty("点位列表")
+    List<EquipmentOrderPointSaveDto> pointList;
 }
