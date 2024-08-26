@@ -26,4 +26,7 @@ public class FileVo implements Serializable {
 
     @ApiModelProperty("文件唯一key")
     private String url;
+
+    @ApiModelProperty("id")
+    private String id;
 }
