@@ -77,15 +77,18 @@ public class EquipmentOrderPVo implements Serializable {
     private String stuffDesc;
 
     @ApiModelProperty("在机数量")
-    private Integer onlineNum;
+    private Integer livingNum;
 
     @ApiModelProperty("在机料号")
-    private String onlineStuffNo;
+    private String livingStuffNo;
 
     @ApiModelProperty("在机单品id")
-    private String onlineSingleGoodsId;
+    private String livingSingleGoodsId;
 
     @ApiModelProperty("在机时长")
-    private Integer onlineHours;
+    private String livingTime;
+
+    @ApiModelProperty("在机预计更换时间")
+    private Date livingExpectReplaceTime;
 
 }

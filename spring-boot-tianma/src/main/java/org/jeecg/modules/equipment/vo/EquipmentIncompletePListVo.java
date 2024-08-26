@@ -93,4 +93,28 @@ public class EquipmentIncompletePListVo implements Serializable {
 
     @ApiModelProperty("保养工单id")
     private String orderId;
+
+    @ApiModelProperty("物料类别")
+    private String stuffType;
+
+    @ApiModelProperty("物料描述")
+    private String stuffDesc;
+
+    @ApiModelProperty("寿命/天")
+    private Integer life;
+
+    @ApiModelProperty("在机数量")
+    private Integer livingNum;
+
+    @ApiModelProperty("在机料号")
+    private String livingStuffNo;
+
+    @ApiModelProperty("在机单品id")
+    private String livingSingleGoodsId;
+
+    @ApiModelProperty("在机时长")
+    private String livingTime;
+
+    @ApiModelProperty("在机预计更换时间")
+    private Date livingExpectReplaceTime;
 }
