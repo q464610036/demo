@@ -43,4 +43,7 @@ public class EquipmentIncompleteQueryPageDto extends BaseDto implements Serializ
 
     @ApiModelProperty("子设备列表")
     private List<String> subUnitIdList;
+
+    @ApiModelProperty(value = "是否查询在机信息", notes = "默认不查询，为true才查询")
+    private Boolean queryLiving;
 }
