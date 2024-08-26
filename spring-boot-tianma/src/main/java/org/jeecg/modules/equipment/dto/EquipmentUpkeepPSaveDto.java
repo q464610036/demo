@@ -44,4 +44,7 @@ public class EquipmentUpkeepPSaveDto implements Serializable {
     @ApiModelProperty("数量")
     @NotNull(message = "数量不能为空")
     private Integer num;
+
+    @ApiModelProperty("作业标准")
+    private String standard;
 }
