@@ -5,6 +5,7 @@ import lombok.Data;
 import org.jeecg.modules.common.entity.BaseDto;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -30,4 +31,7 @@ public class EquipmentPTemplateQueryPageDto extends BaseDto implements Serializa
 
     @ApiModelProperty("设备")
     private String unitId;
+
+    @ApiModelProperty("忽略料号")
+    private List<String> ignoreStuffNoList;
 }
