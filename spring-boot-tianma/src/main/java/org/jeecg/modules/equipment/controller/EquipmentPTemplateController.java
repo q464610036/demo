@@ -34,7 +34,7 @@ public class EquipmentPTemplateController {
 
     @ApiOperation("查询模版列表")
     @PostMapping("/getList")
-    public Result<List<EquipmentPTemplateListVo>> getList(@RequestBody @Validated EquipmentPTemplateQueryPageDto dto){
+    public Result<List<EquipmentPTemplateListVo>> getList(@RequestBody @Validated EquipmentPTemplateQueryListDto dto){
         return null;
     }
 

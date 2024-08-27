@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -33,11 +34,14 @@ public class EquipmentPTemplateListVo implements Serializable {
     @ApiModelProperty("父节点id")
     private String parentId;
 
-    @ApiModelProperty("关系组名称")
+    @ApiModelProperty("关系组名称（多个用逗号隔开）")
     private String groupName;
 
-    @ApiModelProperty("点位")
+    @ApiModelProperty("点位（多个用逗号隔开）")
     private String pointName;
+
+    @ApiModelProperty("点位列表")
+    private List<EquipmentPTemplatePVo> pointList;
 
     @ApiModelProperty("创建人名称")
     private String createUserName;
@@ -45,7 +49,5 @@ public class EquipmentPTemplateListVo implements Serializable {
     @ApiModelProperty("创建时间")
     private String createTime;
 
-    @ApiModelProperty("设备")
-    private String unitId;
 
 }
