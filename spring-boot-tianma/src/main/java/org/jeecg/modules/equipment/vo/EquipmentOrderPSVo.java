@@ -28,12 +28,6 @@ public class EquipmentOrderPSVo implements Serializable {
     @ApiModelProperty("物料数量")
     private  Integer num;
 
-    @ApiModelProperty("物料类别")
-    private String stuffType;
-
-    @ApiModelProperty("物料描述")
-    private String stuffDesc;
-
     @ApiModelProperty("料号")
     private  String stuffNo;
 
@@ -42,4 +36,19 @@ public class EquipmentOrderPSVo implements Serializable {
 
     @ApiModelProperty("单品id列表")
     private List<String> singleGoodsIdList;
+
+    /**
+     * 下面是带出来的
+     */
+    @ApiModelProperty("寿命/天")
+    private Integer life;
+
+    @ApiModelProperty("物料类别")
+    private String stuffType;
+
+    @ApiModelProperty("物料描述")
+    private String stuffDesc;
+
+    @ApiModelProperty("预警设定/天")
+    private Integer warning;
 }

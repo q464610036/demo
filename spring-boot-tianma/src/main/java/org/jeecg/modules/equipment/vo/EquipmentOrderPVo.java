@@ -62,9 +62,6 @@ public class EquipmentOrderPVo implements Serializable {
     @ApiModelProperty("保养结果文案")
     private String upkeepResultText;
 
-    @ApiModelProperty("寿命/天")
-    private Integer life;
-
     @ApiModelProperty("物料列表")
     private List<EquipmentOrderPSVo> stuffList;
 
