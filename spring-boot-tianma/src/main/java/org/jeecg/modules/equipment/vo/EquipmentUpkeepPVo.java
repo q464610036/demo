@@ -47,4 +47,10 @@ public class EquipmentUpkeepPVo implements Serializable {
 
     @ApiModelProperty("数量")
     private Integer num;
+
+    @ApiModelProperty("在机时长")
+    private String livingTime;
+
+    @ApiModelProperty("寿命/天")
+    private Integer life;
 }

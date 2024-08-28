@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -49,17 +50,8 @@ public class EquipmentOrderPVo implements Serializable {
     @ApiModelProperty("最小周期")
     private String minCycle;
 
-    @ApiModelProperty("寿命/天")
-    private Integer life;
-
     @ApiModelProperty("数量")
     private Integer num;
-
-    @ApiModelProperty("料号")
-    private String stuffNo;
-
-    @ApiModelProperty("单品id")
-    private String singleGoodsId;
 
     @ApiModelProperty("预计更换时间")
     private Date expectReplaceTime;
@@ -70,25 +62,24 @@ public class EquipmentOrderPVo implements Serializable {
     @ApiModelProperty("保养结果文案")
     private String upkeepResultText;
 
-    @ApiModelProperty("物料类别")
-    private String stuffType;
+    @ApiModelProperty("寿命/天")
+    private Integer life;
 
-    @ApiModelProperty("物料描述")
-    private String stuffDesc;
+    @ApiModelProperty("物料列表")
+    private List<EquipmentOrderPSVo> stuffList;
 
     @ApiModelProperty("在机数量")
     private Integer livingNum;
 
-    @ApiModelProperty("在机料号")
-    private String livingStuffNo;
-
-    @ApiModelProperty("在机单品id")
-    private String livingSingleGoodsId;
-
     @ApiModelProperty("在机时长")
     private String livingTime;
 
-    @ApiModelProperty("在机预计更换时间")
-    private Date livingExpectReplaceTime;
+    @ApiModelProperty("在机料号（多个，逗号隔开）")
+    private String livingStuffNo;
 
+    @ApiModelProperty("在机单品id（多个，逗号隔开）")
+    private String livingSingleGoodsId;
+
+    @ApiModelProperty("单品列表")
+    private List<SingleGoodsLivingVo> singleGoodsList;
 }

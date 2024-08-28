@@ -56,6 +56,12 @@ public class EquipmentPTemplateController {
         return null;
     }
 
+    @ApiOperation(value = "查询点位(根据料号查询)")
+    @PostMapping("/getPointListByStuffNo")
+    public Result<List<EquipmentPTemplatePVo>> getPointListByStuffNo(@RequestBody @Validated EquipmentPTemplatePQueryDto dto){
+        return null;
+    }
+
     @ApiOperation("查询模版详情")
     @GetMapping("/detail/{id}")
     public Result<EquipmentPTemplateDetailVo> detail(@PathVariable String id){

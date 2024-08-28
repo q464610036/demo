@@ -401,3 +401,32 @@ COMMENT ON COLUMN CT_TMOS_EQUIPMENT_INCOMPLETE_P.BORROW_NO IS '借机单号';
 -- modify 2024-8-26
 ALTER TABLE CT_TMOS_EQUIPMENT_SPARES_MONIT ADD CHANGE_PLAN_SOURCE VARCHAR2(1) DEFAULT '1' NULL;
 COMMENT ON COLUMN CT_TMOS_EQUIPMENT_SPARES_MONIT.CHANGE_PLAN_SOURCE IS '加入更换计划来源 1-页面操作  2-系统自动加入';
+
+-- modify 2024-8-27（未执行）
+CREATE TABLE CT_TMOS_EQUIPMENT_ORDER_P_S(
+                                            ID VARCHAR2(64) NOT NULL,
+                                            order_point_id VARCHAR2(64) NOT NULL,
+                                            num NUMBER(10),
+                                            stuff_no VARCHAR2(64),
+                                            single_goods_ids CLOB,
+                                            STATUS VARCHAR2(10) DEFAULT  '0' NOT NULL,
+                                            REMARK VARCHAR2(200),
+                                            CREATE_BY VARCHAR2(64),
+                                            CREATE_TIME DATE,
+                                            UPDATE_BY VARCHAR2(64),
+                                            UPDATE_TIME DATE,
+                                            PRIMARY KEY (ID)
+);
+
+COMMENT ON TABLE CT_TMOS_EQUIPMENT_ORDER_P_S IS '保养工单点位料号列表';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_ORDER_P_S.ID IS '主键id';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_ORDER_P_S.order_point_id IS '订单点位id';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_ORDER_P_S.num IS '数量';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_ORDER_P_S.stuff_no IS '料号';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_ORDER_P_S.single_goods_ids IS '单品id（多个，逗号隔开）';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_ORDER_P_S.STATUS IS '状态 0=正常，1=删除';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_ORDER_P_S.REMARK IS '备注';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_ORDER_P_S.CREATE_BY IS '创建人';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_ORDER_P_S.CREATE_TIME IS '创建时间';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_ORDER_P_S.UPDATE_BY IS '更新人';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_ORDER_P_S.UPDATE_TIME IS '更新时间';

@@ -69,12 +69,13 @@ public class MyGenerator {
 //                            .addInclude("CT_TMOS_EQUIPMENT_FILE")
 
 
-                            .addInclude("CT_TMOS_EQUIPMENT_P_TEMPLATE")
-                            .addInclude("CT_TMOS_EQUIPMENT_P_TEMPLATE_P")
-                            .addInclude("CT_TMOS_EQUIPMENT_P_TEMPLATE_S")
-                            .addInclude("CT_TMOS_EQUIPMENT_ORDER_P")
-                            .addInclude("CT_TMOS_EQUIPMENT_INCOMPLETE_P")
-                            .addInclude("CT_TMOS_EQUIPMENT_UPKEEP_P")
+//                            .addInclude("CT_TMOS_EQUIPMENT_P_TEMPLATE")
+//                            .addInclude("CT_TMOS_EQUIPMENT_P_TEMPLATE_P")
+//                            .addInclude("CT_TMOS_EQUIPMENT_P_TEMPLATE_S")
+//                            .addInclude("CT_TMOS_EQUIPMENT_ORDER_P")
+//                            .addInclude("CT_TMOS_EQUIPMENT_INCOMPLETE_P")
+//                            .addInclude("CT_TMOS_EQUIPMENT_UPKEEP_P")
+                            .addInclude("CT_TMOS_EQUIPMENT_ORDER_P_S")
 
                             // 设置过滤表前缀
                             .addTablePrefix("CT_TMOS_");

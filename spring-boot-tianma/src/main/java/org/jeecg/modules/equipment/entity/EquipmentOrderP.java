@@ -78,16 +78,6 @@ public class EquipmentOrderP implements Serializable {
     private Long num;
 
     /**
-     * 料号
-     */
-    private String stuffNo;
-
-    /**
-     * 单品id
-     */
-    private String singleGoodsId;
-
-    /**
      * 预计更换时间
      */
     private LocalDateTime expectReplaceTime;
@@ -218,22 +208,6 @@ public class EquipmentOrderP implements Serializable {
         this.num = num;
     }
 
-    public String getStuffNo() {
-        return stuffNo;
-    }
-
-    public void setStuffNo(String stuffNo) {
-        this.stuffNo = stuffNo;
-    }
-
-    public String getSingleGoodsId() {
-        return singleGoodsId;
-    }
-
-    public void setSingleGoodsId(String singleGoodsId) {
-        this.singleGoodsId = singleGoodsId;
-    }
-
     public LocalDateTime getExpectReplaceTime() {
         return expectReplaceTime;
     }
@@ -305,8 +279,6 @@ public class EquipmentOrderP implements Serializable {
             ", minCycle = " + minCycle +
             ", life = " + life +
             ", num = " + num +
-            ", stuffNo = " + stuffNo +
-            ", singleGoodsId = " + singleGoodsId +
             ", expectReplaceTime = " + expectReplaceTime +
             ", status = " + status +
             ", remark = " + remark +
