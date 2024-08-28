@@ -7,6 +7,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 
 @Data
@@ -60,4 +61,10 @@ public class EquipmentPointUpkeepResultDto implements Serializable {
 
     @ApiModelProperty("作业标准")
     private String standard;
+
+    @ApiModelProperty("物料列表")
+    private List<EquipmentOrderPSDto> stuffList;
+
+    @ApiModelProperty("旧的物料列表")
+    private List<EquipmentOrderPSDto> oldStuffList;
 }
