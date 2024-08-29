@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.validation.Valid;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,6 +26,12 @@ public class EquipmentSaveUpkeepResultDto implements Serializable {
 
     @ApiModelProperty("工单号")
     private String orderNo;
+
+    @ApiModelProperty("实际开始时间")
+    private Date realStartTime;
+
+    @ApiModelProperty("实际结束时间")
+    private Date realEndTime;
 
 //    @ApiModelProperty("厂别")
 //    @NotEmpty

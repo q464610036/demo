@@ -5,10 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import org.jeecg.modules.common.entity.Result;
 import org.jeecg.modules.common.page.PageInfo;
 import org.jeecg.modules.equipment.dto.*;
-import org.jeecg.modules.equipment.vo.EquipmentPTemplateDetailVo;
-import org.jeecg.modules.equipment.vo.EquipmentPTemplateListVo;
-import org.jeecg.modules.equipment.vo.EquipmentPTemplatePByUnitVo;
-import org.jeecg.modules.equipment.vo.EquipmentPTemplatePVo;
+import org.jeecg.modules.equipment.vo.*;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,6 +58,13 @@ public class EquipmentPTemplateController {
     public Result<List<EquipmentPTemplatePVo>> getPointListByStuffNo(@RequestBody @Validated EquipmentPTemplatePQueryDto dto){
         return null;
     }
+
+    @ApiOperation(value = "查询料号(根据点位查询)")
+    @GetMapping("/getStuffList/{pointId}")
+    public Result<List<EquipmentPTemplateSVo>> getStuffList(@PathVariable String pointId){
+        return null;
+    }
+
 
     @ApiOperation("查询模版详情")
     @GetMapping("/detail/{id}")

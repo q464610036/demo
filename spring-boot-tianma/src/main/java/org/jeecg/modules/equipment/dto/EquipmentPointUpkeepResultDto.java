@@ -23,6 +23,7 @@ public class EquipmentPointUpkeepResultDto implements Serializable {
     private String pointId;
 
     @ApiModelProperty("点位名称")
+    @NotEmpty(message = "点位名称不能为空")
     private String pointName;
 
     @ApiModelProperty("设备")
@@ -49,11 +50,9 @@ public class EquipmentPointUpkeepResultDto implements Serializable {
     private String upkeepResult;
 
     @ApiModelProperty("保养人code")
-    @NotEmpty(message = "保养人不能为空")
     private String upkeepUserCode;
 
     @ApiModelProperty("保养人名称")
-    @NotEmpty(message = "保养人不能为空")
     private String upkeepUserName;
 
     @ApiModelProperty("备注")

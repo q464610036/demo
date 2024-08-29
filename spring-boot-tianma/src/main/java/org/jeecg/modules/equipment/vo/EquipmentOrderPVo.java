@@ -77,6 +77,6 @@ public class EquipmentOrderPVo implements Serializable {
     @ApiModelProperty("在机单品id（多个，逗号隔开）")
     private String livingSingleGoodsId;
 
-    @ApiModelProperty("单品列表")
-    private List<SingleGoodsLivingVo> singleGoodsList;
+    @ApiModelProperty("在机单品列表")
+    private List<SingleGoodsLivingVo> livingSingleGoodsList;
 }

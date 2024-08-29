@@ -7,8 +7,11 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
-
+/**
+ * 补录保养结果
+ */
 @Data
 public class EquipmentOrderPointSaveDto implements Serializable {
 
@@ -43,14 +46,15 @@ public class EquipmentOrderPointSaveDto implements Serializable {
     private Date expectReplaceTime;
 
     @ApiModelProperty("数量")
-    @NotNull(message = "设备不能为空")
+    @NotNull(message = "数量不能为空")
     private Integer num;
 
     @ApiModelProperty("保养结果：0=待保养，1=完成，2=未保养，3=残件，9=保养异常")
+    @NotEmpty(message = "保养结果不能为空")
     private String upkeepResult;
 
     @ApiModelProperty("保养人code")
-    @NotEmpty(message = "保养人不能为空")
+    @NotEmpty(message = "保养人code不能为空")
     private String upkeepUserCode;
 
     @ApiModelProperty("保养人名称")
@@ -62,4 +66,10 @@ public class EquipmentOrderPointSaveDto implements Serializable {
 
     @ApiModelProperty("作业标准")
     private String standard;
+
+    @ApiModelProperty("物料列表")
+    private List<EquipmentOrderPSDto> stuffList;
+
+    @ApiModelProperty("旧的物料列表")
+    private List<EquipmentOrderPSDto> oldStuffList;
 }
