@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * <p>
  * 保养工单表 前端控制器
@@ -89,6 +91,12 @@ public class EquipmentOrderController {
     @ApiOperation(value = "查询基础数据列表")
     @GetMapping("/getBaseData")
     public Result<EquipmentOrderBaseDataVo> getBaseData(){
+        return null;
+    }
+
+    @ApiOperation(value = "查询根据料号查询库存单品")
+    @GetMapping("/getSingleGoodsIdList")
+    public Result<List<String>> getSingleGoodsIdList(String stuffNo){
         return null;
     }
 }

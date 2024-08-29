@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.List;
 
@@ -27,17 +26,17 @@ public class EquipmentSaveUpkeepResultDto implements Serializable {
     @ApiModelProperty("工单号")
     private String orderNo;
 
-    @ApiModelProperty("厂别")
-    @NotEmpty
-    private String factoryName;
-
-    @ApiModelProperty("设备群组")
-    @NotEmpty
-    private String area;
-
-    @ApiModelProperty("线体")
-    @NotEmpty
-    private String eqpId;
+//    @ApiModelProperty("厂别")
+//    @NotEmpty
+//    private String factoryName;
+//
+//    @ApiModelProperty("设备群组")
+//    @NotEmpty
+//    private String area;
+//
+//    @ApiModelProperty("线体")
+//    @NotEmpty
+//    private String eqpId;
 
     @ApiModelProperty("保养结果项目列表")
     @Valid

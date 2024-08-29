@@ -42,7 +42,7 @@ public class EquipmentPointUpkeepResultDto implements Serializable {
     private Date expectReplaceTime;
 
     @ApiModelProperty("数量")
-    @NotNull(message = "设备不能为空")
+    @NotNull(message = "数量不能为空")
     private Integer num;
 
     @ApiModelProperty("保养结果：0=待保养，1=完成，2=未保养，3=残件，9=保养异常")

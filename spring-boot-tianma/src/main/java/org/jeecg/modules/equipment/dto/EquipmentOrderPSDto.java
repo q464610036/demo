@@ -25,6 +25,9 @@ public class EquipmentOrderPSDto implements Serializable {
     @ApiModelProperty("料号")
     private  String stuffNo;
 
+    @ApiModelProperty("料号数量，没选单品时必填")
+    private  Integer num;
+
     @ApiModelProperty("单品id列表")
     private List<String> singleGoodsIdList;
 }
