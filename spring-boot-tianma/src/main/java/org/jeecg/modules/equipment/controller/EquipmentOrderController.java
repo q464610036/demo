@@ -95,7 +95,7 @@ public class EquipmentOrderController {
     }
 
     @ApiOperation(value = "查询根据料号查询库存单品")
-    @GetMapping("/getSingleGoodsIdList")
+    @GetMapping("/getSingleGoodsIdList/{stuffNo}")
     public Result<List<String>> getSingleGoodsIdList(String stuffNo){
         return null;
     }
