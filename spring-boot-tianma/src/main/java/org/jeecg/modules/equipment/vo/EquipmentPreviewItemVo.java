@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -32,6 +33,9 @@ public class EquipmentPreviewItemVo implements Serializable {
 
     @ApiModelProperty("注意事项")
     private String note;
+
+    @ApiModelProperty("注意事项文件列表")
+    private List<EquipmentFileVo> noteFileList;
 
     @ApiModelProperty("最小周期(W:周,M:月,D:双月,Q:季度,H:半年,Y:年,T:临时,N:宕机)")
     private String minCycle;
