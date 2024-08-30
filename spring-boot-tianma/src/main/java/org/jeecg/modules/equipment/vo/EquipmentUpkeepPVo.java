@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -48,9 +49,18 @@ public class EquipmentUpkeepPVo implements Serializable {
     @ApiModelProperty("数量")
     private Integer num;
 
+    @ApiModelProperty("在机数量")
+    private Integer livingNum;
+
     @ApiModelProperty("在机时长")
     private String livingTime;
 
-    @ApiModelProperty("寿命/天")
-    private Integer life;
+    @ApiModelProperty("在机料号（多个，逗号隔开）")
+    private String livingStuffNo;
+
+    @ApiModelProperty("在机单品id（多个，逗号隔开）")
+    private String livingSingleGoodsId;
+
+    @ApiModelProperty("在机单品列表")
+    private List<SingleGoodsLivingVo> livingSingleGoodsList;
 }

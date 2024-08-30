@@ -446,3 +446,101 @@ ALTER TABLE CT_TMOS_EQUIPMENT_SPARES_MONIT ADD END_TIME DATE NULL;
 COMMENT ON COLUMN CT_TMOS_EQUIPMENT_SPARES_MONIT.END_TIME IS '下机时间';
 ALTER TABLE CT_TMOS_EQUIPMENT_SPARES_MONIT ADD add_plan number(1) NULL;
 COMMENT ON COLUMN CT_TMOS_EQUIPMENT_SPARES_MONIT.add_plan IS '是否自动加入计划：0=不加入，1=加入';
+
+-- modify 2024-8-30
+CREATE TABLE CT_TMOS_EQUIPMENT_PMS_STUFF(
+                                            ID VARCHAR2(64) NOT NULL,
+                                            STUFF_NO VARCHAR2(64) NOT NULL,
+                                            STUFF_DESC VARCHAR2(600),
+                                            STUFF_TYPE VARCHAR2(64),
+                                            MODEL_NUMBER VARCHAR2(64),
+                                            TRACE_TYPE VARCHAR2(64),
+                                            GETABLE_STOCK NUMBER(8),
+                                            FREEZE_STOCK NUMBER(8),
+                                            UNIT VARCHAR2(64),
+                                            FDC VARCHAR2(255),
+                                            STATUS VARCHAR2(10) DEFAULT  '0' NOT NULL,
+                                            CREATE_BY VARCHAR2(64) NOT NULL,
+                                            CREATE_TIME DATE NOT NULL,
+                                            UPDATE_BY VARCHAR2(64),
+                                            UPDATE_TIME DATE DEFAULT  sysdate,
+                                            REMARK VARCHAR2(200),
+                                            PRIMARY KEY (ID)
+);
+
+COMMENT ON TABLE CT_TMOS_EQUIPMENT_PMS_STUFF IS 'PMS物料信息表';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PMS_STUFF.ID IS '唯一标识';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PMS_STUFF.STUFF_NO IS '料号';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PMS_STUFF.STUFF_DESC IS '物料描述';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PMS_STUFF.STUFF_TYPE IS '物料类别';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PMS_STUFF.MODEL_NUMBER IS '型号';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PMS_STUFF.TRACE_TYPE IS '追溯颗粒度分类';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PMS_STUFF.GETABLE_STOCK IS '可领库存';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PMS_STUFF.FREEZE_STOCK IS '冻结库存';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PMS_STUFF.UNIT IS '单位';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PMS_STUFF.FDC IS 'FDC参数';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PMS_STUFF.STATUS IS '状态 0-正常 1-删除';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PMS_STUFF.CREATE_BY IS '创建人';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PMS_STUFF.CREATE_TIME IS '创建时间';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PMS_STUFF.UPDATE_BY IS '更新人';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PMS_STUFF.UPDATE_TIME IS '更新时间';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_PMS_STUFF.REMARK IS '备注信息';
+
+
+CREATE TABLE CT_TMOS_EQUIPMENT_DEPT_STOCK(
+                                             ID VARCHAR2(64) NOT NULL,
+                                             STUFF_NO VARCHAR2(64) NOT NULL,
+                                             STOCK_NUM NUMBER(8),
+                                             COMMON_STOCK_NUM NUMBER(8),
+                                             UP_STOCK_NUM NUMBER(8),
+                                             DOWN_STOCK_NUM NUMBER(8),
+                                             STATUS VARCHAR2(10) DEFAULT  '0' NOT NULL,
+                                             CREATE_BY VARCHAR2(64) NOT NULL,
+                                             CREATE_TIME DATE NOT NULL,
+                                             UPDATE_BY VARCHAR2(64),
+                                             UPDATE_TIME DATE DEFAULT  sysdate,
+                                             REMARK VARCHAR2(200),
+                                             PRIMARY KEY (ID)
+);
+
+COMMENT ON TABLE CT_TMOS_EQUIPMENT_DEPT_STOCK IS '部门库存信息';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_DEPT_STOCK.ID IS '唯一标识';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_DEPT_STOCK.STUFF_NO IS '料号';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_DEPT_STOCK.STOCK_NUM IS '部门总库存';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_DEPT_STOCK.COMMON_STOCK_NUM IS '良品库存';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_DEPT_STOCK.UP_STOCK_NUM IS '在机库存';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_DEPT_STOCK.DOWN_STOCK_NUM IS '下机库存';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_DEPT_STOCK.STATUS IS '状态 0-正常 1-删除';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_DEPT_STOCK.CREATE_BY IS '创建人';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_DEPT_STOCK.CREATE_TIME IS '创建时间';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_DEPT_STOCK.UPDATE_BY IS '更新人';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_DEPT_STOCK.UPDATE_TIME IS '更新时间';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_DEPT_STOCK.REMARK IS '备注信息';
+
+CREATE TABLE CT_TMOS_EQUIPMENT_STOCK_SINGLE(
+                                               ID VARCHAR2(64) NOT NULL,
+                                               STUFF_NO VARCHAR2(64) NOT NULL,
+                                               SINGLE_GOODS_ID VARCHAR2(64),
+                                               SINGLE_GOODS_STATUS VARCHAR2(3) DEFAULT  '1' NOT NULL,
+                                               NUM NUMBER(8) DEFAULT  1,
+                                               STATUS VARCHAR2(10) DEFAULT  '0' NOT NULL,
+                                               CREATE_BY VARCHAR2(64) NOT NULL,
+                                               CREATE_TIME DATE NOT NULL,
+                                               UPDATE_BY VARCHAR2(64),
+                                               UPDATE_TIME DATE DEFAULT  sysdate,
+                                               REMARK VARCHAR2(200),
+                                               PRIMARY KEY (ID)
+);
+
+COMMENT ON TABLE CT_TMOS_EQUIPMENT_STOCK_SINGLE IS '部门库存单品信息';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_STOCK_SINGLE.ID IS '唯一标识';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_STOCK_SINGLE.STUFF_NO IS '料号';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_STOCK_SINGLE.SINGLE_GOODS_ID IS '单品id';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_STOCK_SINGLE.SINGLE_GOODS_STATUS IS '单品状态 1-良品 2-在机 3-下机';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_STOCK_SINGLE.NUM IS '数量';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_STOCK_SINGLE.STATUS IS '状态 0-正常 1-删除';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_STOCK_SINGLE.CREATE_BY IS '创建人';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_STOCK_SINGLE.CREATE_TIME IS '创建时间';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_STOCK_SINGLE.UPDATE_BY IS '更新人';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_STOCK_SINGLE.UPDATE_TIME IS '更新时间';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_STOCK_SINGLE.REMARK IS '备注信息';

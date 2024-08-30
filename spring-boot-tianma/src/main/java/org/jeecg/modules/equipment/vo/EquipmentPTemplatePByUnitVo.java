@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,18 +46,15 @@ public class EquipmentPTemplatePByUnitVo implements Serializable {
     @ApiModelProperty("在机数量")
     private Integer livingNum;
 
-    @ApiModelProperty("在机料号")
-    private String livingStuffNo;
-
-    @ApiModelProperty("在机单品id")
-    private String livingSingleGoodsId;
-
     @ApiModelProperty("在机时长")
     private String livingTime;
 
-    @ApiModelProperty("在机预计更换时间")
-    private Date livingExpectReplaceTime;
+    @ApiModelProperty("在机料号（多个，逗号隔开）")
+    private String livingStuffNo;
 
-    @ApiModelProperty("寿命/天")
-    private Integer life;
+    @ApiModelProperty("在机单品id（多个，逗号隔开）")
+    private String livingSingleGoodsId;
+
+    @ApiModelProperty("在机单品列表")
+    private List<SingleGoodsLivingVo> livingSingleGoodsList;
 }
