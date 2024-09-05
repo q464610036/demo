@@ -20,4 +20,7 @@ public class EquipmentPreviewUnitVo implements Serializable {
 
     @ApiModelProperty("保养项目")
     private List<EquipmentPreviewItemVo> itemList;
+
+    @ApiModelProperty("保养点位")
+    private List<EquipmentPreviewPointVo> pointList;
 }

@@ -37,4 +37,6 @@ public class EquipmentPointQueryDto implements Serializable {
     @ApiModelProperty("子设备")
     private String subUnitId;
 
+    @ApiModelProperty("是否排除残件项目")
+    private Boolean ignoreIncompleteFlag;
 }
