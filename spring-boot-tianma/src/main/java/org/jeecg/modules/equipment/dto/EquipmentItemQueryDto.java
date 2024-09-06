@@ -41,6 +41,6 @@ public class EquipmentItemQueryDto implements Serializable {
     @ApiModelProperty("排除的保养点位id")
     private List<String> ignorePointIds;
 
-    @ApiModelProperty("是否排除残件项目")
+    @ApiModelProperty("是否排除残件")
     private Boolean ignoreIncompleteFlag;
 }

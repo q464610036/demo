@@ -99,4 +99,10 @@ public class EquipmentOrderController {
     public Result<List<String>> getSingleGoodsIdList(String stuffNo){
         return null;
     }
+
+    @ApiOperation(value = "查询根据料号查询库存单品（可排除指定单品）")
+    @PostMapping("/getDeptSingleGoodsIdList")
+    public Result<List<String>> getDeptSingleGoodsIdList(EquipmentStuffQueryDto dto){
+        return null;
+    }
 }
