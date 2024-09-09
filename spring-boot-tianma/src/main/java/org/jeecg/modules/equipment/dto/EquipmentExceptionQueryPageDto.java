@@ -42,4 +42,10 @@ public class EquipmentExceptionQueryPageDto extends BaseDto implements Serializa
 
     @ApiModelProperty("异常单号")
     private String exceptionNo;
+
+    @ApiModelProperty("操作阶段：0=未操作，1=待操作，2=已操作")
+    private Integer operateStage;
+
+    @ApiModelProperty(value = "操作人", hidden = true)
+    private String operateUserCode;
 }
