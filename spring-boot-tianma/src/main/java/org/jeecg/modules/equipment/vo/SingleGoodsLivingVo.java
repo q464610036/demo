@@ -22,6 +22,9 @@ public class SingleGoodsLivingVo implements Serializable {
     @ApiModelProperty("在机料号")
     private String livingStuffNo;
 
+    @ApiModelProperty("在机料号寿命/天")
+    private Integer livingLife;
+
     @ApiModelProperty("在机单品id")
     private String livingSingleGoodsId;
 
