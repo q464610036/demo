@@ -4,14 +4,15 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.jeecg.modules.common.entity.Result;
 import org.jeecg.modules.common.page.PageInfo;
-import org.jeecg.modules.equipment.dto.*;
+import org.jeecg.modules.equipment.dto.EquipmentExceptionApproveDto;
+import org.jeecg.modules.equipment.dto.EquipmentExceptionProcessDto;
+import org.jeecg.modules.equipment.dto.EquipmentExceptionQueryPageDto;
+import org.jeecg.modules.equipment.dto.EquipmentExceptionSaveDto;
 import org.jeecg.modules.equipment.vo.EquipmentExceptionDetailVo;
 import org.jeecg.modules.equipment.vo.EquipmentExceptionListVo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * <p>
@@ -35,12 +36,6 @@ public class EquipmentExceptionController {
     @ApiOperation("查询审核分页")
     @PostMapping("/getApprovePage")
     public Result<PageInfo<EquipmentExceptionListVo>> getApprovePage(@RequestBody @Validated EquipmentExceptionQueryPageDto dto){
-        return null;
-    }
-
-    @ApiOperation("查询列表")
-    @PostMapping("/getList")
-    public Result<List<EquipmentExceptionListVo>> getList(@RequestBody @Validated EquipmentExceptionQueryPageDto dto){
         return null;
     }
 
@@ -69,8 +64,8 @@ public class EquipmentExceptionController {
     }
 
     @ApiOperation("新增")
-    @PostMapping("/save")
-    public Result<Boolean> save(@RequestBody @Validated EquipmentExceptionSaveDto dto){
+    @PostMapping("/add")
+    public Result<Boolean> add(@RequestBody @Validated EquipmentExceptionSaveDto dto){
         return Result.ok(true);
     }
 
