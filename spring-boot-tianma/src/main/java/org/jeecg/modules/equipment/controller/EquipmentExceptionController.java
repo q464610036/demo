@@ -1,5 +1,6 @@
 package org.jeecg.modules.equipment.controller;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.jeecg.modules.common.entity.Result;
 import org.jeecg.modules.common.page.PageInfo;
@@ -21,6 +22,7 @@ import java.util.List;
  * @since 2024-09-09
  */
 @Controller
+@Api(tags = "设备异常-异常单管理")
 @RequestMapping("/equipment/equipmentException")
 public class EquipmentExceptionController {
 
