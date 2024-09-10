@@ -59,6 +59,12 @@ public class EquipmentPTemplateController {
         return null;
     }
 
+    @ApiOperation(value = "查询点位(根据点位id)")
+    @GetMapping("/getPointByPointId/{pointId}")
+    public Result<EquipmentPTemplatePVo> getPointByPointId(@PathVariable String pointId){
+        return null;
+    }
+
     @ApiOperation(value = "查询料号(根据点位查询)")
     @GetMapping("/getStuffList/{pointId}")
     public Result<List<EquipmentPTemplateSVo>> getStuffList(@PathVariable String pointId){
