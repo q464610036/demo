@@ -68,8 +68,8 @@ public class EquipmentIncompletePListVo implements Serializable {
     @ApiModelProperty("保养结果文案")
     private String upkeepResultText;
 
-    @ApiModelProperty("保养结果日志列表")
-    private List<String> upkeepResultLogList;
+    @ApiModelProperty("保养结果描述")
+    private String upkeepResultDesc;
 
     @ApiModelProperty("状态文案")
     private String lockStatusText;
