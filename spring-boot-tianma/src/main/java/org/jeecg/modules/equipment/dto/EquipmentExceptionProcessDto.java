@@ -65,6 +65,9 @@ public class EquipmentExceptionProcessDto implements Serializable {
     @ApiModelProperty("加签用户列表")
     private List<UserVo> countersignUserList;
 
+    @ApiModelProperty("旧的加签用户列表")
+    private List<UserVo> oldCountersignUserList;
+
     @ApiModelProperty("文件列表")
     private List<EquipmentFileVo> fileList;
 }
