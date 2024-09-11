@@ -3,7 +3,6 @@ package org.jeecg.modules.equipment.dto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.jeecg.modules.equipment.vo.EquipmentFileVo;
-import org.jeecg.modules.equipment.vo.UserVo;
 
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
@@ -63,10 +62,10 @@ public class EquipmentExceptionProcessDto implements Serializable {
     private String productPlanUserName;
 
     @ApiModelProperty("加签用户列表")
-    private List<UserVo> countersignUserList;
+    private List<EquipmentExcUserDto> countersignUserList;
 
     @ApiModelProperty("旧的加签用户列表")
-    private List<UserVo> oldCountersignUserList;
+    private List<EquipmentExcUserDto> oldCountersignUserList;
 
     @ApiModelProperty("文件列表")
     private List<EquipmentFileVo> fileList;

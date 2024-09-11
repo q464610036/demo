@@ -4,10 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.jeecg.modules.common.entity.Result;
 import org.jeecg.modules.common.page.PageInfo;
-import org.jeecg.modules.equipment.dto.EquipmentExceptionApproveDto;
-import org.jeecg.modules.equipment.dto.EquipmentExceptionProcessDto;
-import org.jeecg.modules.equipment.dto.EquipmentExceptionQueryPageDto;
-import org.jeecg.modules.equipment.dto.EquipmentExceptionSaveDto;
+import org.jeecg.modules.equipment.dto.*;
 import org.jeecg.modules.equipment.vo.EquipmentExceptionDetailVo;
 import org.jeecg.modules.equipment.vo.EquipmentExceptionListVo;
 import org.springframework.stereotype.Controller;
@@ -78,6 +75,12 @@ public class EquipmentExceptionController {
     @ApiOperation("审批")
     @PostMapping("/approve")
     public Result<Boolean> approve(@RequestBody @Validated EquipmentExceptionApproveDto dto){
+        return Result.ok(true);
+    }
+
+    @ApiOperation("撤回处理")
+    @PostMapping("/cancel")
+    public Result<Boolean> cancel(@RequestBody @Validated EquipmentExceptionCancelDto dto){
         return Result.ok(true);
     }
 }
