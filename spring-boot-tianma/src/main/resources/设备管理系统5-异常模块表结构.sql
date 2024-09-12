@@ -1,4 +1,5 @@
 
+
 CREATE TABLE CT_TMOS_EQUIPMENT_EXCEPTION(
                                             ID VARCHAR2(64) NOT NULL,
                                             EXCEPTION_NO VARCHAR2(32) NOT NULL,
@@ -26,6 +27,9 @@ CREATE TABLE CT_TMOS_EQUIPMENT_EXCEPTION(
                                             LEADER_USER_NAME VARCHAR2(32),
                                             PRODUCT_PLAN_USER_CODE VARCHAR2(64),
                                             PRODUCT_PLAN_USER_NAME VARCHAR2(32),
+                                            description CLOB,
+                                            OFFICE_NAME VARCHAR2(30),
+                                            OFFICE_CODE VARCHAR2(30),
                                             STATUS VARCHAR2(10) DEFAULT  '0'  NOT NULL,
                                             REMARK VARCHAR2(200),
                                             CREATE_BY VARCHAR2(64),
@@ -62,6 +66,9 @@ COMMENT ON COLUMN CT_TMOS_EQUIPMENT_EXCEPTION.LEADER_USER_CODE IS '主管用户c
 COMMENT ON COLUMN CT_TMOS_EQUIPMENT_EXCEPTION.LEADER_USER_NAME IS '主管用户名称';
 COMMENT ON COLUMN CT_TMOS_EQUIPMENT_EXCEPTION.PRODUCT_PLAN_USER_CODE IS '生产计划用户code';
 COMMENT ON COLUMN CT_TMOS_EQUIPMENT_EXCEPTION.PRODUCT_PLAN_USER_NAME IS '生产计划用户名称';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_EXCEPTION.description IS '描述';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_EXCEPTION.OFFICE_NAME IS '部门名称';
+COMMENT ON COLUMN CT_TMOS_EQUIPMENT_EXCEPTION.OFFICE_CODE IS '部门code';
 COMMENT ON COLUMN CT_TMOS_EQUIPMENT_EXCEPTION.STATUS IS '状态 0=正常，1=删除';
 COMMENT ON COLUMN CT_TMOS_EQUIPMENT_EXCEPTION.REMARK IS '备注';
 COMMENT ON COLUMN CT_TMOS_EQUIPMENT_EXCEPTION.CREATE_BY IS '创建人';
