@@ -5,11 +5,14 @@ import io.swagger.annotations.ApiOperation;
 import org.jeecg.modules.common.entity.Result;
 import org.jeecg.modules.common.page.PageInfo;
 import org.jeecg.modules.equipment.dto.*;
+import org.jeecg.modules.equipment.vo.EquipmentAnalysisUnitVo;
 import org.jeecg.modules.equipment.vo.EquipmentExceptionDetailVo;
 import org.jeecg.modules.equipment.vo.EquipmentExceptionListVo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -41,6 +44,15 @@ public class EquipmentExceptionController {
     public Result<PageInfo<EquipmentExceptionListVo>> getApprovePage(@RequestBody @Validated EquipmentExceptionQueryPageDto dto){
         return null;
     }
+
+    @ApiOperation("查询分析图")
+    @PostMapping("/getAnalysisList")
+    public Result<List<EquipmentAnalysisUnitVo>> getAnalysisList(@RequestBody @Validated EquipmentExceptionAnalysisQueryPageDto dto){
+        return null;
+    }
+
+
+
 
     @ApiOperation(value = "查询详情", notes = "非待审批单详情入口")
     @GetMapping("/detail/{id}")

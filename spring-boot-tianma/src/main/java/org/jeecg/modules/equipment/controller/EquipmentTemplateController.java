@@ -82,6 +82,13 @@ public class EquipmentTemplateController {
         return null;
     }
 
+    @ApiOperation("导入模版项目V2")
+    @PostMapping("/importExcelV2")
+    public Result<EquipmentItemImportV2Vo> importExcelV2(@RequestParam("file") MultipartFile file){
+        return null;
+    }
+
+
     @ApiOperation("导出模版项目")
     @PostMapping("/exportExcel")
     public void exportExcel(@RequestBody @Validated EquipmentItemExportExcelDto dto, HttpServletResponse response){
