@@ -1,6 +1,5 @@
 package org.jeecg.modules.equipment.vo;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -18,6 +17,4 @@ public class EquipmentAnalysisTimeVo extends EquipmentExceptionVo implements Ser
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("是否已处理")
-    private Boolean processFlag;
 }
