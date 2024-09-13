@@ -8,6 +8,7 @@ import org.jeecg.modules.equipment.dto.*;
 import org.jeecg.modules.equipment.vo.EquipmentAnalysisUnitVo;
 import org.jeecg.modules.equipment.vo.EquipmentExceptionDetailVo;
 import org.jeecg.modules.equipment.vo.EquipmentExceptionListVo;
+import org.jeecg.modules.equipment.vo.EquipmentExceptionVo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -80,8 +81,8 @@ public class EquipmentExceptionController {
 
     @ApiOperation("新增")
     @PostMapping("/add")
-    public Result<Boolean> add(@RequestBody @Validated EquipmentExceptionSaveDto dto){
-        return Result.ok(true);
+    public Result<EquipmentExceptionVo> add(@RequestBody @Validated EquipmentExceptionSaveDto dto){
+        return null;
     }
 
     @ApiOperation("处理")
