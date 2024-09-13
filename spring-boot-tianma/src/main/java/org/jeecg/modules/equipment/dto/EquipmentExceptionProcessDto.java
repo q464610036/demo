@@ -43,22 +43,24 @@ public class EquipmentExceptionProcessDto implements Serializable {
     @NotEmpty(message = "不能为空")
     private Integer upkeepFlag;
 
-    @ApiModelProperty("处理人")
+    @ApiModelProperty(value = "处理人", hidden = true)
     private String processUserCode;
 
-    @ApiModelProperty("处理人名称")
+    @ApiModelProperty(value = "处理人名称", hidden = true)
     private String processUserName;
 
-    @ApiModelProperty("主管用户code")
+    @ApiModelProperty(value = "主管用户code", hidden = true)
     private String leaderUserCode;
 
-    @ApiModelProperty("主管用户名称")
+    @ApiModelProperty(value = "主管用户名称", hidden = true)
     private String leaderUserName;
 
     @ApiModelProperty("生产计划用户code")
+    @NotEmpty(message = "生产计划不能为空")
     private String productPlanUserCode;
 
     @ApiModelProperty("生产计划用户名称")
+    @NotEmpty(message = "生产计划真实姓名不能为空")
     private String productPlanUserName;
 
     @ApiModelProperty("加签用户列表")
