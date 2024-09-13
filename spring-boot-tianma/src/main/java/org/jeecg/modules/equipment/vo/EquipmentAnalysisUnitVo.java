@@ -22,5 +22,6 @@ public class EquipmentAnalysisUnitVo implements Serializable {
     @ApiModelProperty("天列表")
     private List<EquipmentAnalysisDayVo> dayList;
 
-
+    @ApiModelProperty("设备")
+    private String unitId;
 }

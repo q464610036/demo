@@ -21,6 +21,9 @@ public class EquipmentExceptionAnalysisQueryPageDto extends BaseDto implements S
     @ApiModelProperty("线体")
     private String eqpId;
 
+    @ApiModelProperty("设备")
+    private String unitId;
+
     @ApiModelProperty("开始时间")
     private Date startTime;;
 

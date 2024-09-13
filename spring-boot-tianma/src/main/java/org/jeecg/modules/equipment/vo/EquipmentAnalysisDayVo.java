@@ -22,4 +22,6 @@ public class EquipmentAnalysisDayVo implements Serializable {
     @ApiModelProperty("时间段列表")
     private List<EquipmentAnalysisTimeVo> timeList;
 
+    @ApiModelProperty("日期")
+    private String day;
 }
