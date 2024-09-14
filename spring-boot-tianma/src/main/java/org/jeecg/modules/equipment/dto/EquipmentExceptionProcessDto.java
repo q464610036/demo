@@ -71,4 +71,7 @@ public class EquipmentExceptionProcessDto implements Serializable {
 
     @ApiModelProperty("文件列表")
     private List<EquipmentFileVo> fileList;
+
+    @ApiModelProperty("补录工单对象")
+    private EquipmentOrderSaveDto supplement;
 }
