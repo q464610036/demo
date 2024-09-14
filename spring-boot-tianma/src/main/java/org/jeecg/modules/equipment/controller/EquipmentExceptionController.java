@@ -108,4 +108,10 @@ public class EquipmentExceptionController {
     public Result<Boolean> cancel(@RequestBody @Validated EquipmentExceptionCancelDto dto){
         return Result.ok(true);
     }
+
+    @ApiOperation("删除")
+    @PostMapping("/delete")
+    public Result<Boolean> delete(@RequestBody @Validated EquipmentExceptionDeleteDto dto){
+        return Result.ok(true);
+    }
 }
