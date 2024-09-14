@@ -6,6 +6,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -109,4 +110,7 @@ public class EquipmentExceptionListVo implements Serializable {
 
     @ApiModelProperty("持续时间")
     private String duration;
+
+    @ApiModelProperty("文件列表")
+    private List<EquipmentFileVo> fileList;
 }
