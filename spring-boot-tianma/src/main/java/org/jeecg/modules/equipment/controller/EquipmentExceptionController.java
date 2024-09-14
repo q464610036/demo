@@ -34,6 +34,12 @@ public class EquipmentExceptionController {
         return null;
     }
 
+    @ApiOperation("查询列表")
+    @PostMapping("/getList")
+    public Result<List<EquipmentExceptionListVo>> getList(@RequestBody @Validated EquipmentExceptionQueryPageDto dto){
+        return null;
+    }
+
     @ApiOperation("查询知识库")
     @PostMapping("/getProcessResultPage")
     public Result<PageInfo<EquipmentExceptionListVo>> getProcessResultPage(@RequestBody @Validated EquipmentExceptionProcessResultQueryPageDto dto){
