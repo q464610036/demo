@@ -25,6 +25,12 @@ public class EquipmentExceptionQueryPageDto extends BaseDto implements Serializa
     @ApiModelProperty("设备")
     private String unitId;
 
+    @ApiModelProperty("设备")
+    private String subUnitId;
+
+    @ApiModelProperty("是否过滤子设备")
+    private Boolean filterSubUnit;
+
     @ApiModelProperty("异常类型：1=一般异常，2=重大异常")
     private String exceptionType;
 

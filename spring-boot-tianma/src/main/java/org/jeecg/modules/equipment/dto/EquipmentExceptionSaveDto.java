@@ -56,4 +56,7 @@ public class EquipmentExceptionSaveDto implements Serializable {
     @NotEmpty(message = "原因不能为空")
     private String reason;
 
+    @ApiModelProperty("设备上报Code")
+    @NotEmpty(message = "设备上报Code不能为空")
+    private String unitUpReportCode;
 }
