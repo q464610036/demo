@@ -77,8 +77,10 @@ public class MyGenerator {
 //                            .addInclude("CT_TMOS_EQUIPMENT_UPKEEP_P")
 //                            .addInclude("CT_TMOS_EQUIPMENT_ORDER_P_S")
 //                            .addInclude("CT_TMOS_EQUIPMENT_EXCEPTION")
-                            .addInclude("CT_TMOS_EQUIPMENT_EXC_USER")
-                            .addInclude("CT_TMOS_EQUIPMENT_EXC_NODE")
+//                            .addInclude("CT_TMOS_EQUIPMENT_EXC_USER")
+//                            .addInclude("CT_TMOS_EQUIPMENT_EXC_NODE")
+                            .addInclude("CT_TMOS_EQUIPMENT_STOCK_LOG")
+
                             // 设置过滤表前缀
                             .addTablePrefix("CT_TMOS_");
                 })
