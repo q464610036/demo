@@ -25,6 +25,9 @@ public class EquipmentTemplateListVo implements Serializable {
     @ApiModelProperty("模版名称")
     private String templateName;
 
+    @ApiModelProperty("版本号")
+    private String rev;
+
     @ApiModelProperty("设备类型")
     private String unitType;
 

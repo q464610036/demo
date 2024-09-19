@@ -26,6 +26,8 @@ public class EquipmentTemplate extends BaseEntity implements Serializable {
 
     private String templateName;
 
+    private String rev;
+
     /**
      * 设备类型
      */

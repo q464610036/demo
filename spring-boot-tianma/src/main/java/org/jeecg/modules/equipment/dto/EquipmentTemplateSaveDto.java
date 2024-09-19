@@ -31,6 +31,9 @@ public class EquipmentTemplateSaveDto implements Serializable {
     @NotEmpty
     private String templateName;
 
+    @ApiModelProperty("版本号")
+    private String rev;
+
     @ApiModelProperty("模版类型：1=by unit,2=by sub unit")
     @NotEmpty
     private String templateType;

@@ -84,7 +84,13 @@ public class EquipmentTemplateController {
 
     @ApiOperation("导入模版项目V2")
     @PostMapping("/importExcelV2")
-    public Result<EquipmentItemImportV2Vo> importExcelV2(@RequestParam("file") MultipartFile file){
+    public Result<List<EquipmentItemImportV2Vo>> importExcelV2(@RequestParam("file") MultipartFile file){
+        return null;
+    }
+
+    @ApiOperation("导入模版项目V3")
+    @PostMapping("/importExcelV3")
+    public Result<EquipmentItemImportV3Vo> importExcelV3(@RequestParam("file") MultipartFile file){
         return null;
     }
 
