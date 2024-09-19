@@ -106,4 +106,7 @@ public class EquipmentExceptionVo implements Serializable {
 
     @ApiModelProperty("生产计划用户名称")
     private String productPlanUserName;
+
+    @ApiModelProperty("持续时间")
+    private String duration;
 }
