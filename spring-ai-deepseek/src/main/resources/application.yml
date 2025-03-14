@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: spring-ai-deepseek
+  ai:
+    dashscope:
+      api-key: sk-4dede2a8fb4f4fd8a0a4187f99112f00 # ???????ollama???????api key
+      chat:
+        options:
+          model: deepseek-r1 # ?????-???????????? https://bailian.console.aliyun.com/?spm=5176.29619931.J__Z58Z6CX7MY__Ll8p1ZOR.1.5709521chLB16n#/model-market
+        client:
+          enabled: true
