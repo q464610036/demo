@@ -1,16 +1,14 @@
-package com.cn.module.monitor;
+package com.cn.module.monitor.lineage2;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.cn.common.enums.ResultCode;
 import com.cn.common.util.*;
 import com.cn.common.vo.R;
+import com.cn.module.monitor.MonitorManager;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.log4j.Logger;
 
-import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,7 +19,7 @@ public class HuoLongMonitor implements Runnable {
     final static String APP_ID = "";
     final static String API_KEY = "GGWReTqUxCtmBHbT1lFbFKmE";
     final static String SECRET_KEY = "RHR6NdkxjzbZNB99aWGP6hilV9lzap7l";
-    final static String rootFolder = MonitorMain.rootFolder + "/log_huolong";
+    final static String rootFolder = Lineage2MonitorMain.rootFolder + "/log_huolong";
     final static String timePath = rootFolder +"/time.txt";
     final static String historyPath = rootFolder + "/temp_bak.jpg";
     final static String path = rootFolder + "/temp.jpg";
@@ -46,7 +44,7 @@ public class HuoLongMonitor implements Runnable {
                     MonitorManager.createImage(path, historyPath, x1, y1, x2, y2);
                     //图片相似度对比
                     Double similarity = MonitorManager.contrast(path, historyPath);
-                    if (similarity >= MonitorMain.similarity) {
+                    if (similarity >= Lineage2MonitorMain.similarity) {
                         System.out.println(DateUtil.format(new Date())+" 火龙前后图片过于相似，相似度："+similarity);
                         Thread.sleep(10000);
                     } else {
@@ -57,7 +55,7 @@ public class HuoLongMonitor implements Runnable {
                             Thread.sleep(10000);
                         } else {
                             if (result.getData()) {
-                                QQSMSUtils.send(MonitorMain.emailList, "狩猎首领刷新告知", "火龙已出现");
+                                QQSMSUtils.send(Lineage2MonitorMain.emailList, "狩猎首领刷新告知", "火龙已出现");
                                 //开始时间延迟6天
                                 startDate = DateUtil.addDate(new Date(), 6, Calendar.DATE);
                                 //写入时间

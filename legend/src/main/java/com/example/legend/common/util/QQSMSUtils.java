@@ -1,4 +1,4 @@
-package com.cn.common.util;
+package com.example.legend.common.util;
 
 import com.sun.mail.util.MailSSLSocketFactory;
 

@@ -87,6 +87,13 @@
             <artifactId>poi-tl</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <!-- ocr -->
+        <!-- https://mvnrepository.com/artifact/net.sourceforge.tess4j/tess4j -->
+        <dependency>
+            <groupId>net.sourceforge.tess4j</groupId>
+            <artifactId>tess4j</artifactId>
+            <version>3.4.0</version>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>

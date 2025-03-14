@@ -18,7 +18,7 @@ rule "计算应纳税所得额"
     when
         $cal:Calculation(wage > 0)
     then
-        StringUtil.test();
+        StringUtil.tesseractTest();
         double wagemore = $cal.getWage() - 3500;
         $cal.setWagemore(wagemore);
         update($cal);
