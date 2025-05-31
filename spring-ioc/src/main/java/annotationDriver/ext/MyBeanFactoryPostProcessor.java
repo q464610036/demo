@@ -18,5 +18,6 @@ public class MyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
         String[] names = beanFactory.getBeanDefinitionNames();
         System.out.println("当前BeanFactory中有" + count + " 个Bean");
         System.out.println(Arrays.asList(names));
+        //对bean的属性进行修改
     }
 }

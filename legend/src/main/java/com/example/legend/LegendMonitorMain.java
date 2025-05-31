@@ -1,8 +1,8 @@
-package com.cn.module.monitor.legend;
+package com.example.legend;
 
 
-import com.cn.common.util.StringUtil;
-import com.cn.module.monitor.lineage2.DiLongMonitor;
+
+import com.example.legend.common.util.StringUtil;
 
 import java.io.IOException;
 import java.io.InputStream;

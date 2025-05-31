@@ -71,31 +71,31 @@ public class BaiDuOcrUtil {
         return res.toString(2);
     }
 
-
-    public static void main(String[] args) {
-        String APP_ID = "34800730";
-        String API_KEY = "BA7T7bAUU6Tn9GvXgvHb5NFZ";
-        String SECRET_KEY = "jwYe8p2D4V8A9fFxA0GjtpOqKR0pIrQE";
-        //百度ORC识别
-        BaiDuOcrUtil baiDuOcrUtil = new BaiDuOcrUtil(APP_ID, API_KEY, SECRET_KEY);
-        baiDuOcrUtil.connent();
-        // 初始化一个AipOcr
-        HashMap<String, String> options = new HashMap<String, String>();
-        options.put("recognize_granularity","big");
-        options.put("probability","false");
-        options.put("detect_direction","true");
-        String path = "D://test/1.png";
-        File file = new File(path);
-        JSONObject jsonObject = baiDuOcrUtil.client.handwriting(path, options);
-        System.out.println(file.getName()+":"+jsonObject.toString());
-        path = "D://test/2.png";
-        file = new File(path);
-        jsonObject = baiDuOcrUtil.client.handwriting(path, options);
-        System.out.println(file.getName()+":"+jsonObject.toString());
-        path = "D://test/3.png";
-        file = new File(path);
-        jsonObject = baiDuOcrUtil.client.handwriting(path, options);
-        System.out.println(file.getName()+":"+jsonObject.toString());
-    }
+//
+//    public static void main(String[] args) {
+//        String APP_ID = "34800730";
+//        String API_KEY = "BA7T7bAUU6Tn9GvXgvHb5NFZ";
+//        String SECRET_KEY = "jwYe8p2D4V8A9fFxA0GjtpOqKR0pIrQE";
+//        //百度ORC识别
+//        BaiDuOcrUtil baiDuOcrUtil = new BaiDuOcrUtil(APP_ID, API_KEY, SECRET_KEY);
+//        baiDuOcrUtil.connent();
+//        // 初始化一个AipOcr
+//        HashMap<String, String> options = new HashMap<String, String>();
+//        options.put("recognize_granularity","big");
+//        options.put("probability","false");
+//        options.put("detect_direction","true");
+//        String path = "D://test/1.png";
+//        File file = new File(path);
+//        JSONObject jsonObject = baiDuOcrUtil.client.handwriting(path, options);
+//        System.out.println(file.getName()+":"+jsonObject.toString());
+//        path = "D://test/2.png";
+//        file = new File(path);
+//        jsonObject = baiDuOcrUtil.client.handwriting(path, options);
+//        System.out.println(file.getName()+":"+jsonObject.toString());
+//        path = "D://test/3.png";
+//        file = new File(path);
+//        jsonObject = baiDuOcrUtil.client.handwriting(path, options);
+//        System.out.println(file.getName()+":"+jsonObject.toString());
+//    }
 }
 

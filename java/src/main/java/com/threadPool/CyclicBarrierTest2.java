@@ -22,7 +22,7 @@ public class CyclicBarrierTest2 {
             System.out.println("三人平均成绩为:"+(result/3)+"分");
         });
         //执行线程
-        for(int i=0;i<3;i++){
+        for(int i=0;i<10;i++){
             threadPool.execute(new Runnable(){
                 @Override
                 public void run() {

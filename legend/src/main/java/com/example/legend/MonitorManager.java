@@ -1,4 +1,4 @@
-package com.example.legend.monitor;
+package com.example.legend;
 
 
 import com.example.legend.common.util.FileUtil;

@@ -34,10 +34,16 @@ public class Lineage2MonitorMain {
     }
 
     public static void main(String[] args) {
-        Thread thread1 = new Thread(new DiLongMonitor());
-        thread1.start();
+//        Thread thread1 = new Thread(new DiLongMonitor());
+//        thread1.start();
 
-        Thread thread2 = new Thread(new HuoLongMonitor());
-        thread2.start();
+//        Thread thread2 = new Thread(new HuoLongMonitor());
+//        thread2.start();
+
+//        Thread thread3 = new Thread(new ChuanqiMonitor());
+//        thread3.start();
+
+        Thread thread4 = new Thread(new ShopMonitor());
+        thread4.start();
     }
 }

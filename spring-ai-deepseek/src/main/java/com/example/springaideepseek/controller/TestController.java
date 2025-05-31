@@ -97,4 +97,14 @@ public class TestController {
         return content;
 //        return content.contextWrite(Flux.just("[complete]"));
     }
+
+    @GetMapping("test")
+    public Flux<String> test(@RequestParam(value = "message") String message){
+        while(message.equals("1")) {
+            System.out.println(Thread.currentThread().getName());
+        }
+        Flux<String> content = chatClient.prompt().user(message).stream().content();
+        return content;
+//        return content.contextWrite(Flux.just("[complete]"));
+    }
 }

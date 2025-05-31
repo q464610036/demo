@@ -11,10 +11,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class MyLock {
     //不能用Integer类型
-    public volatile int state;
     private static long stateOffset;
     private static Unsafe unsafe;
-
+    public volatile int state;
     static {
         try {
             /**

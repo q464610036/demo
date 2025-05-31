@@ -48,6 +48,14 @@ public class MetaAnnotationMain {
             } else {
                 System.out.println(clazz.getName() + "类" + stuMethod.getName() + "方法没有" + MyAnnotation1.class.getName() + "注解！");
             }
+
+            //判断方法上有没有@MyAnnotation1注解
+            Method[] methods = clazz.getMethods();
+            for (Method method : methods) {
+                if (method.isAnnotationPresent(MyAnnotation1.class)) {
+                    System.out.println("method :" + method.getName() + " 有@MyAnnotation1");
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

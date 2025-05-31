@@ -2,9 +2,13 @@ package com.cn.common.util;
 
 import com.sun.mail.util.MailSSLSocketFactory;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import java.util.List;
 import java.util.Properties;
@@ -21,7 +25,7 @@ public class QQSMSUtils {
 
     /**
      * 发送
-     *
+     * <p>
      * 1次发送不能超过10封(否则就只能发送十几条就挂掉了)
      * 1分钟内不能发送超过40封
      * 1天内不能发送超过100封
@@ -33,6 +37,9 @@ public class QQSMSUtils {
      * @throws AddressException
      */
     public static void send(List<String> toEmails, String title, String content) throws Exception, AddressException {
+        send(toEmails, title, content, null);
+    }
+    public static void send(List<String> toEmails, String title, String content, String filePath) throws Exception, AddressException {
         InternetAddress[] toEmailList = new InternetAddress[toEmails.size()];
         for (int i = 0; i < toEmails.size(); i++) {
             String toEmail = toEmails.get(i);
@@ -75,6 +82,16 @@ public class QQSMSUtils {
         message.setSubject(title);
         // 邮件内容
         message.setContent(content, "text/html;charset=utf-8");
+        //图片部分
+//        MimeBodyPart imagePart = new MimeBodyPart();
+//        DataSource dataSource = new FileDataSource(filePath);
+//        imagePart.setDataHandler(new DataHandler(dataSource));
+//        imagePart.setFileName("image.jpg");
+        if (!StringUtil.isEmpty(filePath) ) {
+            DataSource dataSource = new FileDataSource(filePath);
+            message.setDataHandler(new DataHandler(dataSource));
+            message.setFileName("image.jpg");
+        }
         // 发送邮件
         ts.sendMessage(message, message.getAllRecipients());
         System.out.println("发送成功");
