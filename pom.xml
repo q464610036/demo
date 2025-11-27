@@ -20,6 +20,7 @@
         <module>elastic-seach</module>
         <module>lineage2</module>
         <module>spring-ioc</module>
+        <module>spring-mcp-server</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

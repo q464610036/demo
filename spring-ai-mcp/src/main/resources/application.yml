@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: spring-ai-mcp
+
+  ai:
+    mcp:
+      server:
+        enabled: true
+        name: hongxin-kuaizhou-tool
+        version: 1.0.0
+        sse-endpoint: /sse
+        sse-message-endpoint: /message
+        capabilities:
+          tool: true
+
