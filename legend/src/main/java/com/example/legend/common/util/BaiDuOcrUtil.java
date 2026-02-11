@@ -88,7 +88,6 @@ public class BaiDuOcrUtil {
         // 通用文字识别（含位置信息版）, 图片参数为远程url图片
         JSONObject jsonObject = client.general(bytes, options);
         String str = jsonObject.toString();
-        System.out.println(str);
         return str;
     }
 
