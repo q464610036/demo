@@ -33,7 +33,7 @@ public class LegendMonitorMain {
                     emailList.add(email);
                 }
             }
-            System.out.println("param="+properties.getProperty("param"));
+//            System.out.println("param="+properties.getProperty("param"));
             String[] params = properties.getProperty("param").split(",");
             for (String param : params) {
                 if (!StringUtil.isEmpty(param)) {

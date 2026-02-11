@@ -9,6 +9,7 @@ import lombok.SneakyThrows;
 import org.apache.log4j.Logger;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -86,10 +87,26 @@ public class MessageMonitor implements Runnable {
     final static String APP_ID = "34800730";
     final static String API_KEY = "BA7T7bAUU6Tn9GvXgvHb5NFZ";
     final static String SECRET_KEY = "jwYe8p2D4V8A9fFxA0GjtpOqKR0pIrQE";
-    public static R<Boolean> baiduOCR() {
+    public static int i = 0;
+    public static R<Boolean> baiduOCR() throws IOException {
         //百度ORC识别
         BaiDuOcrUtil baiDuOcrUtil = new BaiDuOcrUtil(APP_ID, API_KEY, SECRET_KEY);
-        String jsonStr = baiDuOcrUtil.general(path);
+        String jsonStr = null;
+        if (i%2 == 0) {
+            try{
+                jsonStr = baiDuOcrUtil.basicGeneral(path);
+            } catch (Exception e) {
+                jsonStr = baiDuOcrUtil.general(path);
+            }
+        } else {
+            try{
+                jsonStr = baiDuOcrUtil.general(path);
+            } catch (Exception e) {
+                jsonStr = baiDuOcrUtil.basicGeneral(path);
+            }
+        }
+        i++;
+
         log.info("识别结果："+jsonStr);
         if (StringUtil.isEmpty(jsonStr)) {
             log.info("识图失败");

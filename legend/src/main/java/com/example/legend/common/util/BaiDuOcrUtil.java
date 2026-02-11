@@ -1,9 +1,15 @@
 package com.example.legend.common.util;
 
 import com.baidu.aip.ocr.AipOcr;
+import com.baidu.aip.util.Base64Util;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 
 public class BaiDuOcrUtil {
@@ -22,7 +28,12 @@ public class BaiDuOcrUtil {
         client = new AipOcr(APP_ID, API_KEY, SECRET_KEY);
     }
 
-    public String general(String path) {
+    /**
+     * 通用文字识别
+     * @param path
+     * @return
+     */
+    public String basicGeneral(String path) {
         if(client== null){
             connent();
         }
@@ -40,6 +51,8 @@ public class BaiDuOcrUtil {
         options.put("detect_direction", "true");
         options.put("vertexes_location", "true");
         options.put("probability", "true");
+
+
         // 可选：设置网络连接参数
         client.setConnectionTimeoutInMillis(2000);
         client.setSocketTimeoutInMillis(60000);
@@ -55,6 +68,28 @@ public class BaiDuOcrUtil {
 //        JSONObject jsonObject = client.accurateGeneral(path, options);//返回高精度坐标
 //        System.out.println(jsonObject.toString(2));
         return jsonObject.toString();
+    }
+
+
+    public String general(String path) throws IOException {
+        if(client== null){
+            connent();
+        }
+        // 传入可选参数调用接口
+        HashMap<String, String> options = new HashMap<String, String>();
+        options.put("recognize_granularity", "big");
+        options.put("language_type", "CHN_ENG");
+        options.put("detect_direction", "true");
+        options.put("detect_language", "true");
+        options.put("vertexes_location", "true");
+        options.put("probability", "true");
+
+        byte[] bytes = Files.readAllBytes(Paths.get(path));
+        // 通用文字识别（含位置信息版）, 图片参数为远程url图片
+        JSONObject jsonObject = client.general(bytes, options);
+        String str = jsonObject.toString();
+        System.out.println(str);
+        return str;
     }
 
     /**
