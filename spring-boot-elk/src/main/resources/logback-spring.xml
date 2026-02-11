@@ -1,0 +1,81 @@
+<!--配置方式一-->
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+    <!--提取配置文件中的服务名-->
+    <springProperty scope="context" name="springApplicationName" source="spring.application.name" />
+    <property name="LOG_HOME" value="logs/demo.log" />
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- 控制台输出格式 -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <!--
+        需要注意的是，LogstashTcpSocketAppender对于参数读取的支持有所不佳，直接使用
+        ${logstash.host}的方式读取数据会出现异常，因此需要使用${logstash.host:- }的方式进行读取，
+        【:-】的意思是如果变量存在则返回变量，否则返回默认值。
+        (很奇怪它怎么做到读取不到配置文件的值却又能将之作为默认值，反正就是成功了。）
+        -->
+        <destination>${logstash.host:- }:${logstash.port:- }</destination>
+        <!--        <destination>124.223.119.48:4560</destination>-->
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder" >
+            <!--定义appname的名字是服务名,多服务时,根据这个进行区分日志-->
+            <customFields>{"appname": "${springApplicationName}"}</customFields>
+        </encoder>
+    </appender>
+    <!-- 开发debug、测试info、生产error -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="logstash" />
+    </root>
+</configuration>
+
+
+<!-- -配置方式二-->
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<configuration debug="false">-->
+<!--<springProperty scope="context" name="springApplicationName" source="spring.application.name" />-->
+<!--<property name="LOG_HOME" value="logs/demo.log" />-->
+<!--<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">-->
+<!--    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">-->
+<!--        <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>-->
+<!--    </encoder>-->
+<!--</appender>-->
+
+<!--&lt;!&ndash;DEBUG日志输出到LogStash&ndash;&gt;-->
+<!--<appender name="LOG_STASH_DEBUG" class="net.logstash.logback.appender.LogstashTcpSocketAppender">-->
+<!--    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
+<!--        <level>DEBUG</level>-->
+<!--    </filter>-->
+<!--    <destination>124.223.119.48:4560</destination>-->
+<!--    <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">-->
+<!--        <providers>-->
+<!--            <timestamp>-->
+<!--                <timeZone>Asia/Shanghai</timeZone>-->
+<!--            </timestamp>-->
+<!--            &lt;!&ndash;自定义日志输出格式&ndash;&gt;-->
+<!--            <pattern>-->
+<!--                <pattern>-->
+<!--                    {-->
+<!--                    "project": "elk", &lt;!&ndash; 项目名 &ndash;&gt;-->
+<!--                    "level": "%level", &lt;!&ndash; 日志级别 &ndash;&gt;-->
+<!--                    "service": "${springApplicationName:-}", &lt;!&ndash; app名称 &ndash;&gt;-->
+<!--                    "pid": "${PID:-}", &lt;!&ndash; 线程id &ndash;&gt;-->
+<!--                    "thread": "%thread", &lt;!&ndash; 线程 &ndash;&gt;-->
+<!--                    "class": "%logger", &lt;!&ndash; 哪个类 &ndash;&gt;-->
+<!--                    "message": "%message", &lt;!&ndash; 输出信息 &ndash;&gt;-->
+<!--                    "stack_trace": "%exception" &lt;!&ndash; 异常信息 &ndash;&gt;-->
+<!--                    }-->
+<!--                </pattern>-->
+<!--            </pattern>-->
+<!--        </providers>-->
+<!--    </encoder>-->
+<!--</appender>-->
+
+<!--<root >-->
+<!--    <appender-ref ref="STDOUT" />-->
+<!--    <appender-ref ref="LOG_STASH_DEBUG" />-->
+<!--</root>-->
+<!--</configuration>-->

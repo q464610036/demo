@@ -13,3 +13,8 @@ spring:
         capabilities:
           tool: true
 
+# ??????
+logging:
+  level:
+    io.modelcontextprotocol: trace
+    org.springframework.ai.mcp: trace

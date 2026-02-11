@@ -27,10 +27,6 @@ public class MessageMonitor implements Runnable {
     final static int y1 = 0;
     final static int x2 = 800;
     final static int y2 = 830;
-    final static ArrayList<String> paramList = new ArrayList<>();
-    static{
-        paramList.add("发现物品");
-    }
     @SneakyThrows
     @Override
     public void run() {
@@ -70,7 +66,7 @@ public class MessageMonitor implements Runnable {
         String[] list = text.split("\n");
         String message = "";
         for (String str : list) {
-            for (String param : paramList) {
+            for (String param : LegendMonitorMain.paramList) {
                 if (str.contains(param)) {
                     System.out.println(DateUtil.format(new Date())+"物品识图命中：" + str);
                     message += str + "\n";
@@ -104,9 +100,9 @@ public class MessageMonitor implements Runnable {
             for (int i = 0; i < wordsResultList.size();i++){
                 JSONObject jsonObject1 = wordsResultList.getJSONObject(i);
                 String text = jsonObject1.getString("words");
-                for (String param : paramList) {
+                for (String param : LegendMonitorMain.paramList) {
                     if (text.contains(param)) {
-                        log.info("识图命中："+param);
+                        System.out.println("识图命中："+param);
                         return R.data(true);
                     }
                 }

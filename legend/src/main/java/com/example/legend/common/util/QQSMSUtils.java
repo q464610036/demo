@@ -60,7 +60,7 @@ public class QQSMSUtils {
             }
         });
         // 开启 Session 的 debug 模式，这样就可以查看程序发送 Email 的运行状态
-        session.setDebug(true);
+//        session.setDebug(true);
         // 通过 session 得到 transport 对象
         Transport ts = session.getTransport();
         // 使用邮箱的用户名和授权码连上邮箱服务器

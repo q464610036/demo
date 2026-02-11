@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class ImageUtil {
-    public static void createScreenCapture(String path, int x, int y, int width, int height) throws AWTException, IOException {
+    public static void createScreenCapture(String path, int x, int y, int width, int height) throws Exception {
         // 创建一个Robot对象
         Robot robot = new Robot();
         // 获取屏幕的大小
@@ -17,7 +17,8 @@ public class ImageUtil {
         // 捕获屏幕上的内容
         BufferedImage bufferedImage = robot.createScreenCapture(rectangle);
         // 将捕获的内容保存到文件
-        ImageIO.write(bufferedImage, "jpg", new File(path));
+        File file = FileUtil.createFile(path);
+        ImageIO.write(bufferedImage, "jpg", file);
     }
 
     /**
