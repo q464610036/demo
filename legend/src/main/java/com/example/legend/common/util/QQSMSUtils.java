@@ -2,10 +2,11 @@ package com.example.legend.common.util;
 
 import com.sun.mail.util.MailSSLSocketFactory;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.*;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import javax.mail.internet.*;
 import java.util.List;
 import java.util.Properties;
 
@@ -67,18 +68,70 @@ public class QQSMSUtils {
         ts.connect(host, username, password);
         // 创建邮件，写邮件
         MimeMessage message = new MimeMessage(session);
-        // 指明邮件的发件人
-        message.setFrom(new InternetAddress(fromEmail));
-        // 指明邮件的收件人
-        message.setRecipients(Message.RecipientType.TO, toEmailList);
-        // 邮件主题
-        message.setSubject(title);
-        // 邮件内容
-        message.setContent(content, "text/html;charset=utf-8");
+        message.setFrom(new InternetAddress(fromEmail));// 指明邮件的发件人
+        message.setRecipients(Message.RecipientType.TO, toEmailList);// 指明邮件的收件人
+        message.setSubject(title);// 邮件主题
+        message.setContent(content, "text/html;charset=utf-8");// 邮件内容
         // 发送邮件
         ts.sendMessage(message, message.getAllRecipients());
         System.out.println("发送成功");
         // 释放资源
         ts.close();
+    }
+
+    public static void send(List<String> toEmails, String title, String content, String path) throws Exception, AddressException {
+        InternetAddress[] toEmailList = new InternetAddress[toEmails.size()];
+        for (int i = 0; i < toEmails.size(); i++) {
+            String toEmail = toEmails.get(i);
+            toEmailList[i] = new InternetAddress(toEmail);
+        }
+        // 使用QQ邮箱时配置
+        Properties prop = new Properties();
+        // 设置QQ邮件服务器
+        prop.setProperty("mail.host", "smtp.qq.com");
+        // 邮件发送协议
+        prop.setProperty("mail.transport.protocol", "smtp");
+        // 需要验证用户名和密码
+        prop.setProperty("mail.smtp.auth", "true");
+        // 关于QQ邮箱，还要设置SSL加密，其他邮箱不需要
+        MailSSLSocketFactory sf = new MailSSLSocketFactory();
+        sf.setTrustAllHosts(true);
+        prop.put("mail.smtp.ssl.enable", "true");
+        prop.put("mail.smtp.ssl.socketFactory", sf);
+        // 创建定义整个邮件程序所需的环境信息的 Session 对象，QQ才有，其他邮箱就不用了
+        Session session = Session.getDefaultInstance(prop, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                // 发件人邮箱用户名，授权码
+                return new PasswordAuthentication(username, password);
+            }
+        });
+        // 开启 Session 的 debug 模式，这样就可以查看程序发送 Email 的运行状态
+//        session.setDebug(true);
+        // 创建默认的MimeMessage对象
+        MimeMessage message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(fromEmail));// 指明邮件的发件人
+        message.setRecipients(Message.RecipientType.TO, toEmailList);// 指明邮件的收件人
+        message.setSubject(title);// 邮件主题
+
+        // 创建Multipart对象，并向其中添加邮件内容
+        Multipart multipart = new MimeMultipart();
+        BodyPart messageBodyPart = new MimeBodyPart();
+        messageBodyPart.setContent("<h1>"+content+"</h1><img src='cid:image1'/>", "text/html; charset=utf-8");
+        multipart.addBodyPart(messageBodyPart);
+
+        // 添加图片附件并设置Content-ID
+        messageBodyPart = new MimeBodyPart();
+        DataSource fds = new FileDataSource(path);
+        messageBodyPart.setDataHandler(new DataHandler(fds));
+        messageBodyPart.setHeader("Content-ID", "<image1>"); // 设置Content-ID
+        messageBodyPart.setDisposition(MimeBodyPart.INLINE); // 设置内容为内联，即直接在邮件中显示图片
+        multipart.addBodyPart(messageBodyPart);
+        // 设置邮件内容类型为multipart/related，以便可以嵌入图片
+        message.setContent(multipart);
+
+        // 发送邮件
+        Transport.send(message);
+        System.out.println("邮件发送成功！");
     }
 }

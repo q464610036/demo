@@ -8,17 +8,24 @@ import com.example.legend.common.vo.R;
 import lombok.SneakyThrows;
 import org.apache.log4j.Logger;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Properties;
 
 /**
  * 聊天窗口监视器
  */
 public class MessageMonitor implements Runnable {
     private static Logger log = Logger.getLogger(MessageMonitor.class);
+
+    public static String APP_ID;
+    public static String API_KEY;
+    public static String SECRET_KEY;
 
     final static String rootFolder = LegendMonitorMain.rootFolder+"/log_message";
     final static String timePath = rootFolder +"/time.txt";
@@ -48,7 +55,7 @@ public class MessageMonitor implements Runnable {
                         Thread.sleep(10000);
                     } else {
                         if (result.getData()) {
-                            QQSMSUtils.send(LegendMonitorMain.emailList, "高级物品掉落告知", "");
+                            QQSMSUtils.send(LegendMonitorMain.emailList, "高级物品掉落告知", "高级物品掉落告知", path);
                             Thread.sleep(1000 * 60 * 5);
                         } else {
                             Thread.sleep(1000 * 60 * 2);
@@ -84,9 +91,6 @@ public class MessageMonitor implements Runnable {
         }
     }
 
-    final static String APP_ID = "34800730";
-    final static String API_KEY = "BA7T7bAUU6Tn9GvXgvHb5NFZ";
-    final static String SECRET_KEY = "jwYe8p2D4V8A9fFxA0GjtpOqKR0pIrQE";
     public static int i = 0;
     public static R<Boolean> baiduOCR() throws IOException {
         //百度ORC识别

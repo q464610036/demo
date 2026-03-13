@@ -18,31 +18,38 @@ public class LegendMonitorMain {
     final static Double similarity = 0.9D;
 
     static {
-        // 获取当前工作目录的路径
-        String currentDir = System.getProperty("user.dir");
-        // 打印当前工作目录的路径
-        System.out.println("当前工作目录是: " + currentDir);
         Properties properties=new Properties();
         try {
-            properties.load(new InputStreamReader(LegendMonitorMain.class.getResourceAsStream("/main.properties"), "UTF-8"));
-//            properties.load(new InputStreamReader(new FileInputStream("main.properties"), "UTF-8"));
-            System.out.println("email="+properties.getProperty("email"));
-            String[] emails = properties.getProperty("email").split(",");
-            for (String email : emails) {
-                if (!StringUtil.isEmpty(email)) {
-                    emailList.add(email);
-                }
-            }
-//            System.out.println("param="+properties.getProperty("param"));
-            String[] params = properties.getProperty("param").split(",");
-            for (String param : params) {
-                if (!StringUtil.isEmpty(param)) {
-                    paramList.add(param);
-                }
-            }
+            properties.load(new InputStreamReader(new FileInputStream("main.properties"), "UTF-8"));
+            System.out.println("加载外部配置文件...");
         } catch (IOException e) {
-            e.printStackTrace();
+            try {
+                //读不到就读项目中的配置文件
+                properties.load(new InputStreamReader(LegendMonitorMain.class.getResourceAsStream("/main.properties"), "UTF-8"));
+                System.out.println("加载项目配置文件...");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
+        String[] emails = properties.getProperty("email").split(",");
+        System.out.println("emails="+properties.getProperty("email"));
+        for (String email : emails) {
+            if (!StringUtil.isEmpty(email)) {
+                emailList.add(email);
+            }
+        }
+        String[] params = properties.getProperty("param").split(",");
+        for (String param : params) {
+            if (!StringUtil.isEmpty(param)) {
+                paramList.add(param);
+            }
+        }
+        MessageMonitor.APP_ID = properties.getProperty("APP_ID");
+        System.out.println("APP_ID="+MessageMonitor.APP_ID);
+        MessageMonitor.API_KEY = properties.getProperty("API_KEY");
+        System.out.println("API_KEY="+MessageMonitor.API_KEY);
+        MessageMonitor.SECRET_KEY = properties.getProperty("SECRET_KEY");
+        System.out.println("SECRET_KEY="+MessageMonitor.SECRET_KEY);
     }
 
     public static void main(String[] args) {
