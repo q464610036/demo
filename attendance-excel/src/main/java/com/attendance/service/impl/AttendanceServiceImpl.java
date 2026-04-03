@@ -28,9 +28,9 @@ public class AttendanceServiceImpl implements AttendanceService {
         Sheet sheet = workbook.getSheetAt(0);
 
         // 2. 读取请假/外出/出差Excel，转换为内存Map（无数据库）
-        List<Map<String, String>> leaveList = readExcelToMap(leaveFile);
-        List<Map<String, String>> outList = readExcelToMap(outFile);
-        List<Map<String, String>> tripList = readExcelToMap(tripFile);
+        List<Map<String, String>> leaveList = readExcelToMap(leaveFile, 0);
+        List<Map<String, String>> outList = readExcelToMap(outFile, 0);
+        List<Map<String, String>> tripList = readExcelToMap(tripFile, 1);
 
         // 3. 构建「员工姓名_日期」→ 考勤记录的映射（含同行人）
         Map<String, List<Map<String, String>>> attendanceRecordMap = buildAttendanceRecordMap(leaveList, outList, tripList);
@@ -45,7 +45,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     /**
      * 读取Excel文件转换为List<Map>，表头为key，行数据为value
      */
-    private List<Map<String, String>> readExcelToMap(MultipartFile file) throws Exception {
+    private List<Map<String, String>> readExcelToMap(MultipartFile file, int titleIndex) throws Exception {
         List<Map<String, String>> dataList = new ArrayList<>();
         if (file == null || file.isEmpty()) {
             return dataList;
@@ -53,14 +53,14 @@ public class AttendanceServiceImpl implements AttendanceService {
         InputStream is = file.getInputStream();
         Workbook book = new XSSFWorkbook(is);
         Sheet sheet = book.getSheetAt(0);
-        Row headRow = sheet.getRow(0); // 表头行
+        Row headRow = sheet.getRow(titleIndex); // 表头行
         if (headRow == null) {
             book.close();
             return dataList;
         }
 
         // 遍历数据行
-        for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+        for (int i = titleIndex + 1; i <= sheet.getLastRowNum(); i++) {
             Row dataRow = sheet.getRow(i);
             if (dataRow == null) {
                 continue;
@@ -91,6 +91,34 @@ public class AttendanceServiceImpl implements AttendanceService {
         Map<String, List<Map<String, String>>> recordMap = new HashMap<>();
         for (List<Map<String, String>> dataList : lists) {
             for (Map<String, String> rowMap : dataList) {
+                for (String key : rowMap.keySet()) {
+                    if (key.contains("出差事由")) {
+                        System.out.println();
+                    }
+                }
+                //针对出差的开始时间结束时间转义
+                String startTimeStr = rowMap.get("开始时间");
+                if (startTimeStr != null) {
+                    if (startTimeStr.contains("上午")) {
+                        startTimeStr = startTimeStr.replace("上午", "08:30");
+                        rowMap.put("开始时间", startTimeStr);
+                    }
+                    if (startTimeStr.contains("下午")) {
+                        startTimeStr = startTimeStr.replace("下午", "13:30");
+                        rowMap.put("开始时间", startTimeStr);
+                    }
+                }
+                String endTimeStr = rowMap.get("结束时间");
+                if (endTimeStr != null) {
+                    if (endTimeStr.contains("上午")) {
+                        endTimeStr = endTimeStr.replace("上午", "11:30");
+                        rowMap.put("开始时间", endTimeStr);
+                    }
+                    if (endTimeStr.contains("下午")) {
+                        endTimeStr = endTimeStr.replace("下午", "17:30");
+                        rowMap.put("开始时间", endTimeStr);
+                    }
+                }
                 // 获取创建人、开始时间、同行人
                 String creator = rowMap.getOrDefault("创建人", "").trim();
                 String startTime = rowMap.getOrDefault("开始时间", "").trim();
