@@ -99,8 +99,8 @@ public class AttendanceServiceImpl implements AttendanceService {
                     continue;
                 }
 
-                // 解析日期（取3月份的日期，如2026-03-15 → 15）
-                String day = startTime.split(" ")[0].split("-")[2];
+                // 解析日期（取3月份的日期，如2026-03-15 → 15，去掉前导零保证格式一致）
+                String day = String.valueOf(Integer.parseInt(startTime.split(" ")[0].split("-")[2]));
                 // 给创建人添加记录
                 addRecordToMap(recordMap, creator, day, rowMap);
                 // 给同行人添加记录（逗号/顿号分隔）
@@ -171,7 +171,9 @@ public class AttendanceServiceImpl implements AttendanceService {
                     cell = employeeRow.createCell(col); // 新建空单元格
                 }
                 String originalValue = cell.toString().trim(); // 原始打卡记录
-
+                if (employeeName.equals("吴毅强") && day.equals("16")) {
+                    System.out.println();
+                }
                 // 获取该员工该日期的所有考勤记录（请假/外出/出差）
                 List<Map<String, String>> records = recordMap.getOrDefault(employeeName + "_" + day, new ArrayList<>());
                 boolean hasLeave = false, hasTrip = false, hasOut = false;
@@ -179,15 +181,17 @@ public class AttendanceServiceImpl implements AttendanceService {
 
                 // 遍历考勤记录，判断类型、拼接详情
                 for (Map<String, String> record : records) {
-                    if (record.containsKey("请假类型")) {
-                        hasLeave = true;
-                        detailInfo.append("请假：").append(record.get("开始时间")).append("至").append(record.get("结束时间")).append("\n");
-                    } else if (record.containsKey("出差事由")) {
-                        hasTrip = true;
-                        detailInfo.append("出差：").append(record.get("行程")).append("\n");
-                    } else if (record.containsKey("外出地点及事由")) {
-                        hasOut = true;
-                        detailInfo.append("外出：").append(record.get("开始时间")).append("至").append(record.get("结束时间")).append("\n");
+                    for (String key : record.keySet()) {
+                        if (key.contains("请假类型")) {
+                            hasLeave = true;
+                            detailInfo.append("请假：").append(record.get("开始时间")).append("至").append(record.get("结束时间")).append("\n");
+                        } else if (key.contains("出差事由")) {
+                            hasTrip = true;
+                            detailInfo.append("出差：").append(record.get("行程")).append("\n");
+                        } else if (key.contains("外出地点及事由")) {
+                            hasOut = true;
+                            detailInfo.append("外出：").append(record.get("开始时间")).append("至").append(record.get("结束时间")).append("\n");
+                        }
                     }
                 }
 
