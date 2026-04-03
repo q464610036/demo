@@ -222,7 +222,8 @@ public class AttendanceServiceImpl implements AttendanceService {
                 boolean hasLeave = false, hasTrip = false, hasOut = false;
                 StringBuilder detailInfo = new StringBuilder(); // 要补充的详情信息
 
-                // 遍历考勤记录，判断类型、拼接详情
+                // 遍历考勤记录，判断类型、拼接详情（出差详情不拼接到内容，写到批注中）
+                StringBuilder tripComment = new StringBuilder(); // 出差批注内容
                 for (Map<String, String> record : records) {
                     for (String key : record.keySet()) {
                         if (key.contains("请假类型")) {
@@ -230,12 +231,31 @@ public class AttendanceServiceImpl implements AttendanceService {
                             detailInfo.append("请假：").append(record.get("开始时间")).append("至").append(record.get("结束时间")).append("\n");
                         } else if (key.contains("出差事由")) {
                             hasTrip = true;
-                            detailInfo.append("出差：").append(record.get("出差事由")).append("\n");
+                            // 出差详情写入批注，不拼接到单元格内容
+                            if (tripComment.length() > 0) {
+                                tripComment.append("\n");
+                            }
+                            tripComment.append("出差：").append(record.get("出差事由"))
+                                    .append(" ").append(record.get("开始时间")).append("至").append(record.get("结束时间"));
                         } else if (key.contains("外出地点及事由")) {
                             hasOut = true;
                             detailInfo.append("外出：").append(record.get("开始时间")).append("至").append(record.get("结束时间")).append("\n");
                         }
                     }
+                }
+
+                // 为出差记录创建批注
+                if (tripComment.length() > 0) {
+                    CreationHelper creationHelper = workbook.getCreationHelper();
+                    Drawing<?> drawing = sheet.createDrawingPatriarch();
+                    ClientAnchor anchor = creationHelper.createClientAnchor();
+                    anchor.setCol1(col);
+                    anchor.setCol2(col + 2);
+                    anchor.setRow1(i);
+                    anchor.setRow2(i + 3);
+                    Comment comment = drawing.createCellComment(anchor);
+                    comment.setString(creationHelper.createRichTextString(tripComment.toString()));
+                    cell.setCellComment(comment);
                 }
 
                 // 构建单元格样式：颜色、自动换行、字体
