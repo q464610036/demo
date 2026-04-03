@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -112,11 +113,11 @@ public class AttendanceServiceImpl implements AttendanceService {
                 if (endTimeStr != null) {
                     if (endTimeStr.contains("上午")) {
                         endTimeStr = endTimeStr.replace("上午", "11:30");
-                        rowMap.put("开始时间", endTimeStr);
+                        rowMap.put("结束时间", endTimeStr);
                     }
                     if (endTimeStr.contains("下午")) {
                         endTimeStr = endTimeStr.replace("下午", "17:30");
-                        rowMap.put("开始时间", endTimeStr);
+                        rowMap.put("结束时间", endTimeStr);
                     }
                 }
                 // 获取创建人、开始时间、同行人
@@ -127,15 +128,29 @@ public class AttendanceServiceImpl implements AttendanceService {
                     continue;
                 }
 
-                // 解析日期（取3月份的日期，如2026-03-15 → 15，去掉前导零保证格式一致）
-                String day = String.valueOf(Integer.parseInt(startTime.split(" ")[0].split("-")[2]));
-                // 给创建人添加记录
-                addRecordToMap(recordMap, creator, day, rowMap);
-                // 给同行人添加记录（逗号/顿号分隔）
+                // 解析开始和结束日期，处理跨天情况
+                String datePart = startTime.split(" ")[0]; // 如 2026-03-15
+                LocalDate startDate = LocalDate.parse(datePart);
+                String endTimeTrimmed = rowMap.getOrDefault("结束时间", "").trim();
+                LocalDate endDate = startDate;
+                if (!endTimeTrimmed.isEmpty() && endTimeTrimmed.contains("-")) {
+                    String endDatePart = endTimeTrimmed.split(" ")[0];
+                    endDate = LocalDate.parse(endDatePart);
+                }
+
+                // 给创建人添加记录（跨天则每天都要添加）
+                for (LocalDate d = startDate; !d.isAfter(endDate); d = d.plusDays(1)) {
+                    String day = String.valueOf(d.getDayOfMonth());
+                    addRecordToMap(recordMap, creator, day, rowMap);
+                }
+                // 给同行人添加记录（逗号/顿号分隔，跨天则每天都要添加）
                 if (!companion.isEmpty() && !companion.equals("nan")) {
                     String[] companions = companion.split("[,，]");
                     for (String c : companions) {
-                        addRecordToMap(recordMap, c.trim(), day, rowMap);
+                        for (LocalDate d = startDate; !d.isAfter(endDate); d = d.plusDays(1)) {
+                            String day = String.valueOf(d.getDayOfMonth());
+                            addRecordToMap(recordMap, c.trim(), day, rowMap);
+                        }
                     }
                 }
             }
@@ -215,7 +230,7 @@ public class AttendanceServiceImpl implements AttendanceService {
                             detailInfo.append("请假：").append(record.get("开始时间")).append("至").append(record.get("结束时间")).append("\n");
                         } else if (key.contains("出差事由")) {
                             hasTrip = true;
-                            detailInfo.append("出差：").append(record.get("行程")).append("\n");
+                            detailInfo.append("出差：").append(record.get("出差事由")).append("\n");
                         } else if (key.contains("外出地点及事由")) {
                             hasOut = true;
                             detailInfo.append("外出：").append(record.get("开始时间")).append("至").append(record.get("结束时间")).append("\n");
