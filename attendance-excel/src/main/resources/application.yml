@@ -1,0 +1,7 @@
+server:
+  port: 8080  # 项目运行端口，可自行修改
+spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB  # 最大单文件上传大小
+      max-request-size: 100MB  # 最大请求大小
