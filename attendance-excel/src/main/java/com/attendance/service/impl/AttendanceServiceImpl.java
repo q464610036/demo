@@ -229,7 +229,7 @@ public class AttendanceServiceImpl implements AttendanceService {
                     cell = employeeRow.createCell(col); // 新建空单元格
                 }
                 String originalValue = cell.toString().trim(); // 原始打卡记录
-                if (employeeName.equals("李凤真") && day.equals("19")) {
+                if (employeeName.equals("胡曼") && day.equals("18")) {
                     System.out.println();
                 }
                 // 获取该员工该日期的所有考勤记录（请假/外出/出差）
@@ -390,11 +390,31 @@ public class AttendanceServiceImpl implements AttendanceService {
         for (Map<String, String> record : records) {
             LocalDateTime startTime = null;
             LocalDateTime endTime = null;
+//            //获取时长
+//            String duration = null;
+//            boolean durationIsDay = false;
+//            for (String key : record.keySet()) {
+//                if (key.equals("时长")) {
+//                    duration =  record.get(key);
+//                    break;
+//                }
+//            }
+//            if (duration.contains("天")) {
+//                durationIsDay = true;
+//            }
             for (String key : record.keySet()) {
                 if (key.equals("开始时间")) {
-                    startTime = com.attendance.util.DateUtil.parseLocalDateTime(record.get(key), "yyyy-MM-dd HH:mm");
+                    String startTimeStr = record.get(key);
+                    if (startTimeStr.length() < 16) {
+                        startTimeStr += " 08:30";
+                    }
+                    startTime = DateUtil.parseLocalDateTime(startTimeStr, "yyyy-MM-dd HH:mm");
                 } else if (key.equals("结束时间")) {
-                    endTime = DateUtil.parseLocalDateTime(record.get(key), "yyyy-MM-dd HH:mm");
+                    String endTimeStr = record.get(key);
+                    if (endTimeStr.length() < 16) {
+                        endTimeStr += " 17:30";
+                    }
+                    endTime = DateUtil.parseLocalDateTime(endTimeStr, "yyyy-MM-dd HH:mm");
                 }
             }
             if (startTime != null && endTime != null) {
