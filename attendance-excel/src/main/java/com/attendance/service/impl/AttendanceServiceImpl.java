@@ -2,6 +2,8 @@ package com.attendance.service.impl;
 
 import com.attendance.enums.ExceptionTypeEnum;
 import com.attendance.service.AttendanceService;
+import com.attendance.util.AttendanceUtil;
+import com.attendance.util.DateUtil;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -173,6 +176,18 @@ public class AttendanceServiceImpl implements AttendanceService {
      * 核心处理Excel：标记颜色、补充详情、判断考勤异常、设置红字
      */
     private void handleExcelSheet(Sheet sheet, Map<String, List<Map<String, String>>> recordMap, Workbook workbook) {
+        // 读取月份（第一行第一列，格式：打卡时间 统计日期：2026-03-01 至 2026-03-31）
+        Cell monthCell = sheet.getRow(0).getCell(0);
+        String month = "";
+        if (monthCell != null) {
+            String cellValue = monthCell.toString().trim();
+            // 从"统计日期：2026-03-01 至 2026-03-31"中提取"2026-03"
+            if (cellValue.contains("统计日期：")) {
+                String datePart = cellValue.split("统计日期：")[1].split(" ")[0]; // 2026-03-01
+                month = datePart.substring(0, 7); // 2026-03
+            }
+        }
+
         // 读取Excel中的日期列（第二行是日期：2、3、4...31）
         Row dateRow = sheet.getRow(1);
         List<Integer> dateColIndices = new ArrayList<>(); // 日期列的列索引
@@ -214,7 +229,7 @@ public class AttendanceServiceImpl implements AttendanceService {
                     cell = employeeRow.createCell(col); // 新建空单元格
                 }
                 String originalValue = cell.toString().trim(); // 原始打卡记录
-                if (employeeName.equals("吴毅强") && day.equals("16")) {
+                if (employeeName.equals("李凤真") && day.equals("19")) {
                     System.out.println();
                 }
                 // 获取该员工该日期的所有考勤记录（请假/外出/出差）
@@ -250,12 +265,12 @@ public class AttendanceServiceImpl implements AttendanceService {
                 }
 
                 // 判断考勤异常，拼接异常信息
-                String exceptionInfo = checkAttendanceException(originalValue, records);
+                String exceptionInfo = checkAttendanceException(originalValue, records, month, day);
                 if (!exceptionInfo.isEmpty()) {
                     if (commentContent.length() > 0) {
                         commentContent.append("\n");
                     }
-                    commentContent.append("【考勤异常：").append(exceptionInfo).append("】");
+                    commentContent.append("【").append(exceptionInfo).append("】");
                 }
 
                 // 为所有考勤记录创建批注
@@ -334,8 +349,66 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     /**
      * 考勤异常判断（严格按需求规则）
+     * @param month 月份（如：2026-03）
      * @return 异常信息，无异常返回空字符串
      */
+    private String checkAttendanceException(String originalValue, List<Map<String, String>> records, String month, String day) {
+        if (day.length() == 1) {
+            day = "0"+day;
+        }
+        //当天所有打卡时间
+        List<AttendanceUtil.AttendanceRecord> timeList = new ArrayList<>();
+        // 1. 提取原始打卡时间（如：08:05 17:32 → 解析为LocalTime）
+        List<LocalTime> checkTimes = new ArrayList<>();
+        String[] timeStrs = originalValue.split("\\s+|\n"); // 按空格/换行分割
+        int i=0;
+        AttendanceUtil.AttendanceRecord pickAttendanceRecord = new AttendanceUtil.AttendanceRecord();
+        for (String timeStr : timeStrs) {
+            if (timeStr.matches("\\d{2}:\\d{2}")) { // 匹配时间格式
+                checkTimes.add(LocalTime.parse(timeStr));
+                LocalDateTime dateTime = DateUtil.parseLocalDateTime(month+"-"+day+" "+timeStr, "yyyy-MM-dd HH:mm");
+                if (i%2 == 0) {
+                    pickAttendanceRecord.setStartTime(dateTime);
+                } else {
+                    pickAttendanceRecord.setEndTime(dateTime);
+                }
+                i++;
+            }
+            if (pickAttendanceRecord.getEndTime() != null) {
+                timeList.add(pickAttendanceRecord);
+                pickAttendanceRecord = new AttendanceUtil.AttendanceRecord();
+            }
+        }
+        if (pickAttendanceRecord.getEndTime() != null && pickAttendanceRecord.getStartTime() != null) {
+            timeList.add(pickAttendanceRecord);
+        }
+        // 打卡次数不是2次 → 打卡基数次
+        if (checkTimes.size() % 2 != 0) {
+            return ExceptionTypeEnum.LESS_CHECK.getDesc();
+        }
+
+        for (Map<String, String> record : records) {
+            LocalDateTime startTime = null;
+            LocalDateTime endTime = null;
+            for (String key : record.keySet()) {
+                if (key.equals("开始时间")) {
+                    startTime = com.attendance.util.DateUtil.parseLocalDateTime(record.get(key), "yyyy-MM-dd HH:mm");
+                } else if (key.equals("结束时间")) {
+                    endTime = DateUtil.parseLocalDateTime(record.get(key), "yyyy-MM-dd HH:mm");
+                }
+            }
+            if (startTime != null && endTime != null) {
+                AttendanceUtil.AttendanceRecord attendanceRecord = new AttendanceUtil.AttendanceRecord(startTime, endTime);
+                timeList.add(attendanceRecord);
+            }
+        }
+        AttendanceUtil.AttendanceResult result = AttendanceUtil.checkAttendance(timeList);
+        if (!result.getStatus().getDescription().equals("正常") ) {
+            return result.getStatus().getDescription()+":"+result.getMessage();
+        }
+        return "";
+    }
+    /*
     private String checkAttendanceException(String originalValue, List<Map<String, String>> records) {
         // 1. 提取原始打卡时间（如：08:05 17:32 → 解析为LocalTime）
         List<LocalTime> checkTimes = new ArrayList<>();
@@ -382,7 +455,7 @@ public class AttendanceServiceImpl implements AttendanceService {
         // 无异常
         return "";
     }
-
+*/
     /**
      * 导出处理后的Excel文件，浏览器自动下载
      */
