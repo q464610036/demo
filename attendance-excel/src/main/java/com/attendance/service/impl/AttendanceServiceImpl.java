@@ -31,25 +31,36 @@ public class AttendanceServiceImpl implements AttendanceService {
         Workbook workbook = new XSSFWorkbook(checkIs);
         Sheet sheet = workbook.getSheetAt(0);
 
-        // 2. 读取请假/外出/出差Excel，转换为内存Map（无数据库）
-        List<Map<String, String>> leaveList = readExcelToMap(leaveFile, 0);
-        List<Map<String, String>> outList = readExcelToMap(outFile, 0);
-        List<Map<String, String>> tripList = readExcelToMap(tripFile, 1);
+        // 读取月份（第一行第一列，格式：打卡时间 统计日期：2026-03-01 至 2026-03-31）
+        String month = "";
+        Cell monthCell = sheet.getRow(0).getCell(0);
+        if (monthCell != null) {
+            String cellValue = monthCell.toString().trim();
+            if (cellValue.contains("统计日期：")) {
+                String datePart = cellValue.split("统计日期：")[1].split(" ")[0];
+                month = datePart.substring(0, 7);
+            }
+        }
+
+        // 2. 读取请假/外出/出差Excel，转换为内存Map（只返回当月数据）
+        List<Map<String, String>> leaveList = readExcelToMap(leaveFile, 0, month);
+        List<Map<String, String>> outList = readExcelToMap(outFile, 0, month);
+        List<Map<String, String>> tripList = readExcelToMap(tripFile, 1, month);
 
         // 3. 构建「员工姓名_日期」→ 考勤记录的映射（含同行人）
         Map<String, List<Map<String, String>>> attendanceRecordMap = buildAttendanceRecordMap(leaveList, outList, tripList);
 
         // 4. 核心处理：遍历Excel，逐单元格标记颜色、补充详情、判断异常
-        handleExcelSheet(sheet, attendanceRecordMap, workbook);
+        handleExcelSheet(sheet, attendanceRecordMap, workbook, month);
 
         // 5. 导出处理后的Excel（自动下载）
         exportProcessedExcel(workbook, response);
     }
 
     /**
-     * 读取Excel文件转换为List<Map>，表头为key，行数据为value
+     * 读取Excel文件转换为List<Map>，表头为key，行数据为value（只返回当月数据）
      */
-    private List<Map<String, String>> readExcelToMap(MultipartFile file, int titleIndex) throws Exception {
+    private List<Map<String, String>> readExcelToMap(MultipartFile file, int titleIndex, String month) throws Exception {
         List<Map<String, String>> dataList = new ArrayList<>();
         if (file == null || file.isEmpty()) {
             return dataList;
@@ -81,7 +92,14 @@ public class AttendanceServiceImpl implements AttendanceService {
                 String dataValue = dataCell.toString().trim();
                 rowMap.put(headKey, dataValue);
             }
-            dataList.add(rowMap);
+            // 只添加当月的数据
+            String startTime = rowMap.get("开始时间");
+            if (startTime != null && startTime.contains("-")) {
+                String recordMonth = startTime.substring(0, 7);
+                if (recordMonth.equals(month)) {
+                    dataList.add(rowMap);
+                }
+            }
         }
         book.close();
         return dataList;
@@ -175,19 +193,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     /**
      * 核心处理Excel：标记颜色、补充详情、判断考勤异常、设置红字
      */
-    private void handleExcelSheet(Sheet sheet, Map<String, List<Map<String, String>>> recordMap, Workbook workbook) {
-        // 读取月份（第一行第一列，格式：打卡时间 统计日期：2026-03-01 至 2026-03-31）
-        Cell monthCell = sheet.getRow(0).getCell(0);
-        String month = "";
-        if (monthCell != null) {
-            String cellValue = monthCell.toString().trim();
-            // 从"统计日期：2026-03-01 至 2026-03-31"中提取"2026-03"
-            if (cellValue.contains("统计日期：")) {
-                String datePart = cellValue.split("统计日期：")[1].split(" ")[0]; // 2026-03-01
-                month = datePart.substring(0, 7); // 2026-03
-            }
-        }
-
+    private void handleExcelSheet(Sheet sheet, Map<String, List<Map<String, String>>> recordMap, Workbook workbook, String month) {
         // 读取Excel中的日期列（第二行是日期：2、3、4...31）
         Row dateRow = sheet.getRow(1);
         List<Integer> dateColIndices = new ArrayList<>(); // 日期列的列索引
