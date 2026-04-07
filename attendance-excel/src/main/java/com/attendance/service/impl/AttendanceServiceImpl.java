@@ -43,9 +43,9 @@ public class AttendanceServiceImpl implements AttendanceService {
         }
 
         // 2. 读取请假/外出/出差Excel，转换为内存Map（只返回当月数据）
-        List<Map<String, String>> leaveList = readExcelToMap(leaveFile, 0, month);
-        List<Map<String, String>> outList = readExcelToMap(outFile, 0, month);
-        List<Map<String, String>> tripList = readExcelToMap(tripFile, 1, month);
+        List<Map<String, String>> leaveList = readExcelToMap(leaveFile, 0);
+        List<Map<String, String>> outList = readExcelToMap(outFile, 0);
+        List<Map<String, String>> tripList = readExcelToMap(tripFile, 1);
 
         // 3. 构建「员工姓名_日期」→ 考勤记录的映射（含同行人）
         Map<String, List<Map<String, String>>> attendanceRecordMap = buildAttendanceRecordMap(leaveList, outList, tripList);
@@ -60,7 +60,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     /**
      * 读取Excel文件转换为List<Map>，表头为key，行数据为value（只返回当月数据）
      */
-    private List<Map<String, String>> readExcelToMap(MultipartFile file, int titleIndex, String month) throws Exception {
+    private List<Map<String, String>> readExcelToMap(MultipartFile file, int titleIndex) throws Exception {
         List<Map<String, String>> dataList = new ArrayList<>();
         if (file == null || file.isEmpty()) {
             return dataList;
@@ -92,14 +92,7 @@ public class AttendanceServiceImpl implements AttendanceService {
                 String dataValue = dataCell.toString().trim();
                 rowMap.put(headKey, dataValue);
             }
-            // 只添加当月的数据
-            String startTime = rowMap.get("开始时间");
-            if (startTime != null && startTime.contains("-")) {
-                String recordMonth = startTime.substring(0, 7);
-                if (recordMonth.equals(month)) {
-                    dataList.add(rowMap);
-                }
-            }
+            dataList.add(rowMap);
         }
         book.close();
         return dataList;
@@ -235,7 +228,7 @@ public class AttendanceServiceImpl implements AttendanceService {
                     cell = employeeRow.createCell(col); // 新建空单元格
                 }
                 String originalValue = cell.toString().trim(); // 原始打卡记录
-                if (employeeName.equals("胡曼") && day.equals("18")) {
+                if (employeeName.equals("廖福冰") && day.equals("2")) {
                     System.out.println();
                 }
                 // 获取该员工该日期的所有考勤记录（请假/外出/出差）
