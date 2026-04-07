@@ -303,10 +303,10 @@ public class AttendanceServiceImpl implements AttendanceService {
         style.setVerticalAlignment(VerticalAlignment.TOP); // 垂直置顶
         style.setAlignment(HorizontalAlignment.LEFT); // 水平左对齐
 
-        // 背景色标记优先级：请假（天蓝）> 出差（浅黄）> 外出（浅绿）
+        // 背景色标记优先级：请假（浅灰）> 出差（浅黄）> 外出（浅绿）
         if (hasLeave) {
             style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-            style.setFillForegroundColor(IndexedColors.TURQUOISE.getIndex());
+            style.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
         } else if (hasTrip) {
             style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
             style.setFillForegroundColor(IndexedColors.LIGHT_YELLOW.getIndex());
