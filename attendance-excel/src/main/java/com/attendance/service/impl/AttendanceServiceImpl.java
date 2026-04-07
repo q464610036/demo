@@ -222,30 +222,44 @@ public class AttendanceServiceImpl implements AttendanceService {
                 boolean hasLeave = false, hasTrip = false, hasOut = false;
                 StringBuilder detailInfo = new StringBuilder(); // 要补充的详情信息
 
-                // 遍历考勤记录，判断类型、拼接详情（出差详情不拼接到内容，写到批注中）
-                StringBuilder tripComment = new StringBuilder(); // 出差批注内容
+                // 遍历考勤记录，判断类型、拼接详情（外出/请假/出差详情都写到批注中）
+                StringBuilder commentContent = new StringBuilder();
                 for (Map<String, String> record : records) {
                     for (String key : record.keySet()) {
                         if (key.contains("请假类型")) {
                             hasLeave = true;
-                            detailInfo.append("请假：").append(record.get("开始时间")).append("至").append(record.get("结束时间")).append("\n");
+                            if (commentContent.length() > 0) {
+                                commentContent.append("\n");
+                            }
+                            commentContent.append("请假：").append(record.get("开始时间")).append("至").append(record.get("结束时间"));
                         } else if (key.contains("出差事由")) {
                             hasTrip = true;
-                            // 出差详情写入批注，不拼接到单元格内容
-                            if (tripComment.length() > 0) {
-                                tripComment.append("\n");
+                            if (commentContent.length() > 0) {
+                                commentContent.append("\n");
                             }
-                            tripComment.append("出差：").append(record.get("出差事由"))
+                            commentContent.append("出差：").append(record.get("出差事由"))
                                     .append(" ").append(record.get("开始时间")).append("至").append(record.get("结束时间"));
                         } else if (key.contains("外出地点及事由")) {
                             hasOut = true;
-                            detailInfo.append("外出：").append(record.get("开始时间")).append("至").append(record.get("结束时间")).append("\n");
+                            if (commentContent.length() > 0) {
+                                commentContent.append("\n");
+                            }
+                            commentContent.append("外出：").append(record.get("开始时间")).append("至").append(record.get("结束时间"));
                         }
                     }
                 }
 
-                // 为出差记录创建批注
-                if (tripComment.length() > 0) {
+                // 判断考勤异常，拼接异常信息
+                String exceptionInfo = checkAttendanceException(originalValue, records);
+                if (!exceptionInfo.isEmpty()) {
+                    if (commentContent.length() > 0) {
+                        commentContent.append("\n");
+                    }
+                    commentContent.append("【考勤异常：").append(exceptionInfo).append("】");
+                }
+
+                // 为所有考勤记录创建批注
+                if (commentContent.length() > 0) {
                     CreationHelper creationHelper = workbook.getCreationHelper();
                     Drawing<?> drawing = sheet.createDrawingPatriarch();
                     ClientAnchor anchor = creationHelper.createClientAnchor();
@@ -254,24 +268,26 @@ public class AttendanceServiceImpl implements AttendanceService {
                     anchor.setRow1(i);
                     anchor.setRow2(i + 3);
                     Comment comment = drawing.createCellComment(anchor);
-                    comment.setString(creationHelper.createRichTextString(tripComment.toString()));
+                    comment.setString(creationHelper.createRichTextString(commentContent.toString()));
                     cell.setCellComment(comment);
                 }
 
-                // 构建单元格样式：颜色、自动换行、字体
+                // 构建单元格样式：自动换行、垂直置顶、请假/出差/外出背景色
                 CellStyle cellStyle = buildCellStyle(workbook, hasLeave, hasTrip, hasOut);
-                // 判断考勤异常，拼接异常信息，异常则设置红字
-                String exceptionInfo = checkAttendanceException(originalValue, records);
+                // 考勤异常则设置红字
                 if (!exceptionInfo.isEmpty()) {
-                    detailInfo.append("【考勤异常：").append(exceptionInfo).append("】");
-                    // 异常字体设置为红色
                     Font redFont = workbook.createFont();
                     redFont.setColor(IndexedColors.RED.getIndex());
                     cellStyle.setFont(redFont);
                 }
 
-                // 设置单元格值：原始打卡记录 + 补充详情
-                String finalCellValue = originalValue + (originalValue.isEmpty() ? "" : "\n") + detailInfo.toString().trim();
+                // 设置单元格值：原始打卡记录 + 补充详情，未打卡则写入"未打卡"
+                String finalCellValue = originalValue;
+                if (originalValue.isEmpty() && detailInfo.toString().trim().isEmpty()) {
+                    finalCellValue = "未打卡";
+                } else if (!originalValue.isEmpty()) {
+                    finalCellValue = originalValue + "\n" + detailInfo.toString().trim();
+                }
                 cell.setCellValue(finalCellValue);
                 cell.setCellStyle(cellStyle);
             }
@@ -279,7 +295,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     /**
-     * 构建单元格样式：根据考勤类型标记颜色、设置自动换行/垂直置顶
+     * 构建单元格样式：根据考勤类型设置背景色、自动换行/垂直置顶
      */
     private CellStyle buildCellStyle(Workbook workbook, boolean hasLeave, boolean hasTrip, boolean hasOut) {
         CellStyle style = workbook.createCellStyle();
@@ -287,10 +303,10 @@ public class AttendanceServiceImpl implements AttendanceService {
         style.setVerticalAlignment(VerticalAlignment.TOP); // 垂直置顶
         style.setAlignment(HorizontalAlignment.LEFT); // 水平左对齐
 
-        // 颜色标记优先级：请假（浅蓝）> 出差（浅黄）> 外出（浅绿）
+        // 背景色标记优先级：请假（天蓝）> 出差（浅黄）> 外出（浅绿）
         if (hasLeave) {
             style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-            style.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
+            style.setFillForegroundColor(IndexedColors.TURQUOISE.getIndex());
         } else if (hasTrip) {
             style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
             style.setFillForegroundColor(IndexedColors.LIGHT_YELLOW.getIndex());
@@ -299,6 +315,21 @@ public class AttendanceServiceImpl implements AttendanceService {
             style.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
         }
         return style;
+    }
+
+    /**
+     * 构建字体颜色：请假（蓝色）> 出差（橙色）> 外出（绿色）
+     */
+    private Font buildColorFont(Workbook workbook, boolean hasLeave, boolean hasTrip, boolean hasOut) {
+        Font font = workbook.createFont();
+        if (hasLeave) {
+            font.setColor(IndexedColors.BLUE.getIndex());
+        } else if (hasTrip) {
+            font.setColor(IndexedColors.ORANGE.getIndex());
+        } else if (hasOut) {
+            font.setColor(IndexedColors.GREEN.getIndex());
+        }
+        return font;
     }
 
     /**
