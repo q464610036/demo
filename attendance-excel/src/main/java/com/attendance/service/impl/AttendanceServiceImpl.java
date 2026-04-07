@@ -296,12 +296,19 @@ public class AttendanceServiceImpl implements AttendanceService {
                     cellStyle.setFont(redFont);
                 }
 
-                // 设置单元格值：原始打卡记录 + 补充详情，未打卡则写入"未打卡"
+                // 设置单元格值：考勤类型显示
                 String finalCellValue = originalValue;
-                if (originalValue.isEmpty() && detailInfo.toString().trim().isEmpty()) {
-                    finalCellValue = "未打卡";
-                } else if (!originalValue.isEmpty()) {
-                    finalCellValue = originalValue + "\n" + detailInfo.toString().trim();
+                if (originalValue.isEmpty()) {
+                    // 未打卡时，根据考勤类型显示
+                    if (hasLeave) {
+                        finalCellValue = "请假";
+                    } else if (hasTrip) {
+                        finalCellValue = "出差";
+                    } else if (hasOut) {
+                        finalCellValue = "外出";
+                    }
+                } else {
+                    finalCellValue = originalValue;
                 }
                 cell.setCellValue(finalCellValue);
                 cell.setCellStyle(cellStyle);
