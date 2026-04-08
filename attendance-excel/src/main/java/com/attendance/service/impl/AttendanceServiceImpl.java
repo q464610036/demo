@@ -494,10 +494,12 @@ public class AttendanceServiceImpl implements AttendanceService {
         response.setHeader("Cache-Control", "no-cache");
 
         OutputStream os = response.getOutputStream();
-        workbook.write(os);
-        // 关闭流
-        os.flush();
-        os.close();
-        workbook.close();
+        try {
+            workbook.write(os);
+            os.flush();
+        } finally {
+            workbook.close();
+            os.close();
+        }
     }
 }
