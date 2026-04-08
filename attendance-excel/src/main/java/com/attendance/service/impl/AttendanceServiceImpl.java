@@ -25,7 +25,7 @@ import java.util.*;
 public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
-    public void processAttendance(MultipartFile checkFile, MultipartFile leaveFile, MultipartFile outFile, MultipartFile tripFile, HttpServletResponse response) throws Exception {
+    public void processAttendance(MultipartFile checkFile, MultipartFile leaveFile, MultipartFile outFile, MultipartFile tripFile, MultipartFile overtimeFile, HttpServletResponse response) throws Exception {
         // 1. 读取打卡原始Excel（保留原样式/表头）
         InputStream checkIs = checkFile.getInputStream();
         Workbook workbook = new XSSFWorkbook(checkIs);
@@ -46,16 +46,23 @@ public class AttendanceServiceImpl implements AttendanceService {
         List<Map<String, String>> leaveList = readExcelToMap(leaveFile, 0);
         List<Map<String, String>> outList = readExcelToMap(outFile, 0);
         List<Map<String, String>> tripList = readExcelToMap(tripFile, 1);
+        List<Map<String, String>> overtimeList = readExcelToMap(overtimeFile, 1);
 
         int monthInt = Integer.parseInt(month.substring(5, 7));
         // 3. 构建「员工姓名_日期」→ 考勤记录的映射（含同行人）
         Map<String, List<Map<String, String>>> attendanceRecordMap = buildAttendanceRecordMap(monthInt, leaveList, outList, tripList);
 
-        // 4. 统计每人本月的病假/事假/调休时长（单位：小时）
+        // 4. 统计每人本月的病假/事假/调休/年假时长（单位：小时）
         Map<String, Map<String, Double>> leaveStats = calculateLeaveStats(month, leaveList);
 
-        // 5. 核心处理：遍历Excel，逐单元格标记颜色、补充详情、判断异常
-        handleExcelSheet(sheet, attendanceRecordMap, leaveStats, workbook, month);
+        // 5. 统计每人本月的加班时长（单位：小时）
+        Map<String, Double> overtimeStats = calculateOvertimeStats(month, overtimeList);
+
+        // 6. 统计每人本月的迟到时长（单位：分钟）
+        Map<String, Integer> lateStats = calculateLateStats(sheet, attendanceRecordMap, month);
+
+        // 7. 核心处理：遍历Excel，逐单元格标记颜色、补充详情、判断异常
+        handleExcelSheet(sheet, attendanceRecordMap, leaveStats, overtimeStats, lateStats, workbook, month);
 
         // 6. 导出处理后的Excel（自动下载）
         exportProcessedExcel(workbook, response);
@@ -239,14 +246,16 @@ public class AttendanceServiceImpl implements AttendanceService {
                 totalDays = parseDouble(durationStr);
             }
             double hours = totalDays * 8 * overlapDays / totalLeaveDays;
-            // 获取请假类型：病假/事假/调休/年假（年假按调休统计）
+            // 获取请假类型：病假/事假/调休/年假（分开统计）
             String leaveType = record.getOrDefault("请假类型", "").trim();
             String statKey;
             if (leaveType.contains("病假")) {
                 statKey = "病假";
             } else if (leaveType.contains("事假")) {
                 statKey = "事假";
-            } else if (leaveType.contains("年假") || leaveType.contains("调休")) {
+            } else if (leaveType.contains("年假")) {
+                statKey = "年假";
+            } else if (leaveType.contains("调休")) {
                 statKey = "调休";
             } else {
                 continue;
@@ -255,6 +264,113 @@ public class AttendanceServiceImpl implements AttendanceService {
             stats.putIfAbsent(creator, new HashMap<>());
             Map<String, Double> empStats = stats.get(creator);
             empStats.put(statKey, empStats.getOrDefault(statKey, 0.0) + hours);
+        }
+        return stats;
+    }
+
+    /**
+     * 统计每人本月的加班时长（单位：小时）
+     * @param month 要统计的月份（如"2026-04"）
+     * @param overtimeList 加班记录列表
+     * @return Map<员工名, 加班小时数>
+     */
+    private Map<String, Double> calculateOvertimeStats(String month, List<Map<String, String>> overtimeList) {
+        Map<String, Double> stats = new HashMap<>();
+        if (overtimeList == null || overtimeList.isEmpty()) {
+            return stats;
+        }
+        // 计算当月的起始和结束日期
+        int year = Integer.parseInt(month.substring(0, 4));
+        int monthNum = Integer.parseInt(month.substring(5, 7));
+        LocalDate monthStart = LocalDate.of(year, monthNum, 1);
+        LocalDate monthEnd = monthStart.plusMonths(1).minusDays(1);
+
+        for (Map<String, String> record : overtimeList) {
+            String creator = record.getOrDefault("创建人", "").trim();
+            if (creator.isEmpty()) {
+                continue;
+            }
+            String startTime = record.getOrDefault("开始时间", "").trim();
+            if (startTime.isEmpty()) {
+                continue;
+            }
+            // 解析加班日期
+            LocalDate startDate = LocalDate.parse(startTime.split(" ")[0]);
+            // 筛选当月数据
+            if (startDate.isBefore(monthStart) || startDate.isAfter(monthEnd)) {
+                continue;
+            }
+            // 获取加班时长（小时）
+            String durationStr = record.getOrDefault("时长", "0");
+            double hours;
+            if (durationStr.contains("小时")) {
+                hours = parseDouble(durationStr.replace("小时", ""));
+            } else if (durationStr.contains("天")) {
+                hours = parseDouble(durationStr.replace("天", "")) * 8;
+            } else {
+                hours = parseDouble(durationStr);
+            }
+            stats.put(creator, stats.getOrDefault(creator, 0.0) + hours);
+        }
+        return stats;
+    }
+
+    /**
+     * 统计每人本月的迟到时长（单位：分钟）
+     * @param sheet 打卡记录的Sheet
+     * @param month 要统计的月份（如"2026-04"）
+     * @return Map<员工名, 迟到分钟数>
+     */
+    private Map<String, Integer> calculateLateStats(Sheet sheet, Map<String, List<Map<String, String>>> recordMap, String month) {
+        Map<String, Integer> stats = new HashMap<>();
+        LocalTime MORNING_START = LocalTime.of(8, 30);
+        // 读取日期列
+        Row dateRow = sheet.getRow(1);
+        List<Integer> dateColIndices = new ArrayList<>();
+        List<String> dateDays = new ArrayList<>();
+        for (int j = 1; j < dateRow.getLastCellNum(); j++) {
+            Cell dateCell = dateRow.getCell(j);
+            if (dateCell == null) continue;
+            String dateValue = dateCell.toString().trim();
+            if (dateValue.matches("\\d+")) {
+                dateColIndices.add(j);
+                dateDays.add(dateValue);
+            }
+        }
+        // 遍历员工行
+        for (int i = 2; i <= sheet.getLastRowNum(); i++) {
+            Row employeeRow = sheet.getRow(i);
+            if (employeeRow == null) continue;
+            Cell nameCell = employeeRow.getCell(0);
+            if (nameCell == null) continue;
+            String employeeName = nameCell.toString().trim();
+            if (employeeName.isEmpty()) continue;
+            int totalLateMinutes = 0;
+            // 遍历该员工每天的单元格
+            for (int idx = 0; idx < dateColIndices.size(); idx++) {
+                int col = dateColIndices.get(idx);
+                String day = dateDays.get(idx);
+                Cell cell = employeeRow.getCell(col);
+                if (cell == null) continue;
+                String cellValue = cell.toString().trim();
+                // 获取该员工该日期的考勤记录
+                List<Map<String, String>> records = recordMap.getOrDefault(employeeName + "_" + day, new ArrayList<>());
+                // 检查是否有考勤异常
+                String exceptionInfo = checkAttendanceException(cellValue, records, month, day);
+                // 只统计有异常的天数中的迟到时长
+                if (exceptionInfo.contains("迟到") || exceptionInfo.contains("打卡基数次")) {
+                    String[] timeStrs = cellValue.split("\\s+|\n");
+                    for (String timeStr : timeStrs) {
+                        if (timeStr.matches("\\d{2}:\\d{2}")) {
+                            LocalTime checkTime = LocalTime.parse(timeStr);
+                            int lateMinutes = (int) java.time.Duration.between(MORNING_START, checkTime).toMinutes();
+                            totalLateMinutes += lateMinutes;
+                            break; // 只看第一次打卡
+                        }
+                    }
+                }
+            }
+            stats.put(employeeName, totalLateMinutes);
         }
         return stats;
     }
@@ -270,7 +386,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     /**
      * 核心处理Excel：标记颜色、补充详情、判断考勤异常、设置红字
      */
-    private void handleExcelSheet(Sheet sheet, Map<String, List<Map<String, String>>> recordMap, Map<String, Map<String, Double>> leaveStats, Workbook workbook, String month) {
+    private void handleExcelSheet(Sheet sheet, Map<String, List<Map<String, String>>> recordMap, Map<String, Map<String, Double>> leaveStats, Map<String, Double> overtimeStats, Map<String, Integer> lateStats, Workbook workbook, String month) {
         // 读取Excel中的日期列（第二行是日期：2、3、4...31）
         Row dateRow = sheet.getRow(1);
         List<Integer> dateColIndices = new ArrayList<>(); // 日期列的列索引
@@ -290,10 +406,11 @@ public class AttendanceServiceImpl implements AttendanceService {
         // 在日期列后添加统计列的表头
         int lastDateCol = dateColIndices.isEmpty() ? 1 : dateColIndices.get(dateColIndices.size() - 1);
         int statColStart = lastDateCol + 1;
-        String[] statHeaders = {"病假(小时)", "事假(小时)", "调休(小时)"};
-        for (int k = 0; k < 3; k++) {
+        String[] statHeaders = {"病假(h)", "事假(h)", "调休(h)", "年假(h)", "加班(h)", "迟到(分钟)"};
+        for (int k = 0; k < 6; k++) {
             Cell headerCell = dateRow.createCell(statColStart + k);
             headerCell.setCellValue(statHeaders[k]);
+            sheet.setColumnWidth(statColStart + k, 6 * 256); // 列宽约6个字符
         }
 
         // 遍历员工行（第三行及以后是员工打卡记录）
@@ -406,14 +523,20 @@ public class AttendanceServiceImpl implements AttendanceService {
                 cell.setCellStyle(cellStyle);
             }
 
-            // 在日期列后添加病假/事假/调休时长统计
+            // 在日期列后添加病假/事假/调休/年假/加班/迟到时长统计
             Map<String, Double> empStats = leaveStats.getOrDefault(employeeName, new HashMap<>());
             double sickLeave = empStats.getOrDefault("病假", 0.0);
             double personalLeave = empStats.getOrDefault("事假", 0.0);
             double adjustLeave = empStats.getOrDefault("调休", 0.0);
+            double annualLeave = empStats.getOrDefault("年假", 0.0);
+            double overtimeLeave = overtimeStats.getOrDefault(employeeName, 0.0);
+            int lateMinutes = lateStats.getOrDefault(employeeName, 0);
             employeeRow.createCell(statColStart).setCellValue(sickLeave);
             employeeRow.createCell(statColStart + 1).setCellValue(personalLeave);
             employeeRow.createCell(statColStart + 2).setCellValue(adjustLeave);
+            employeeRow.createCell(statColStart + 3).setCellValue(annualLeave);
+            employeeRow.createCell(statColStart + 4).setCellValue(overtimeLeave);
+            employeeRow.createCell(statColStart + 5).setCellValue(lateMinutes);
         }
     }
 

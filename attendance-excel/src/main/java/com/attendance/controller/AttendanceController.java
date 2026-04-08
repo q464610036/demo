@@ -30,6 +30,7 @@ public class AttendanceController {
      * @param leaveFile 请假记录Excel（参数名：leaveFile）
      * @param outFile 外出记录Excel（参数名：outFile）
      * @param tripFile 出差记录Excel（参数名：tripFile）
+     * @param overtimeFile 加班记录Excel（参数名：overtimeFile）
      * @param response 响应对象（自动下载Excel）
      */
     @PostMapping("/process")
@@ -38,7 +39,8 @@ public class AttendanceController {
             @RequestParam("leaveFile") MultipartFile leaveFile,
             @RequestParam("outFile") MultipartFile outFile,
             @RequestParam("tripFile") MultipartFile tripFile,
+            @RequestParam(value = "overtimeFile", required = false) MultipartFile overtimeFile,
             HttpServletResponse response) throws Exception {
-        attendanceService.processAttendance(checkFile, leaveFile, outFile, tripFile, response);
+        attendanceService.processAttendance(checkFile, leaveFile, outFile, tripFile, overtimeFile, response);
     }
 }

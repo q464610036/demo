@@ -15,11 +15,13 @@ public interface AttendanceService {
      * @param leaveFile 请假记录Excel
      * @param outFile 外出记录Excel
      * @param tripFile 出差记录Excel
+     * @param overtimeFile 加班记录Excel
      * @param response 响应对象（用于导出Excel）
      */
     void processAttendance(MultipartFile checkFile,
                            MultipartFile leaveFile,
                            MultipartFile outFile,
                            MultipartFile tripFile,
+                           MultipartFile overtimeFile,
                            HttpServletResponse response) throws Exception;
 }
