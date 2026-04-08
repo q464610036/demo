@@ -47,14 +47,17 @@ public class AttendanceServiceImpl implements AttendanceService {
         List<Map<String, String>> outList = readExcelToMap(outFile, 0);
         List<Map<String, String>> tripList = readExcelToMap(tripFile, 1);
 
-        int monthInt = Integer.parseInt(month.substring(6, 7));
+        int monthInt = Integer.parseInt(month.substring(5, 7));
         // 3. 构建「员工姓名_日期」→ 考勤记录的映射（含同行人）
         Map<String, List<Map<String, String>>> attendanceRecordMap = buildAttendanceRecordMap(monthInt, leaveList, outList, tripList);
 
-        // 4. 核心处理：遍历Excel，逐单元格标记颜色、补充详情、判断异常
-        handleExcelSheet(sheet, attendanceRecordMap, workbook, month);
+        // 4. 统计每人本月的病假/事假/调休时长（单位：小时）
+        Map<String, Map<String, Double>> leaveStats = calculateLeaveStats(month, leaveList);
 
-        // 5. 导出处理后的Excel（自动下载）
+        // 5. 核心处理：遍历Excel，逐单元格标记颜色、补充详情、判断异常
+        handleExcelSheet(sheet, attendanceRecordMap, leaveStats, workbook, month);
+
+        // 6. 导出处理后的Excel（自动下载）
         exportProcessedExcel(workbook, response);
     }
 
@@ -186,9 +189,88 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     /**
+     * 统计每人本月的病假/事假/调休时长（单位：小时）
+     * @param month 要统计的月份（如"2026-04"）
+     * @param leaveList 请假记录列表
+     * @return Map<员工名, Map<类型, 小时数>>，类型为"病假"、"事假"、"调休"
+     */
+    private Map<String, Map<String, Double>> calculateLeaveStats(String month, List<Map<String, String>> leaveList) {
+        Map<String, Map<String, Double>> stats = new HashMap<>();
+        // 计算当月的起始和结束日期
+        int year = Integer.parseInt(month.substring(0, 4));
+        int monthNum = Integer.parseInt(month.substring(5, 7));
+        LocalDate monthStart = LocalDate.of(year, monthNum, 1);
+        LocalDate monthEnd = monthStart.plusMonths(1).minusDays(1);
+
+        for (Map<String, String> record : leaveList) {
+            String creator = record.getOrDefault("创建人", "").trim();
+            if (creator.isEmpty()) {
+                continue;
+            }
+            String startTime = record.getOrDefault("开始时间", "").trim();
+            String endTime = record.getOrDefault("结束时间", "").trim();
+            if (startTime.isEmpty()) {
+                continue;
+            }
+            // 解析请假时间段
+            LocalDate startDate = LocalDate.parse(startTime.split(" ")[0]);
+            LocalDate endDate = startDate;
+            if (!endTime.isEmpty() && endTime.contains("-")) {
+                endDate = LocalDate.parse(endTime.split(" ")[0]);
+            }
+            // 计算与当月的重叠区间
+            LocalDate overlapStart = startDate.isAfter(monthStart) ? startDate : monthStart;
+            LocalDate overlapEnd = endDate.isBefore(monthEnd) ? endDate : monthEnd;
+            if (overlapStart.isAfter(overlapEnd)) {
+                continue; // 不在当月范围内
+            }
+            // 计算重叠天数
+            long overlapDays = java.time.temporal.ChronoUnit.DAYS.between(overlapStart, overlapEnd) + 1;
+            // 计算请假总天数
+            long totalLeaveDays = java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate) + 1;
+            // 获取时长（天），乘以8转为小时，再按重叠天数比例分摊
+            String durationStr = record.getOrDefault("时长", "0");
+            double totalDays;
+            if (durationStr.contains("天")) {
+                totalDays = parseDouble(durationStr.replace("天", ""));
+            } else if (durationStr.contains("小时")) {
+                totalDays = parseDouble(durationStr.replace("小时", "")) / 8.0;
+            } else {
+                totalDays = parseDouble(durationStr);
+            }
+            double hours = totalDays * 8 * overlapDays / totalLeaveDays;
+            // 获取请假类型：病假/事假/调休/年假（年假按调休统计）
+            String leaveType = record.getOrDefault("请假类型", "").trim();
+            String statKey;
+            if (leaveType.contains("病假")) {
+                statKey = "病假";
+            } else if (leaveType.contains("事假")) {
+                statKey = "事假";
+            } else if (leaveType.contains("年假") || leaveType.contains("调休")) {
+                statKey = "调休";
+            } else {
+                continue;
+            }
+
+            stats.putIfAbsent(creator, new HashMap<>());
+            Map<String, Double> empStats = stats.get(creator);
+            empStats.put(statKey, empStats.getOrDefault(statKey, 0.0) + hours);
+        }
+        return stats;
+    }
+
+    private Double parseDouble(String str) {
+        try {
+            return Double.parseDouble(str.trim());
+        } catch (Exception e) {
+            return 0.0;
+        }
+    }
+
+    /**
      * 核心处理Excel：标记颜色、补充详情、判断考勤异常、设置红字
      */
-    private void handleExcelSheet(Sheet sheet, Map<String, List<Map<String, String>>> recordMap, Workbook workbook, String month) {
+    private void handleExcelSheet(Sheet sheet, Map<String, List<Map<String, String>>> recordMap, Map<String, Map<String, Double>> leaveStats, Workbook workbook, String month) {
         // 读取Excel中的日期列（第二行是日期：2、3、4...31）
         Row dateRow = sheet.getRow(1);
         List<Integer> dateColIndices = new ArrayList<>(); // 日期列的列索引
@@ -203,6 +285,15 @@ public class AttendanceServiceImpl implements AttendanceService {
                 dateColIndices.add(j);
                 dateDays.add(dateValue);
             }
+        }
+
+        // 在日期列后添加统计列的表头
+        int lastDateCol = dateColIndices.isEmpty() ? 1 : dateColIndices.get(dateColIndices.size() - 1);
+        int statColStart = lastDateCol + 1;
+        String[] statHeaders = {"病假(小时)", "事假(小时)", "调休(小时)"};
+        for (int k = 0; k < 3; k++) {
+            Cell headerCell = dateRow.createCell(statColStart + k);
+            headerCell.setCellValue(statHeaders[k]);
         }
 
         // 遍历员工行（第三行及以后是员工打卡记录）
@@ -314,6 +405,15 @@ public class AttendanceServiceImpl implements AttendanceService {
                 cell.setCellValue(finalCellValue);
                 cell.setCellStyle(cellStyle);
             }
+
+            // 在日期列后添加病假/事假/调休时长统计
+            Map<String, Double> empStats = leaveStats.getOrDefault(employeeName, new HashMap<>());
+            double sickLeave = empStats.getOrDefault("病假", 0.0);
+            double personalLeave = empStats.getOrDefault("事假", 0.0);
+            double adjustLeave = empStats.getOrDefault("调休", 0.0);
+            employeeRow.createCell(statColStart).setCellValue(sickLeave);
+            employeeRow.createCell(statColStart + 1).setCellValue(personalLeave);
+            employeeRow.createCell(statColStart + 2).setCellValue(adjustLeave);
         }
     }
 
