@@ -47,8 +47,9 @@ public class AttendanceServiceImpl implements AttendanceService {
         List<Map<String, String>> outList = readExcelToMap(outFile, 0);
         List<Map<String, String>> tripList = readExcelToMap(tripFile, 1);
 
+        int monthInt = Integer.parseInt(month.substring(6, 7));
         // 3. 构建「员工姓名_日期」→ 考勤记录的映射（含同行人）
-        Map<String, List<Map<String, String>>> attendanceRecordMap = buildAttendanceRecordMap(leaveList, outList, tripList);
+        Map<String, List<Map<String, String>>> attendanceRecordMap = buildAttendanceRecordMap(monthInt, leaveList, outList, tripList);
 
         // 4. 核心处理：遍历Excel，逐单元格标记颜色、补充详情、判断异常
         handleExcelSheet(sheet, attendanceRecordMap, workbook, month);
@@ -102,15 +103,10 @@ public class AttendanceServiceImpl implements AttendanceService {
      * 构建考勤记录映射：key=员工姓名_日期（如：张三_15），value=该员工该日期的所有考勤记录
      * 自动处理同行人：出差/外出的同行人也会生成对应记录
      */
-    private Map<String, List<Map<String, String>>> buildAttendanceRecordMap(List<Map<String, String>>... lists) {
+    private Map<String, List<Map<String, String>>> buildAttendanceRecordMap(int month, List<Map<String, String>>... lists) {
         Map<String, List<Map<String, String>>> recordMap = new HashMap<>();
         for (List<Map<String, String>> dataList : lists) {
             for (Map<String, String> rowMap : dataList) {
-                for (String key : rowMap.keySet()) {
-                    if (key.contains("出差事由")) {
-                        System.out.println();
-                    }
-                }
                 //针对出差的开始时间结束时间转义
                 String startTimeStr = rowMap.get("开始时间");
                 if (startTimeStr != null) {
@@ -152,16 +148,22 @@ public class AttendanceServiceImpl implements AttendanceService {
                     endDate = LocalDate.parse(endDatePart);
                 }
 
-                // 给创建人添加记录（跨天则每天都要添加）
+                // 给创建人添加记录（跨天则每天都要添加，只添加当月数据）
                 for (LocalDate d = startDate; !d.isAfter(endDate); d = d.plusDays(1)) {
+                    if (d.getMonthValue() != month) {
+                        continue;
+                    }
                     String day = String.valueOf(d.getDayOfMonth());
                     addRecordToMap(recordMap, creator, day, rowMap);
                 }
-                // 给同行人添加记录（逗号/顿号分隔，跨天则每天都要添加）
+                // 给同行人添加记录（逗号/顿号分隔，跨天则每天都要添加，只添加当月数据）
                 if (!companion.isEmpty() && !companion.equals("nan")) {
                     String[] companions = companion.split("[,，]");
                     for (String c : companions) {
                         for (LocalDate d = startDate; !d.isAfter(endDate); d = d.plusDays(1)) {
+                            if (d.getMonthValue() != month) {
+                                continue;
+                            }
                             String day = String.valueOf(d.getDayOfMonth());
                             addRecordToMap(recordMap, c.trim(), day, rowMap);
                         }
