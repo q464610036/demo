@@ -13,7 +13,7 @@ public class AttendanceApplication {
         SpringApplication.run(AttendanceApplication.class, args);
         System.out.println("=====================================");
         System.out.println("✅ 考勤Excel处理项目启动成功！端口：8080");
-        System.out.println("✅ 接口地址：POST http://localhost:8080/att/process");
+        System.out.println("✅ 页面地址：http://localhost:8080/index.html");
         System.out.println("=====================================");
     }
 }
