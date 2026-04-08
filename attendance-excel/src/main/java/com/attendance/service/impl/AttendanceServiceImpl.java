@@ -360,12 +360,19 @@ public class AttendanceServiceImpl implements AttendanceService {
                 // 只统计有异常的天数中的迟到时长
                 if (exceptionInfo.contains("迟到") || exceptionInfo.contains("打卡基数次")) {
                     String[] timeStrs = cellValue.split("\\s+|\n");
+                    LocalTime AFTERNOON_END = LocalTime.of(17, 30);
                     for (String timeStr : timeStrs) {
                         if (timeStr.matches("\\d{2}:\\d{2}")) {
                             LocalTime checkTime = LocalTime.parse(timeStr);
-                            int lateMinutes = (int) java.time.Duration.between(MORNING_START, checkTime).toMinutes();
-                            totalLateMinutes += lateMinutes;
-                            break; // 只看第一次打卡
+                            // 17:30及之后算下班卡，不统计迟到
+                            if (!checkTime.isBefore(AFTERNOON_END)) {
+                                continue;
+                            }
+                            if (checkTime.isAfter(MORNING_START)) {
+                                int lateMinutes = (int) java.time.Duration.between(MORNING_START, checkTime).toMinutes();
+                                totalLateMinutes += lateMinutes;
+                            }
+                            break; // 只看17:30之前的第一卡
                         }
                     }
                 }
