@@ -673,26 +673,17 @@ public class AttendanceServiceImpl implements AttendanceService {
         if (pickAttendanceRecord.getEndTime() != null && pickAttendanceRecord.getStartTime() != null) {
             timeList.add(pickAttendanceRecord);
         }
-        // 打卡次数不是2次 → 打卡基数次
+        // 打卡次数不是2次 → 打卡基数次（如果当天有外出则不算）
         if (checkTimes.size() % 2 != 0) {
-            return ExceptionTypeEnum.LESS_CHECK.getDesc();
+            boolean hasOut = records.stream().anyMatch(r -> r.keySet().stream().anyMatch(k -> k.contains("外出地点及事由")));
+            if (!hasOut) {
+                return ExceptionTypeEnum.LESS_CHECK.getDesc();
+            }
         }
 
         for (Map<String, String> record : records) {
             LocalDateTime startTime = null;
             LocalDateTime endTime = null;
-//            //获取时长
-//            String duration = null;
-//            boolean durationIsDay = false;
-//            for (String key : record.keySet()) {
-//                if (key.equals("时长")) {
-//                    duration =  record.get(key);
-//                    break;
-//                }
-//            }
-//            if (duration.contains("天")) {
-//                durationIsDay = true;
-//            }
             for (String key : record.keySet()) {
                 if (key.equals("开始时间")) {
                     String startTimeStr = record.get(key);
