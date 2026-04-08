@@ -61,8 +61,11 @@ public class AttendanceServiceImpl implements AttendanceService {
         // 6. 统计每人本月的迟到时长（单位：分钟）
         Map<String, Integer> lateStats = calculateLateStats(sheet, attendanceRecordMap, month);
 
-        // 7. 核心处理：遍历Excel，逐单元格标记颜色、补充详情、判断异常
-        handleExcelSheet(sheet, attendanceRecordMap, leaveStats, overtimeStats, lateStats, workbook, month);
+        // 7. 统计每人本月的未打卡金（单位：元）
+        Map<String, Integer> unpunchedStats = calculateUnpunchedAmount(sheet, attendanceRecordMap, month);
+
+        // 8. 核心处理：遍历Excel，逐单元格标记颜色、补充详情、判断异常
+        handleExcelSheet(sheet, attendanceRecordMap, leaveStats, overtimeStats, lateStats, unpunchedStats, workbook, month);
 
         // 6. 导出处理后的Excel（自动下载）
         exportProcessedExcel(workbook, response);
@@ -382,6 +385,54 @@ public class AttendanceServiceImpl implements AttendanceService {
         return stats;
     }
 
+    /**
+     * 统计每人本月的未打卡金（单位：元）
+     * 打卡基数次扣5元，旷工扣10元
+     */
+    private Map<String, Integer> calculateUnpunchedAmount(Sheet sheet, Map<String, List<Map<String, String>>> recordMap, String month) {
+        Map<String, Integer> stats = new HashMap<>();
+        // 读取日期列
+        Row dateRow = sheet.getRow(1);
+        List<Integer> dateColIndices = new ArrayList<>();
+        List<String> dateDays = new ArrayList<>();
+        for (int j = 1; j < dateRow.getLastCellNum(); j++) {
+            Cell dateCell = dateRow.getCell(j);
+            if (dateCell == null) continue;
+            String dateValue = dateCell.toString().trim();
+            if (dateValue.matches("\\d+")) {
+                dateColIndices.add(j);
+                dateDays.add(dateValue);
+            }
+        }
+        // 遍历员工行
+        for (int i = 2; i <= sheet.getLastRowNum(); i++) {
+            Row employeeRow = sheet.getRow(i);
+            if (employeeRow == null) continue;
+            Cell nameCell = employeeRow.getCell(0);
+            if (nameCell == null) continue;
+            String employeeName = nameCell.toString().trim();
+            if (employeeName.isEmpty()) continue;
+            int totalAmount = 0;
+            for (int idx = 0; idx < dateColIndices.size(); idx++) {
+                int col = dateColIndices.get(idx);
+                String day = dateDays.get(idx);
+                Cell cell = employeeRow.getCell(col);
+                if (cell == null) continue;
+                String cellValue = cell.toString().trim();
+                List<Map<String, String>> records = recordMap.getOrDefault(employeeName + "_" + day, new ArrayList<>());
+                String exceptionInfo = checkAttendanceException(cellValue, records, month, day);
+                // 打卡基数次扣5元，旷工扣10元
+                if (exceptionInfo.contains("打卡基数次")) {
+                    totalAmount += 5;
+                } else if (exceptionInfo.contains("旷工")) {
+                    totalAmount += 10;
+                }
+            }
+            stats.put(employeeName, totalAmount);
+        }
+        return stats;
+    }
+
     private Double parseDouble(String str) {
         try {
             return Double.parseDouble(str.trim());
@@ -393,7 +444,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     /**
      * 核心处理Excel：标记颜色、补充详情、判断考勤异常、设置红字
      */
-    private void handleExcelSheet(Sheet sheet, Map<String, List<Map<String, String>>> recordMap, Map<String, Map<String, Double>> leaveStats, Map<String, Double> overtimeStats, Map<String, Integer> lateStats, Workbook workbook, String month) {
+    private void handleExcelSheet(Sheet sheet, Map<String, List<Map<String, String>>> recordMap, Map<String, Map<String, Double>> leaveStats, Map<String, Double> overtimeStats, Map<String, Integer> lateStats, Map<String, Integer> unpunchedStats, Workbook workbook, String month) {
         // 读取Excel中的日期列（第二行是日期：2、3、4...31）
         Row dateRow = sheet.getRow(1);
         List<Integer> dateColIndices = new ArrayList<>(); // 日期列的列索引
@@ -413,8 +464,8 @@ public class AttendanceServiceImpl implements AttendanceService {
         // 在日期列后添加统计列的表头
         int lastDateCol = dateColIndices.isEmpty() ? 1 : dateColIndices.get(dateColIndices.size() - 1);
         int statColStart = lastDateCol + 1;
-        String[] statHeaders = {"病假(h)", "事假(h)", "调休(h)", "年假(h)", "加班(h)", "迟到(分钟)"};
-        for (int k = 0; k < 6; k++) {
+        String[] statHeaders = {"病假(h)", "事假(h)", "调休(h)", "年假(h)", "加班(h)", "未打卡金", "迟到时长(m)"};
+        for (int k = 0; k < 7; k++) {
             Cell headerCell = dateRow.createCell(statColStart + k);
             headerCell.setCellValue(statHeaders[k]);
             sheet.setColumnWidth(statColStart + k, 6 * 256); // 列宽约6个字符
@@ -537,13 +588,15 @@ public class AttendanceServiceImpl implements AttendanceService {
             double adjustLeave = empStats.getOrDefault("调休", 0.0);
             double annualLeave = empStats.getOrDefault("年假", 0.0);
             double overtimeLeave = overtimeStats.getOrDefault(employeeName, 0.0);
+            int unpunchedAmount = unpunchedStats.getOrDefault(employeeName, 0);
             int lateMinutes = lateStats.getOrDefault(employeeName, 0);
             employeeRow.createCell(statColStart).setCellValue(sickLeave);
             employeeRow.createCell(statColStart + 1).setCellValue(personalLeave);
             employeeRow.createCell(statColStart + 2).setCellValue(adjustLeave);
             employeeRow.createCell(statColStart + 3).setCellValue(annualLeave);
             employeeRow.createCell(statColStart + 4).setCellValue(overtimeLeave);
-            employeeRow.createCell(statColStart + 5).setCellValue(lateMinutes);
+            employeeRow.createCell(statColStart + 5).setCellValue(unpunchedAmount);
+            employeeRow.createCell(statColStart + 6).setCellValue(lateMinutes);
         }
     }
 
