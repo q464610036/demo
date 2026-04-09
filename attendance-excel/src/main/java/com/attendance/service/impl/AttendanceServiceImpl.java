@@ -361,7 +361,7 @@ public class AttendanceServiceImpl implements AttendanceService {
                 // 检查是否有考勤异常
                 String exceptionInfo = checkAttendanceException(cellValue, records, month, day);
                 // 只统计有异常的天数中的迟到时长
-                if (exceptionInfo.contains("迟到") || exceptionInfo.contains("打卡基数次")) {
+                if (exceptionInfo.contains("迟到") || exceptionInfo.contains("打卡奇数次")) {
                     String[] timeStrs = cellValue.split("\\s+|\n");
                     LocalTime AFTERNOON_END = LocalTime.of(17, 30);
                     for (String timeStr : timeStrs) {
@@ -387,7 +387,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     /**
      * 统计每人本月的未打卡金（单位：元）
-     * 打卡基数次扣5元，旷工扣10元
+     * 打卡奇数次扣5元，旷工扣10元
      */
     private Map<String, Integer> calculateUnpunchedAmount(Sheet sheet, Map<String, List<Map<String, String>>> recordMap, String month) {
         Map<String, Integer> stats = new HashMap<>();
@@ -421,8 +421,8 @@ public class AttendanceServiceImpl implements AttendanceService {
                 String cellValue = cell.toString().trim();
                 List<Map<String, String>> records = recordMap.getOrDefault(employeeName + "_" + day, new ArrayList<>());
                 String exceptionInfo = checkAttendanceException(cellValue, records, month, day);
-                // 打卡基数次扣5元，旷工扣10元
-                if (exceptionInfo.contains("打卡基数次")) {
+                // 打卡奇数次扣5元，旷工扣10元
+                if (exceptionInfo.contains("打卡奇数次")) {
                     totalAmount += 5;
                 } else if (exceptionInfo.contains("旷工")) {
                     totalAmount += 10;
@@ -496,7 +496,7 @@ public class AttendanceServiceImpl implements AttendanceService {
                     cell = employeeRow.createCell(col); // 新建空单元格
                 }
                 String originalValue = cell.toString().trim(); // 原始打卡记录
-                if (employeeName.equals("廖福冰") && day.equals("2")) {
+                if (employeeName.equals("黄敏") && day.equals("11")) {
                     System.out.println();
                 }
                 // 获取该员工该日期的所有考勤记录（请假/外出/出差）
@@ -673,7 +673,7 @@ public class AttendanceServiceImpl implements AttendanceService {
         if (pickAttendanceRecord.getEndTime() != null && pickAttendanceRecord.getStartTime() != null) {
             timeList.add(pickAttendanceRecord);
         }
-        // 打卡次数不是2次 → 打卡基数次（如果当天有外出则不算）
+        // 打卡次数不是2次 → 打卡奇数次（如果当天有外出则不算）
         if (checkTimes.size() % 2 != 0) {
             boolean hasOut = records.stream().anyMatch(r -> r.keySet().stream().anyMatch(k -> k.contains("外出地点及事由")));
             if (!hasOut) {
@@ -730,7 +730,7 @@ public class AttendanceServiceImpl implements AttendanceService {
         if (checkTimes.isEmpty() && !hasSpecialRecord) {
             return ExceptionTypeEnum.ABSENT.getDesc();
         }
-        // 规则2：打卡次数不是2次 → 打卡基数次
+        // 规则2：打卡次数不是2次 → 打卡奇数次
         if (checkTimes.size() != 2) {
             return ExceptionTypeEnum.LESS_CHECK.getDesc();
         }
