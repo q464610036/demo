@@ -426,6 +426,10 @@ public class AttendanceServiceImpl implements AttendanceService {
                     totalAmount += 5;
                 } else if (exceptionInfo.contains("旷工")) {
                     totalAmount += 10;
+                } else if (exceptionInfo.contains("上午缺勤")) {
+                    totalAmount += 5;
+                } else if (exceptionInfo.contains("下午缺勤")) {
+                    totalAmount += 5;
                 }
             }
             stats.put(employeeName, totalAmount);
@@ -496,7 +500,7 @@ public class AttendanceServiceImpl implements AttendanceService {
                     cell = employeeRow.createCell(col); // 新建空单元格
                 }
                 String originalValue = cell.toString().trim(); // 原始打卡记录
-                if (employeeName.equals("黄敏") && day.equals("11")) {
+                if (employeeName.equals("邓朝云") && day.equals("12")) {
                     System.out.println();
                 }
                 // 获取该员工该日期的所有考勤记录（请假/外出/出差）
