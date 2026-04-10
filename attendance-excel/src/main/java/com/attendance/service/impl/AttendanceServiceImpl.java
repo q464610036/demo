@@ -1,5 +1,6 @@
 package com.attendance.service.impl;
 
+import com.attendance.constant.AttendanceConstant;
 import com.attendance.enums.ExceptionTypeEnum;
 import com.attendance.service.AttendanceService;
 import com.attendance.util.AttendanceUtil;
@@ -639,6 +640,42 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     /**
+     * 检车整个下午、上午是否出差
+     * @param records
+     * @return
+     */
+    private int checkFullOutTrip(List<Map<String, String>> records){
+        // 判断整个上午或下午是否出差：1=上午出差，2=下午出差，0=其他
+        int fullMorningOrAfternoon = 0;
+        for (Map<String, String> record : records) {
+            boolean isOutOrTrip = record.keySet().stream().anyMatch(k -> k.contains("外出地点及事由") || k.contains("出差事由"));
+            if (!isOutOrTrip) {
+                continue;
+            }
+            String startTimeStr = record.getOrDefault("开始时间", "");
+            String endTimeStr = record.getOrDefault("结束时间", "");
+            if (startTimeStr.isEmpty() || endTimeStr.isEmpty()) {
+                continue;
+            }
+            try {
+                LocalDateTime startDt = DateUtil.parseLocalDateTime(startTimeStr.length() < 16 ? startTimeStr + " 08:30" : startTimeStr, "yyyy-MM-dd HH:mm");
+                LocalDateTime endDt = DateUtil.parseLocalDateTime(endTimeStr.length() < 16 ? endTimeStr + " 17:30" : endTimeStr, "yyyy-MM-dd HH:mm");
+                // 整上午被覆盖（外出/出差开始 <= 8:30 且 结束 >= 11:30）
+                if (!startDt.toLocalTime().isAfter(AttendanceConstant.MORNING_START) && !endDt.toLocalTime().isBefore(AttendanceConstant.MORNING_END)) {
+                    fullMorningOrAfternoon = 1;
+                }
+                // 整下午被覆盖（外出/出差开始 <= 13:30 且 结束 >= 17:30）
+                if (!startDt.toLocalTime().isAfter(AttendanceConstant.AFTERNOON_START) && !endDt.toLocalTime().isBefore(AttendanceConstant.AFTERNOON_END)) {
+                    fullMorningOrAfternoon = 2;
+                }
+            } catch (Exception e) {
+                // 解析失败，跳过
+            }
+        }
+        return fullMorningOrAfternoon;
+    }
+
+    /**
      * 考勤异常判断（严格按需求规则）
      * @param month 月份（如：2026-03）
      * @return 异常信息，无异常返回空字符串
@@ -668,6 +705,18 @@ public class AttendanceServiceImpl implements AttendanceService {
             if (pickAttendanceRecord.getEndTime() != null) {
                 timeList.add(pickAttendanceRecord);
                 pickAttendanceRecord = new AttendanceUtil.AttendanceRecord();
+            }
+        }
+        int fullMorningOrAfternoon = checkFullOutTrip(records);
+        if (fullMorningOrAfternoon == 1) {
+            //上午出差，下午的开始时间填充为13:30
+            if (pickAttendanceRecord.getStartTime() == null) {
+                pickAttendanceRecord.setStartTime(DateUtil.parseLocalDateTime(month+"-"+day+" 13:30", "yyyy-MM-dd HH:mm"));
+            }
+        } else if (fullMorningOrAfternoon == 2) {
+            //下午出差，上午的结束时间填充为11:30
+            if (pickAttendanceRecord.getEndTime() == null) {
+                pickAttendanceRecord.setEndTime(DateUtil.parseLocalDateTime(month+"-"+day+" 11:30", "yyyy-MM-dd HH:mm"));
             }
         }
         if (pickAttendanceRecord.getEndTime() != null && pickAttendanceRecord.getStartTime() != null) {
