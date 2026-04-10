@@ -125,22 +125,22 @@ public class AttendanceServiceImpl implements AttendanceService {
                 String startTimeStr = rowMap.get("开始时间");
                 if (startTimeStr != null) {
                     if (startTimeStr.contains("上午")) {
-                        startTimeStr = startTimeStr.replace("上午", "08:30");
+                        startTimeStr = startTimeStr.replace("上午", AttendanceConstant.MORNING_START_STR);
                         rowMap.put("开始时间", startTimeStr);
                     }
                     if (startTimeStr.contains("下午")) {
-                        startTimeStr = startTimeStr.replace("下午", "13:30");
+                        startTimeStr = startTimeStr.replace("下午", AttendanceConstant.AFTERNOON_START_STR);
                         rowMap.put("开始时间", startTimeStr);
                     }
                 }
                 String endTimeStr = rowMap.get("结束时间");
                 if (endTimeStr != null) {
                     if (endTimeStr.contains("上午")) {
-                        endTimeStr = endTimeStr.replace("上午", "11:30");
+                        endTimeStr = endTimeStr.replace("上午", AttendanceConstant.MORNING_END_STR);
                         rowMap.put("结束时间", endTimeStr);
                     }
                     if (endTimeStr.contains("下午")) {
-                        endTimeStr = endTimeStr.replace("下午", "17:30");
+                        endTimeStr = endTimeStr.replace("下午", AttendanceConstant.AFTERNOON_END_STR);
                         rowMap.put("结束时间", endTimeStr);
                     }
                 }
@@ -327,7 +327,6 @@ public class AttendanceServiceImpl implements AttendanceService {
      */
     private Map<String, Integer> calculateLateStats(Sheet sheet, Map<String, List<Map<String, String>>> recordMap, String month) {
         Map<String, Integer> stats = new HashMap<>();
-        LocalTime MORNING_START = LocalTime.of(8, 30);
         // 读取日期列
         Row dateRow = sheet.getRow(1);
         List<Integer> dateColIndices = new ArrayList<>();
@@ -364,7 +363,7 @@ public class AttendanceServiceImpl implements AttendanceService {
                 // 只统计有异常的天数中的迟到时长
                 if (exceptionInfo.contains("迟到") || exceptionInfo.contains("打卡奇数次")) {
                     String[] timeStrs = cellValue.split("\\s+|\n");
-                    LocalTime AFTERNOON_END = LocalTime.of(17, 30);
+                    LocalTime AFTERNOON_END = AttendanceConstant.AFTERNOON_END;
                     for (String timeStr : timeStrs) {
                         if (timeStr.matches("\\d{2}:\\d{2}")) {
                             LocalTime checkTime = LocalTime.parse(timeStr);
@@ -372,8 +371,8 @@ public class AttendanceServiceImpl implements AttendanceService {
                             if (!checkTime.isBefore(AFTERNOON_END)) {
                                 continue;
                             }
-                            if (checkTime.isAfter(MORNING_START)) {
-                                int lateMinutes = (int) java.time.Duration.between(MORNING_START, checkTime).toMinutes();
+                            if (checkTime.isAfter(AttendanceConstant.MORNING_START)) {
+                                int lateMinutes = (int) java.time.Duration.between(AttendanceConstant.MORNING_START, checkTime).toMinutes();
                                 totalLateMinutes += lateMinutes;
                             }
                             break; // 只看17:30之前的第一卡
@@ -658,8 +657,8 @@ public class AttendanceServiceImpl implements AttendanceService {
                 continue;
             }
             try {
-                LocalDateTime startDt = DateUtil.parseLocalDateTime(startTimeStr.length() < 16 ? startTimeStr + " 08:30" : startTimeStr, "yyyy-MM-dd HH:mm");
-                LocalDateTime endDt = DateUtil.parseLocalDateTime(endTimeStr.length() < 16 ? endTimeStr + " 17:30" : endTimeStr, "yyyy-MM-dd HH:mm");
+                LocalDateTime startDt = DateUtil.parseLocalDateTime(startTimeStr.length() < 16 ? startTimeStr + " "+AttendanceConstant.MORNING_START_STR : startTimeStr, "yyyy-MM-dd HH:mm");
+                LocalDateTime endDt = DateUtil.parseLocalDateTime(endTimeStr.length() < 16 ? endTimeStr + " "+AttendanceConstant.AFTERNOON_END_STR : endTimeStr, "yyyy-MM-dd HH:mm");
                 // 整上午被覆盖（外出/出差开始 <= 8:30 且 结束 >= 11:30）
                 if (!startDt.toLocalTime().isAfter(AttendanceConstant.MORNING_START) && !endDt.toLocalTime().isBefore(AttendanceConstant.MORNING_END)) {
                     fullMorningOrAfternoon = 1;
@@ -711,12 +710,12 @@ public class AttendanceServiceImpl implements AttendanceService {
         if (fullMorningOrAfternoon == 1) {
             //上午出差，下午的开始时间填充为13:30
             if (pickAttendanceRecord.getStartTime() == null) {
-                pickAttendanceRecord.setStartTime(DateUtil.parseLocalDateTime(month+"-"+day+" 13:30", "yyyy-MM-dd HH:mm"));
+                pickAttendanceRecord.setStartTime(DateUtil.parseLocalDateTime(month+"-"+day+" "+AttendanceConstant.AFTERNOON_START_STR, "yyyy-MM-dd HH:mm"));
             }
         } else if (fullMorningOrAfternoon == 2) {
             //下午出差，上午的结束时间填充为11:30
             if (pickAttendanceRecord.getEndTime() == null) {
-                pickAttendanceRecord.setEndTime(DateUtil.parseLocalDateTime(month+"-"+day+" 11:30", "yyyy-MM-dd HH:mm"));
+                pickAttendanceRecord.setEndTime(DateUtil.parseLocalDateTime(month+"-"+day+" "+AttendanceConstant.MORNING_END_STR, "yyyy-MM-dd HH:mm"));
             }
         }
         if (pickAttendanceRecord.getEndTime() != null && pickAttendanceRecord.getStartTime() != null) {
@@ -737,13 +736,13 @@ public class AttendanceServiceImpl implements AttendanceService {
                 if (key.equals("开始时间")) {
                     String startTimeStr = record.get(key);
                     if (startTimeStr.length() < 16) {
-                        startTimeStr += " 08:30";
+                        startTimeStr += " "+AttendanceConstant.MORNING_START_STR;
                     }
                     startTime = DateUtil.parseLocalDateTime(startTimeStr, "yyyy-MM-dd HH:mm");
                 } else if (key.equals("结束时间")) {
                     String endTimeStr = record.get(key);
                     if (endTimeStr.length() < 16) {
-                        endTimeStr += " 17:30";
+                        endTimeStr += " "+AttendanceConstant.AFTERNOON_END_STR;
                     }
                     endTime = DateUtil.parseLocalDateTime(endTimeStr, "yyyy-MM-dd HH:mm");
                 }
@@ -791,8 +790,8 @@ public class AttendanceServiceImpl implements AttendanceService {
         // 3. 无特殊记录，判断迟到/早退
         LocalTime firstCheck = checkTimes.get(0); // 首次打卡
         LocalTime lastCheck = checkTimes.get(1);  // 末次打卡
-        LocalTime workStart = LocalTime.of(8, 30); // 上班时间
-        LocalTime workEnd = LocalTime.of(17, 30);  // 下班时间
+        LocalTime workStart = AttendanceConstant.MORNING_START; // 上班时间
+        LocalTime workEnd = AttendanceConstant.AFTERNOON_END;  // 下班时间
 
         // 规则3：首次打卡晚于上班时间 → 迟到
         if (firstCheck.isAfter(workStart)) {

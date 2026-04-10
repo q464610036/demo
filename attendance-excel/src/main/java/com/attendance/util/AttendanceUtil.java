@@ -1,5 +1,6 @@
 package com.attendance.util;
 
+import com.attendance.constant.AttendanceConstant;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -10,10 +11,10 @@ import java.util.List;
  */
 public class AttendanceUtil {
 
-    private static final LocalTime MORNING_START = LocalTime.of(8, 30);
-    private static final LocalTime MORNING_END = LocalTime.of(11, 30);
-    private static final LocalTime AFTERNOON_START = LocalTime.of(13, 30);
-    private static final LocalTime AFTERNOON_END = LocalTime.of(17, 30);
+    private static final LocalTime MORNING_START = AttendanceConstant.MORNING_START;
+    private static final LocalTime MORNING_END = AttendanceConstant.MORNING_END;
+    private static final LocalTime AFTERNOON_START = AttendanceConstant.AFTERNOON_START;
+    private static final LocalTime AFTERNOON_END = AttendanceConstant.AFTERNOON_END;
 
     /**
      * 考勤时间段对象
