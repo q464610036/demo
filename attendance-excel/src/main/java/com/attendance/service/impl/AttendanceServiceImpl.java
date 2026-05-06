@@ -577,6 +577,9 @@ public class AttendanceServiceImpl implements AttendanceService {
                         finalCellValue = "出差";
                     } else if (hasOut) {
                         finalCellValue = "外出";
+                    } else {
+                        // 未打卡且无请假/出差/外出记录，记旷工
+                        finalCellValue = "旷工";
                     }
                 } else {
                     finalCellValue = originalValue;
