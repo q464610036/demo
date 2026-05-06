@@ -407,6 +407,9 @@ public class AttendanceServiceImpl implements AttendanceService {
         // 遍历员工行
         for (int i = 2; i <= sheet.getLastRowNum(); i++) {
             Row employeeRow = sheet.getRow(i);
+            if (employeeRow.getCell(0).getStringCellValue().equals("黄敏")) {
+                System.out.print("");
+            }
             if (employeeRow == null) continue;
             Cell nameCell = employeeRow.getCell(0);
             if (nameCell == null) continue;
@@ -425,11 +428,11 @@ public class AttendanceServiceImpl implements AttendanceService {
                 if (exceptionInfo.contains("打卡奇数次")) {
                     totalAmount += 5;
                 } else if (exceptionInfo.contains("旷工")) {
-                    totalAmount += 10;
+//                    totalAmount += 10;
                 } else if (exceptionInfo.contains("上午缺勤")) {
-                    totalAmount += 5;
+//                    totalAmount += 5;
                 } else if (exceptionInfo.contains("下午缺勤")) {
-                    totalAmount += 5;
+//                    totalAmount += 5;
                 }
             }
             stats.put(employeeName, totalAmount);
@@ -500,7 +503,7 @@ public class AttendanceServiceImpl implements AttendanceService {
                     cell = employeeRow.createCell(col); // 新建空单元格
                 }
                 String originalValue = cell.toString().trim(); // 原始打卡记录
-                if (employeeName.equals("邓朝云") && day.equals("12")) {
+                if (employeeName.equals("姜梅芸") && day.equals("3")) {
                     System.out.println();
                 }
                 // 获取该员工该日期的所有考勤记录（请假/外出/出差）
@@ -646,16 +649,21 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     /**
-     * 检车整个下午、上午是否出差
-     * @param records
-     * @return
+     * 检测整个上午、下午是否出差/外出/请假
+     * @param records 当前员工当前日期的考勤记录
+     * @param month 当前月份（如：2026-03）
+     * @param day 当前日期（如：15）
+     * @return 0=其他, 1=上午覆盖, 2=下午覆盖, 3=全天覆盖
      */
-    private int checkFullOutTrip(List<Map<String, String>> records){
-        // 判断整个上午或下午是否出差：1=上午出差，2=下午出差，0=其他
-        int fullMorningOrAfternoon = 0;
+    private int checkFullOutTrip(List<Map<String, String>> records, String month, String day){
+        // 判断整个上午或下午是否出差：1=上午出差，2=下午出差，3=全天出差，0=其他
+        boolean fullMorning = false;
+        boolean fullAfternoon = false;
         for (Map<String, String> record : records) {
             boolean isOutOrTrip = record.keySet().stream().anyMatch(k -> k.contains("外出地点及事由") || k.contains("出差事由"));
-            if (!isOutOrTrip) {
+            // 请假也视为全天覆盖（只要有请假类型字段就算请假）
+            boolean isLeave = record.keySet().stream().anyMatch(k -> k.contains("请假类型"));
+            if (!isOutOrTrip && !isLeave) {
                 continue;
             }
             String startTimeStr = record.getOrDefault("开始时间", "");
@@ -666,19 +674,39 @@ public class AttendanceServiceImpl implements AttendanceService {
             try {
                 LocalDateTime startDt = DateUtil.parseLocalDateTime(startTimeStr.length() < 16 ? startTimeStr + " "+AttendanceConstant.MORNING_START_STR : startTimeStr, "yyyy-MM-dd HH:mm");
                 LocalDateTime endDt = DateUtil.parseLocalDateTime(endTimeStr.length() < 16 ? endTimeStr + " "+AttendanceConstant.AFTERNOON_END_STR : endTimeStr, "yyyy-MM-dd HH:mm");
-                // 整上午被覆盖（外出/出差开始 <= 8:30 且 结束 >= 11:30）
-                if (!startDt.toLocalTime().isAfter(AttendanceConstant.MORNING_START) && !endDt.toLocalTime().isBefore(AttendanceConstant.MORNING_END)) {
-                    fullMorningOrAfternoon = 1;
+                // 解析当前检查的日期
+                LocalDate checkDate = LocalDate.parse(month + "-" + (day.length() == 1 ? "0" + day : day));
+                LocalDate startDate = startDt.toLocalDate();
+                LocalDate endDate = endDt.toLocalDate();
+                // 如果记录不覆盖当前日期，跳过
+                if (checkDate.isBefore(startDate) || checkDate.isAfter(endDate)) {
+                    continue;
                 }
-                // 整下午被覆盖（外出/出差开始 <= 13:30 且 结束 >= 17:30）
-                if (!startDt.toLocalTime().isAfter(AttendanceConstant.AFTERNOON_START) && !endDt.toLocalTime().isBefore(AttendanceConstant.AFTERNOON_END)) {
-                    fullMorningOrAfternoon = 2;
+                // 构建当天的上午/下午开始结束时间
+                LocalDateTime dayMorningStart = checkDate.atTime(AttendanceConstant.MORNING_START);
+                LocalDateTime dayMorningEnd = checkDate.atTime(AttendanceConstant.MORNING_END);
+                LocalDateTime dayAfternoonStart = checkDate.atTime(AttendanceConstant.AFTERNOON_START);
+                LocalDateTime dayAfternoonEnd = checkDate.atTime(AttendanceConstant.AFTERNOON_END);
+                // 整上午被覆盖：startDt <= 当天上午开始 && endDt >= 当天上午结束
+                if (!startDt.isAfter(dayMorningStart) && !endDt.isBefore(dayMorningEnd)) {
+                    fullMorning = true;
+                }
+                // 整下午被覆盖：startDt <= 当天下午开始 && endDt >= 当天下午结束
+                if (!startDt.isAfter(dayAfternoonStart) && !endDt.isBefore(dayAfternoonEnd)) {
+                    fullAfternoon = true;
                 }
             } catch (Exception e) {
                 // 解析失败，跳过
             }
         }
-        return fullMorningOrAfternoon;
+        if (fullMorning && fullAfternoon) {
+            return 3; // 全天覆盖
+        } else if (fullMorning) {
+            return 1; // 上午覆盖
+        } else if (fullAfternoon) {
+            return 2; // 下午覆盖
+        }
+        return 0;
     }
 
     /**
@@ -713,7 +741,7 @@ public class AttendanceServiceImpl implements AttendanceService {
                 pickAttendanceRecord = new AttendanceUtil.AttendanceRecord();
             }
         }
-        int fullMorningOrAfternoon = checkFullOutTrip(records);
+        int fullMorningOrAfternoon = checkFullOutTrip(records, month, day);
         if (fullMorningOrAfternoon == 1) {
             //上午出差，下午的开始时间填充为13:30
             if (pickAttendanceRecord.getStartTime() == null) {
@@ -728,10 +756,12 @@ public class AttendanceServiceImpl implements AttendanceService {
         if (pickAttendanceRecord.getEndTime() != null && pickAttendanceRecord.getStartTime() != null) {
             timeList.add(pickAttendanceRecord);
         }
-        // 打卡次数不是2次 → 打卡奇数次（如果当天有外出则不算）
+        // 打卡次数不是2次 → 打卡奇数次（如果当天有外出/请假/出差全天覆盖则不算）
         if (checkTimes.size() % 2 != 0) {
             boolean hasOut = records.stream().anyMatch(r -> r.keySet().stream().anyMatch(k -> k.contains("外出地点及事由")));
-            if (!hasOut) {
+            // 判断是否是全天请假/出差/外出（上午+下午都覆盖）
+            boolean isFullDayAbsence = fullMorningOrAfternoon == 3;
+            if (!hasOut && !isFullDayAbsence) {
                 return ExceptionTypeEnum.LESS_CHECK.getDesc();
             }
         }
