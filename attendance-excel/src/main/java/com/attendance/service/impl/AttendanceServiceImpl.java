@@ -503,7 +503,7 @@ public class AttendanceServiceImpl implements AttendanceService {
                     cell = employeeRow.createCell(col); // 新建空单元格
                 }
                 String originalValue = cell.toString().trim(); // 原始打卡记录
-                if (employeeName.equals("姜梅芸") && day.equals("3")) {
+                if (employeeName.equals("姜梅芸") && day.equals("2")) {
                     System.out.println();
                 }
                 // 获取该员工该日期的所有考勤记录（请假/外出/出差）
@@ -785,8 +785,22 @@ public class AttendanceServiceImpl implements AttendanceService {
                 }
             }
             if (startTime != null && endTime != null) {
-                AttendanceUtil.AttendanceRecord attendanceRecord = new AttendanceUtil.AttendanceRecord(startTime, endTime);
-                timeList.add(attendanceRecord);
+                // 解析当前检查的日期
+                LocalDate checkDate = LocalDate.parse(month + "-" + (day.length() == 1 ? "0" + day : day));
+                LocalDate startDate = startTime.toLocalDate();
+                LocalDate endDate = endTime.toLocalDate();
+                // 如果记录不覆盖当前日期，跳过
+                if (checkDate.isBefore(startDate) || checkDate.isAfter(endDate)) {
+                    continue;
+                }
+                // 拆分记录：只保留当天的时段
+                LocalDateTime dayStart = startDate.isBefore(checkDate)
+                    ? checkDate.atTime(0, 0)
+                    : startTime;
+                LocalDateTime dayEnd = endDate.isAfter(checkDate)
+                    ? checkDate.atTime(23, 59, 59)
+                    : endTime;
+                timeList.add(new AttendanceUtil.AttendanceRecord(dayStart, dayEnd));
             }
         }
         AttendanceUtil.AttendanceResult result = AttendanceUtil.checkAttendance(timeList);
