@@ -503,7 +503,7 @@ public class AttendanceServiceImpl implements AttendanceService {
                     cell = employeeRow.createCell(col); // 新建空单元格
                 }
                 String originalValue = cell.toString().trim(); // 原始打卡记录
-                if (employeeName.equals("姜梅芸") && day.equals("2")) {
+                if (employeeName.equals("邓朝云") && day.equals("28")) {
                     System.out.println();
                 }
                 // 获取该员工该日期的所有考勤记录（请假/外出/出差）
@@ -756,12 +756,26 @@ public class AttendanceServiceImpl implements AttendanceService {
         if (pickAttendanceRecord.getEndTime() != null && pickAttendanceRecord.getStartTime() != null) {
             timeList.add(pickAttendanceRecord);
         }
-        // 打卡次数不是2次 → 打卡奇数次（如果当天有外出/请假/出差全天覆盖则不算）
+        // 打卡次数不是2次 → 打卡奇数次（如果当天有外出/请假/出差覆盖下班时间则不算）
         if (checkTimes.size() % 2 != 0) {
             boolean hasOut = records.stream().anyMatch(r -> r.keySet().stream().anyMatch(k -> k.contains("外出地点及事由")));
             // 判断是否是全天请假/出差/外出（上午+下午都覆盖）
             boolean isFullDayAbsence = fullMorningOrAfternoon == 3;
-            if (!hasOut && !isFullDayAbsence) {
+            // 判断是否有记录覆盖下班时间（结束时间 >= 17:30）
+            LocalDate checkDate = LocalDate.parse(month + "-" + (day.length() == 1 ? "0" + day : day));
+            boolean coversAfternoonEnd = false;
+            for (Map<String, String> record : records) {
+                String endTimeStr = record.getOrDefault("结束时间", "");
+                if (!endTimeStr.isEmpty()) {
+                    LocalDateTime endDt = DateUtil.parseLocalDateTime(endTimeStr.length() < 16 ? endTimeStr + " "+AttendanceConstant.AFTERNOON_END_STR : endTimeStr, "yyyy-MM-dd HH:mm");
+                    LocalDate endDate = endDt.toLocalDate();
+                    if (!endDate.isBefore(checkDate) && !endDt.toLocalTime().isBefore(AttendanceConstant.AFTERNOON_END)) {
+                        coversAfternoonEnd = true;
+                        break;
+                    }
+                }
+            }
+            if (!hasOut && !isFullDayAbsence && !coversAfternoonEnd) {
                 return ExceptionTypeEnum.LESS_CHECK.getDesc();
             }
         }
