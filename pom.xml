@@ -21,6 +21,7 @@
         <module>lineage2</module>
         <module>spring-ioc</module>
         <module>attendance-excel</module>
+        <module>spring-ai-mcp</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

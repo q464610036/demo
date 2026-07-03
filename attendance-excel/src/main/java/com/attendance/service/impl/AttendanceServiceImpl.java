@@ -1,7 +1,7 @@
 package com.attendance.service.impl;
 
 import com.attendance.constant.AttendanceConstant;
-import com.attendance.enums.ExceptionTypeEnum;
+import com.attendance.enums.AttendanceStatus;
 import com.attendance.service.AttendanceService;
 import com.attendance.util.AttendanceUtil;
 import com.attendance.util.DateUtil;
@@ -776,7 +776,7 @@ public class AttendanceServiceImpl implements AttendanceService {
                 }
             }
             if (!hasOut && !isFullDayAbsence && !coversAfternoonEnd) {
-                return ExceptionTypeEnum.LESS_CHECK.getDesc();
+                return AttendanceStatus.LESS_CHECK.getDesc();
             }
         }
 
@@ -841,11 +841,11 @@ public class AttendanceServiceImpl implements AttendanceService {
         boolean hasSpecialRecord = !records.isEmpty(); // 是否有请假/外出/出差记录
         // 规则1：未打卡且无特殊记录 → 旷工
         if (checkTimes.isEmpty() && !hasSpecialRecord) {
-            return ExceptionTypeEnum.ABSENT.getDesc();
+            return AttendanceStatus.ABSENT.getDesc();
         }
         // 规则2：打卡次数不是2次 → 打卡奇数次
         if (checkTimes.size() != 2) {
-            return ExceptionTypeEnum.LESS_CHECK.getDesc();
+            return AttendanceStatus.LESS_CHECK.getDesc();
         }
         // 有特殊记录，无需判断迟到早退
         if (hasSpecialRecord) {
@@ -860,11 +860,11 @@ public class AttendanceServiceImpl implements AttendanceService {
 
         // 规则3：首次打卡晚于上班时间 → 迟到
         if (firstCheck.isAfter(workStart)) {
-            return ExceptionTypeEnum.LATE.getDesc() + "（应到" + workStart + "，实到" + firstCheck + "）";
+            return AttendanceStatus.LATE.getDesc() + "（应到" + workStart + "，实到" + firstCheck + "）";
         }
         // 规则4：末次打卡早于下班时间 → 早退
         if (lastCheck.isBefore(workEnd)) {
-            return ExceptionTypeEnum.EARLY.getDesc() + "（应到" + workEnd + "，实到" + lastCheck + "）";
+            return AttendanceStatus.EARLY.getDesc() + "（应到" + workEnd + "，实到" + lastCheck + "）";
         }
 
         // 无异常

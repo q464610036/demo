@@ -1,6 +1,7 @@
 package com.attendance.util;
 
 import com.attendance.constant.AttendanceConstant;
+import com.attendance.enums.AttendanceStatus;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -44,28 +45,6 @@ public class AttendanceUtil {
 
         public void setEndTime(LocalDateTime endTime) {
             this.endTime = endTime;
-        }
-    }
-
-    /**
-     * 考勤结果枚举
-     */
-    public enum AttendanceStatus {
-        NORMAL("正常"),
-        LATE("迟到"),
-        EARLY_LEAVE("早退"),
-        ABSENT_MORNING("上午缺勤"),
-        ABSENT_AFTERNOON("下午缺勤"),
-        ABNORMAL("异常");
-
-        private final String description;
-
-        AttendanceStatus(String description) {
-            this.description = description;
-        }
-
-        public String getDescription() {
-            return description;
         }
     }
 
@@ -171,7 +150,7 @@ public class AttendanceUtil {
 
         if (lastCheckOut != null && lastCheckOut.toLocalTime().isBefore(AFTERNOON_END)) {
             int earlyMinutes = (int) java.time.Duration.between(lastCheckOut.toLocalTime(), AFTERNOON_END).toMinutes();
-            return new AttendanceResult(AttendanceStatus.EARLY_LEAVE,
+            return new AttendanceResult(AttendanceStatus.EARLY,
                     String.format("早退%d分钟", earlyMinutes), earlyMinutes);
         }
 
