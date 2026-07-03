@@ -718,6 +718,9 @@ public class AttendanceServiceImpl implements AttendanceService {
         if (day.length() == 1) {
             day = "0"+day;
         }
+        if (day.equals("07")) {
+            System.out.println();
+        }
         //当天所有打卡时间
         List<AttendanceUtil.AttendanceRecord> timeList = new ArrayList<>();
         // 1. 提取原始打卡时间（如：08:05 17:32 → 解析为LocalTime）
@@ -758,11 +761,11 @@ public class AttendanceServiceImpl implements AttendanceService {
         }
         // 打卡次数不是2次 → 打卡奇数次（如果当天有外出/请假/出差覆盖下班时间则不算）
         if (checkTimes.size() % 2 != 0) {
-            boolean hasOut = records.stream().anyMatch(r -> r.keySet().stream().anyMatch(k -> k.contains("外出地点及事由")));
             // 判断是否是全天请假/出差/外出（上午+下午都覆盖）
             boolean isFullDayAbsence = fullMorningOrAfternoon == 3;
             // 判断是否有记录覆盖下班时间（结束时间 >= 17:30）
             LocalDate checkDate = LocalDate.parse(month + "-" + (day.length() == 1 ? "0" + day : day));
+            //某条记录的结束时间 ≥ 17:30
             boolean coversAfternoonEnd = false;
             for (Map<String, String> record : records) {
                 String endTimeStr = record.getOrDefault("结束时间", "");
@@ -775,7 +778,7 @@ public class AttendanceServiceImpl implements AttendanceService {
                     }
                 }
             }
-            if (!hasOut && !isFullDayAbsence && !coversAfternoonEnd) {
+            if (!isFullDayAbsence && !coversAfternoonEnd) {
                 return AttendanceStatus.LESS_CHECK.getDesc();
             }
         }
